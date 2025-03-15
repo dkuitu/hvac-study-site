@@ -1,0 +1,470 @@
+/* Custom Variables */
+:root {
+    --primary-color: #0056b3;     /* Cooling blue */
+    --secondary-color: #ff5722;   /* Heating orange */
+    --dark-blue: #003a75;
+    --light-blue: #e6f2ff;
+    --gray-dark: #343a40;
+    --gray-light: #f8f9fa;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+}
+
+/* Base Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+/* Navbar Customization */
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-blue) 100%);
+    color: white;
+    padding: 5rem 0;
+    overflow: hidden;
+    margin-top: -1px; /* Remove any gap between navbar and hero */
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,<svg width="30" height="30" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M54.627 28.635l-3-5.196a1 1 0 00-1.732 0l-3 5.196a1 1 0 001.732 1l2.134-3.696 2.134 3.696a1 1 0 001.732-1zm-22.263 0l-3-5.196a1 1 0 00-1.732 0l-3 5.196a1 1 0 001.732 1l2.134-3.696 2.134 3.696a1 1 0 001.732-1zm-22.264 0l-3-5.196a1 1 0 00-1.732 0l-3 5.196a1 1 0 001.732 1l2.134-3.696 2.134 3.696a1 1 0 001.732-1z" fill="rgba(255,255,255,0.1)"/></svg>');
+    opacity: 0.4;
+}
+
+.hero-content {
+    position: relative;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+}
+
+/* Feature Cards */
+.feature-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-blue);
+    color: var(--primary-color);
+    font-size: 1.75rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+/* Category Cards */
+.category-card {
+    display: block;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-decoration: none;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 100%);
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.category-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    color: white;
+}
+
+.category-card h3 {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.category-card p {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+}
+
+/* Section Styling */
+.section-title {
+    position: relative;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--secondary-color);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+/* Flashcards */
+.flashcard {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    height: 300px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.study-card {
+    height: 400px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flashcard:hover .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+/* Override hover behavior for study mode */
+.study-card:hover .flashcard-inner {
+    transform: none;
+}
+
+.study-card.flipped .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+.flashcard-back {
+    transform: rotateY(180deg);
+    background-color: var(--light-blue);
+}
+
+/* Study mode styles */
+#study-mode-container {
+    display: none;
+    background-color: #fff;
+    padding: 30px 0;
+    min-height: 600px;
+}
+
+/* Make sure study card has proper sizes */
+.study-card {
+    margin: 0 auto;
+    max-width: 600px;
+    height: 400px;
+}
+
+/* Card styles for simple version */
+#study-mode-container .card {
+    min-height: 300px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+#study-mode-container .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.pulse-animation {
+    animation: pulse 0.5s;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Ensure study mode shows in the right place */
+#study-mode-container {
+    background-color: #fff;
+    display: none;
+    position: relative;
+    z-index: 10;
+}
+
+/* Style the card in study mode */
+#study-mode-container .card {
+    transition: all 0.3s ease;
+}
+
+#study-mode-container .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+}
+
+/* Keyboard shortcuts */
+kbd {
+    display: inline-block;
+    padding: 0.2em 0.4em;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1;
+    color: #212529;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 0.2rem;
+    box-shadow: inset 0 -0.1rem 0 rgba(0,0,0,0.25);
+}
+
+/* Quiz styles */
+.quiz-timer {
+    transition: all 0.3s ease;
+}
+
+.quiz-timer:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.answer-option {
+    transition: all 0.2s ease;
+}
+
+.answer-option:hover {
+    background-color: #f8f9fa;
+    border-color: var(--primary-color) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.answer-option.selected {
+    border-color: var(--primary-color) !important;
+    background-color: rgba(0, 86, 179, 0.05);
+}
+
+.answer-option .option-indicator {
+    transition: all 0.2s ease;
+}
+
+.review-item {
+    transition: all 0.3s ease;
+}
+
+.review-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+#submit-quiz {
+    transition: all 0.3s ease;
+}
+
+#submit-quiz:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(40, 167, 69, 0.2);
+}
+
+/* Quiz Styling */
+.quiz-option {
+    cursor: pointer;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    border: 2px solid #e9ecef;
+}
+
+.quiz-option:hover {
+    background-color: var(--light-blue);
+    border-color: var(--primary-color);
+}
+
+.quiz-option.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Footer Customization */
+footer a {
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: white !important;
+    text-decoration: none;
+}
+
+/* Utilities */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.text-secondary {
+    color: var(--secondary-color) !important;
+}
+
+.bg-light-blue {
+    background-color: var(--light-blue) !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+}
+
+.shadow {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+}
+
+.shadow-lg {
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem !important;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 992px) {
+    .navbar-collapse {
+        background-color: var(--primary-color);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+}

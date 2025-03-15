@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Admin Dashboard - HVAC Study Site{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Admin Dashboard</h1>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="dashboard-cards">
+        <div class="card">
+            <h2>Flashcards</h2>
+            <p>Manage your flashcard content</p>
+            <a href="{{ url_for('admin.flashcards') }}" class="button">Manage Flashcards</a>
+        </div>
+        
+        <div class="card">
+            <h2>Quizzes</h2>
+            <p>Create and edit practice quizzes</p>
+            <a href="{{ url_for('admin.quizzes') }}" class="button">Manage Quizzes</a>
+        </div>
+        
+        <div class="card">
+            <h2>Interactive Demos</h2>
+            <p>Create and edit interactive learning demos</p>
+            <a href="{{ url_for('admin.demos') }}" class="button">Manage Demos</a>
+        </div>
+        
+        <div class="card">
+            <h2>Data Migration</h2>
+            <p>Migrate JSON data to database</p>
+            <a href="{{ url_for('admin.migrate_data') }}" class="button">Migrate Data</a>
+        </div>
+    </div>
+    
+    <div class="mt-5">
+        <h3>Database Management</h3>
+        <div class="row">
+            <div class="col-4">
+                <div class="card p-3">
+                    <h4>Categories</h4>
+                    <p>Manage flashcard categories</p>
+                    <a href="{{ url_for('admin.categories') }}" class="button">Manage Categories</a>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card p-3">
+                    <h4>Chapters</h4>
+                    <p>Manage flashcard chapters</p>
+                    <a href="{{ url_for('admin.chapters') }}" class="button">Manage Chapters</a>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card p-3">
+                    <h4>Decks</h4>
+                    <p>Manage flashcard decks</p>
+                    <a href="{{ url_for('admin.decks') }}" class="button">Manage Decks</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

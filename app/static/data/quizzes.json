@@ -1,0 +1,2156 @@
+{
+  "quizzes": [
+    {
+      "id": "refrigeration_basics",
+      "title": "Refrigeration Basics Quiz",
+      "description": "Test your knowledge of basic refrigeration concepts",
+      "category_id": "refrigeration",
+      "difficulty": "beginner",
+      "time_limit_minutes": 5,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "Which component of a refrigeration system increases the pressure of the refrigerant?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Compressor",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Condenser",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Evaporator",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Expansion valve",
+              "correct": false
+            }
+          ],
+          "explanation": "The compressor increases both the pressure and temperature of the refrigerant vapor."
+        },
+        {
+          "id": "q2",
+          "text": "In a vapor compression cycle, refrigerant enters the evaporator as a:",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "High pressure liquid",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Low pressure liquid",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "High pressure vapor",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Low pressure vapor",
+              "correct": false
+            }
+          ],
+          "explanation": "After passing through the expansion device, refrigerant enters the evaporator as a low pressure, low temperature liquid/vapor mixture, primarily liquid."
+        },
+        {
+          "id": "q3",
+          "text": "What is the purpose of the condenser in a refrigeration system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To absorb heat from the indoor air",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To release heat to the outdoor air",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To compress the refrigerant",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To expand the refrigerant",
+              "correct": false
+            }
+          ],
+          "explanation": "The condenser rejects heat from the refrigerant to the outdoor air, causing the refrigerant to condense from a vapor to a liquid."
+        },
+        {
+          "id": "q4",
+          "text": "What is subcooling in a refrigeration system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "The process of cooling the refrigerant below its condensing temperature",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "The process of cooling the evaporator coil",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "The process of cooling the compressor",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "The process of cooling the refrigerant in the evaporator",
+              "correct": false
+            }
+          ],
+          "explanation": "Subcooling is the process of cooling the liquid refrigerant below its condensing temperature. It ensures that only liquid refrigerant (no vapor) enters the expansion device."
+        }
+      ]
+    },
+    {
+      "id": "electrical_fundamentals",
+      "title": "HVAC Electrical Fundamentals",
+      "description": "Test your knowledge of basic electrical concepts in HVAC systems",
+      "category_id": "electrical",
+      "difficulty": "beginner",
+      "time_limit_minutes": 5,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is Ohm's Law?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Current equals voltage divided by resistance (I = V/R)",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Voltage equals current times resistance squared (V = I × R²)",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Resistance equals voltage times current (R = V × I)",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Power equals voltage divided by resistance (P = V/R)",
+              "correct": false
+            }
+          ],
+          "explanation": "Ohm's Law states that current (I) equals voltage (V) divided by resistance (R), or I = V/R. It can also be expressed as V = I × R or R = V/I."
+        },
+        {
+          "id": "q2",
+          "text": "Which of the following is NOT a common electrical load in HVAC systems?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Compressor motor",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Fan motor",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Thermostat",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Electric heating element",
+              "correct": false
+            }
+          ],
+          "explanation": "Thermostats are control devices that draw very little current. They control loads but are not considered loads themselves. Compressor motors, fan motors, and electric heating elements are all significant electrical loads in HVAC systems."
+        },
+        {
+          "id": "q3",
+          "text": "What is the purpose of a capacitor in an HVAC system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To regulate voltage",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To store electrical charge and provide starting torque for motors",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To reduce current flow",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To convert AC to DC",
+              "correct": false
+            }
+          ],
+          "explanation": "Capacitors in HVAC systems store electrical charge and provide additional starting torque for motors, helping them start and run more efficiently."
+        },
+        {
+          "id": "q4",
+          "text": "What does GFCI stand for in electrical safety?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "General Function Control Interface",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Ground Fault Circuit Interrupter",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "General Functional Circuit Installation",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Ground Function Control Impedance",
+              "correct": false
+            }
+          ],
+          "explanation": "GFCI stands for Ground Fault Circuit Interrupter. These devices protect people from electrical shock by quickly shutting off power when they detect that current is flowing along an unintended path, such as through water or a person."
+        }
+      ]
+    },
+    {
+      "id": "epa_608_certification",
+      "title": "EPA 608 Certification Prep",
+      "description": "Prepare for your EPA 608 Universal certification exam with these questions covering key concepts",
+      "category_id": "certifications",
+      "difficulty": "intermediate",
+      "time_limit_minutes": 15,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the primary purpose of the EPA Section 608 regulations?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To prevent the release of refrigerants that damage the ozone layer",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "To ensure HVAC technicians are properly trained",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "To establish efficiency standards for air conditioning equipment",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To regulate the manufacture of refrigerant chemicals",
+              "correct": false
+            }
+          ],
+          "explanation": "The primary purpose of EPA Section 608 regulations is to prevent the release of refrigerants that damage the ozone layer by requiring certification for technicians who work with these substances and establishing proper handling procedures."
+        },
+        {
+          "id": "q2",
+          "text": "What does the EPA 608 Type I certification cover?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Servicing motor vehicle air conditioners",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Servicing small appliances containing 5 pounds or less of refrigerant",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Servicing high-pressure equipment",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Servicing low-pressure equipment",
+              "correct": false
+            }
+          ],
+          "explanation": "EPA 608 Type I certification covers servicing small appliances that contain 5 pounds or less of refrigerant, such as household refrigerators, window air conditioners, and PTACs."
+        },
+        {
+          "id": "q3",
+          "text": "Which of the following is a proper way to detect refrigerant leaks?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Using a propane torch",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Using an electronic leak detector",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Adding food coloring to the refrigerant",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Checking the system only when it's turned off",
+              "correct": false
+            }
+          ],
+          "explanation": "Electronic leak detectors are approved devices for detecting refrigerant leaks. Other acceptable methods include ultrasonic leak detectors, fluorescent dyes with UV lights, and soap bubble solutions. Using an open flame like a propane torch is extremely dangerous and prohibited."
+        },
+        {
+          "id": "q4",
+          "text": "What is the minimum evacuation level required for appliances containing less than 200 pounds of refrigerant?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "0 psig",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "500 microns",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "25 mm Hg absolute (25,000 microns)",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "0 psig or 29.9 inches Hg vacuum",
+              "correct": true
+            }
+          ],
+          "explanation": "For appliances containing less than 200 pounds of refrigerant, EPA regulations require evacuation to 0 psig or 29.9 inches Hg vacuum (approximately 760,000 microns) before opening the system."
+        },
+        {
+          "id": "q5",
+          "text": "What is the maximum leakage rate allowed for commercial refrigeration equipment containing more than 50 pounds of refrigerant?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "10% of charge per year",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "20% of charge per year",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "30% of charge per year",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "35% of charge per year",
+              "correct": true
+            }
+          ],
+          "explanation": "For commercial refrigeration equipment containing more than 50 pounds of refrigerant, the maximum allowable leakage rate is 35% of the total charge per year before requiring repair."
+        },
+        {
+          "id": "q6",
+          "text": "Which of the following refrigerants has the highest ozone depletion potential (ODP)?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "R-410A",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "R-134a",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "R-12",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "R-32",
+              "correct": false
+            }
+          ],
+          "explanation": "R-12 (CFC-12) has a high ozone depletion potential (ODP) of 1.0, which is why it has been phased out. R-410A, R-134a, and R-32 are HFCs with zero ODP, though they may have global warming potential."
+        },
+        {
+          "id": "q7",
+          "text": "How long must records of refrigerant purchases and use be kept according to EPA regulations?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "1 year",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "2 years",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "3 years",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "5 years",
+              "correct": false
+            }
+          ],
+          "explanation": "EPA regulations require that records of refrigerant purchases and use be kept for 3 years, including invoices, service records, and disposal records."
+        },
+        {
+          "id": "q8",
+          "text": "What should a technician do with refrigerant recovered from a system that is contaminated beyond recycling capability?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Release it to the atmosphere",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Send it to an EPA-certified reclaimer",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Dilute it with new refrigerant",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Store it indefinitely",
+              "correct": false
+            }
+          ],
+          "explanation": "Contaminated refrigerant that cannot be recycled must be sent to an EPA-certified reclaimer for proper processing or destruction. Releasing it to the atmosphere is illegal, and diluting contaminated refrigerant can damage equipment."
+        },
+        {
+          "id": "q9",
+          "text": "Which of the following is a symptom of refrigerant overcharge in an air conditioning system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Low head pressure",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Warm air from supply registers",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "High suction pressure",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Short cycling due to low pressure switch",
+              "correct": false
+            }
+          ],
+          "explanation": "An overcharged system typically shows high suction pressure, high head pressure, and possibly liquid refrigerant entering the compressor. This knowledge is important for proper refrigerant management under EPA regulations."
+        },
+        {
+          "id": "q10",
+          "text": "What is the term for the process of removing oil, acid, and other contaminants from used refrigerant?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Recovery",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Recycling",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Reclamation",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Reformation",
+              "correct": false
+            }
+          ],
+          "explanation": "Reclamation is the process of processing used refrigerant to new product specifications, which includes removing contaminants like oil, acid, and particulates. This must be done by an EPA-certified reclaimer."
+        }
+      ]
+    },
+    {
+      "id": "heat_pump_systems",
+      "title": "Heat Pump Systems",
+      "description": "Test your knowledge of heat pump operation, components, and troubleshooting",
+      "category_id": "heating",
+      "difficulty": "intermediate",
+      "time_limit_minutes": 15,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the primary difference between a heat pump and a standard air conditioner?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Heat pumps use a different refrigerant",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Heat pumps can reverse the refrigerant flow to provide both heating and cooling",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Heat pumps operate at higher pressures",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Heat pumps use two separate refrigerant circuits",
+              "correct": false
+            }
+          ],
+          "explanation": "The primary difference is that heat pumps have a reversing valve that allows them to reverse the refrigerant flow direction, enabling them to extract heat from outdoor air in winter (heating mode) and remove heat from indoor air in summer (cooling mode)."
+        },
+        {
+          "id": "q2",
+          "text": "What component allows a heat pump to reverse its cycle between heating and cooling modes?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Reversing valve",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Expansion valve",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Accumulator",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Crankcase heater",
+              "correct": false
+            }
+          ],
+          "explanation": "The reversing valve redirects the flow of refrigerant through the system, allowing the indoor and outdoor coils to swap functions between heating and cooling modes."
+        },
+        {
+          "id": "q3",
+          "text": "What is the purpose of the defrost cycle in a heat pump?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To clean the indoor coil",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To remove ice buildup on the outdoor coil during heating mode",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To cool the compressor",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To dry the indoor air",
+              "correct": false
+            }
+          ],
+          "explanation": "During heating mode in cold weather, the outdoor coil extracts heat from cold air and can accumulate frost or ice. The defrost cycle temporarily reverses the system to heating mode, redirecting hot refrigerant to the outdoor coil to melt the ice."
+        },
+        {
+          "id": "q4",
+          "text": "What is the coefficient of performance (COP) of a heat pump?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "The ratio of cooling capacity to electrical power input",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "The ratio of heating or cooling output to energy input",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "The maximum operating pressure of the system",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "The percentage of time the system runs in a given period",
+              "correct": false
+            }
+          ],
+          "explanation": "The coefficient of performance (COP) is a measure of efficiency that represents the ratio of heating or cooling output (in BTUs or watts) to energy input. A higher COP indicates a more efficient heat pump."
+        },
+        {
+          "id": "q5",
+          "text": "In a heat pump system, what is the function of auxiliary heat or emergency heat?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To provide supplemental heating when outdoor temperatures are very cold",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "To cool the system when it overheats",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "To operate during power outages",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To dry the indoor air",
+              "correct": false
+            }
+          ],
+          "explanation": "Auxiliary heat (often electric resistance heating elements) provides supplemental heating when the heat pump alone cannot meet the heating demand, typically when outdoor temperatures are very low or during defrost cycles."
+        },
+        {
+          "id": "q6",
+          "text": "What is a common issue that causes a heat pump to freeze up in cooling mode?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "High outdoor temperature",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Dirty filters or restricted airflow",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Excessive refrigerant charge",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Faulty defrost control",
+              "correct": false
+            }
+          ],
+          "explanation": "Dirty filters or restricted airflow can cause the evaporator coil to get too cold and freeze up in cooling mode. This happens because reduced airflow limits heat transfer to the refrigerant, causing the coil temperature to drop below freezing."
+        },
+        {
+          "id": "q7",
+          "text": "What is the typical temperature range where an air-source heat pump operates most efficiently?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Below 20°F (-7°C)",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Between 25°F to 45°F (-4°C to 7°C)",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Between 40°F to 70°F (4°C to 21°C)",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Above 75°F (24°C)",
+              "correct": false
+            }
+          ],
+          "explanation": "Traditional air-source heat pumps operate most efficiently when outdoor temperatures are between 40°F to 70°F (4°C to 21°C). Efficiency decreases as outdoor temperatures drop below 40°F, though modern cold-climate heat pumps can maintain better efficiency at lower temperatures."
+        },
+        {
+          "id": "q8",
+          "text": "What type of heat pump extracts heat from the ground rather than the air?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Air-source heat pump",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Geothermal or ground-source heat pump",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Absorption heat pump",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Ductless mini-split",
+              "correct": false
+            }
+          ],
+          "explanation": "Geothermal or ground-source heat pumps extract heat from the ground or groundwater, which maintains a more constant temperature year-round than air, making them more efficient in extreme temperatures."
+        },
+        {
+          "id": "q9",
+          "text": "What is a common problem when a heat pump runs continuously in heating mode?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Refrigerant overcharge",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Improperly sized unit for the space",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Excessively high thermostat setting",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Blocked indoor vents",
+              "correct": false
+            }
+          ],
+          "explanation": "A heat pump that runs continuously in heating mode often indicates that the unit is undersized for the space it's heating, especially during very cold weather. Other causes could include excessive heat loss in the building, refrigerant leaks, or a failing compressor."
+        },
+        {
+          "id": "q10",
+          "text": "When installing a heat pump in a cold climate, what is an important consideration?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Installing adequate auxiliary heat",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Using R-22 refrigerant",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Mounting the outdoor unit on the north side of the building",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Using smaller diameter refrigerant lines",
+              "correct": false
+            }
+          ],
+          "explanation": "In cold climates, adequate auxiliary heating is essential as standard air-source heat pumps lose efficiency at low temperatures. Other important considerations include proper defrost controls, appropriate refrigerant charge, and possibly using cold-climate specific heat pump models with enhanced low-temperature performance."
+        },
+        {
+          "id": "q11",
+          "text": "What is the function of the accumulator in a heat pump system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To store heat energy",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To prevent liquid refrigerant from entering the compressor",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To increase refrigerant pressure",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To filter the refrigerant",
+              "correct": false
+            }
+          ],
+          "explanation": "The accumulator prevents liquid refrigerant from entering the compressor by temporarily storing excess liquid refrigerant and allowing only vapor to be drawn into the compressor, protecting it from damage."
+        }
+      ]
+    },
+    {
+      "id": "nate_certification_prep",
+      "title": "NATE Certification Preparation",
+      "description": "Practice questions to help prepare for the NATE Core and Air Conditioning Specialty exams",
+      "category_id": "certifications",
+      "difficulty": "advanced",
+      "time_limit_minutes": 15,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the specific gravity of refrigerant that is heavier than air?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Less than 1.0",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Equal to 1.0",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Greater than 1.0",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Equal to 0",
+              "correct": false
+            }
+          ],
+          "explanation": "A specific gravity greater than 1.0 means the refrigerant is heavier than air. Most common refrigerants used in HVAC systems have specific gravities greater than 1.0 and will settle in low areas when released."
+        },
+        {
+          "id": "q2",
+          "text": "What is the primary purpose of a thermostatic expansion valve (TXV) in an air conditioning system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To filter the refrigerant",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To maintain proper superheat at the evaporator outlet",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To control the speed of the compressor",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To regulate the flow of oil",
+              "correct": false
+            }
+          ],
+          "explanation": "The primary purpose of a thermostatic expansion valve (TXV) is to maintain proper superheat at the evaporator outlet by regulating refrigerant flow into the evaporator based on the temperature and pressure at the evaporator outlet."
+        },
+        {
+          "id": "q3",
+          "text": "Which statement accurately describes latent heat?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Heat that causes a temperature change in a substance",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Heat that causes a change in state without changing temperature",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Heat that can be measured with a thermometer",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Heat that is lost to the environment",
+              "correct": false
+            }
+          ],
+          "explanation": "Latent heat is the heat energy absorbed or released during a change of state (solid to liquid, liquid to gas, etc.) without a change in temperature. This is an important concept in refrigeration and air conditioning systems."
+        },
+        {
+          "id": "q4",
+          "text": "What does a wet-bulb temperature measurement indicate?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Only the dry air temperature",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "The amount of moisture in the air",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "The lowest temperature that can be reached by evaporative cooling",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "The dew point temperature",
+              "correct": false
+            }
+          ],
+          "explanation": "Wet-bulb temperature indicates the lowest temperature that can be reached by evaporative cooling. It reflects both temperature and humidity and is used along with dry-bulb temperature to determine relative humidity and other psychrometric properties."
+        },
+        {
+          "id": "q5",
+          "text": "What is the proper procedure for tightening flare nuts on refrigerant lines?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Use a pipe wrench to tighten as much as possible",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Use two wrenches – one to hold the valve body and one to tighten the flare nut",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Use thread sealant and hand-tighten only",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Tighten with pliers until the connection is secure",
+              "correct": false
+            }
+          ],
+          "explanation": "The proper procedure for tightening flare nuts is to use two wrenches – one to hold the valve body or fitting stationary and the other to tighten the flare nut. This prevents damage to the components and ensures a proper seal."
+        },
+        {
+          "id": "q6",
+          "text": "What is the standard temperature for measuring the airflow capacity of an air conditioning system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "55°F (12.8°C)",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "68°F (20°C)",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "70°F (21.1°C)",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "75°F (23.9°C)",
+              "correct": false
+            }
+          ],
+          "explanation": "The standard temperature for measuring airflow capacity in HVAC systems is 70°F (21.1°C). This is important because air density changes with temperature, affecting the volume of air moved by fans and blowers."
+        },
+        {
+          "id": "q7",
+          "text": "What is the purpose of a desuperheater in a heat pump system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To remove excess superheat from the refrigerant",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To heat domestic water using waste heat from the refrigeration cycle",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To cool the compressor",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To dehumidify the indoor air",
+              "correct": false
+            }
+          ],
+          "explanation": "A desuperheater in a heat pump system captures waste heat from the refrigeration cycle (specifically, the hot superheated refrigerant gas after compression) to heat domestic water, improving overall system efficiency."
+        },
+        {
+          "id": "q8",
+          "text": "Which of the following best describes the relationship between pressure and boiling point of a refrigerant?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Increasing pressure lowers the boiling point",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Increasing pressure raises the boiling point",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Pressure has no effect on boiling point",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "The relationship varies depending on the refrigerant type",
+              "correct": false
+            }
+          ],
+          "explanation": "Increasing pressure raises the boiling point of a refrigerant. This fundamental principle allows refrigeration systems to control where boiling (evaporation) and condensation occur by manipulating pressure."
+        },
+        {
+          "id": "q9",
+          "text": "What device would you use to measure the amount of superheat at the evaporator outlet?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Anemometer",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Pressure gauge and thermometer combination",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Psychrometer",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Capacitance meter",
+              "correct": false
+            }
+          ],
+          "explanation": "Measuring superheat requires both a pressure gauge (to determine the saturation temperature at the current pressure) and a thermometer (to measure the actual temperature). The difference between these temperatures is the superheat."
+        },
+        {
+          "id": "q10",
+          "text": "What is the primary purpose of a compressor's crankcase heater?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To keep the compressor warm during winter",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To prevent refrigerant migration into the compressor oil during off cycles",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To improve system efficiency",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To heat the refrigerant before compression",
+              "correct": false
+            }
+          ],
+          "explanation": "The primary purpose of a crankcase heater is to prevent refrigerant migration into the compressor oil during off cycles. By keeping the oil warmer than other parts of the system, refrigerant is less likely to condense in the crankcase, which could cause oil dilution and compressor damage at startup."
+        },
+        {
+          "id": "q11",
+          "text": "What is the formula for calculating heat load in BTU/h based on airflow and temperature difference?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "BTU/h = CFM × 1.08 × ΔT",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "BTU/h = CFM × 4.5 × ΔT",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "BTU/h = CFM × 0.68 × ΔT",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "BTU/h = CFM × ΔT × 2.08",
+              "correct": false
+            }
+          ],
+          "explanation": "The formula for calculating sensible heat load is Q = CFM × 1.08 × ΔT, where Q is the heat load in BTU/h, CFM is the airflow in cubic feet per minute, 1.08 is a constant that accounts for air density and specific heat, and ΔT is the temperature difference."
+        },
+        {
+          "id": "q12",
+          "text": "Which of the following would NOT be considered when performing a Manual J load calculation?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Window area and type",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Insulation R-values",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Brand of equipment to be installed",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Local outdoor design temperatures",
+              "correct": false
+            }
+          ],
+          "explanation": "The brand of equipment to be installed is not considered in a Manual J load calculation. Manual J calculates the heating and cooling loads of a building based on its construction, insulation, windows, orientation, local climate, and other factors, but is independent of the equipment that will meet those loads."
+        }
+      ]
+    },
+    {
+      "id": "air_distribution_systems",
+      "title": "Air Distribution Systems",
+      "description": "Test your knowledge of ductwork design, airflow principles, and air distribution components",
+      "category_id": "airflow",
+      "difficulty": "intermediate",
+      "time_limit_minutes": 10,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the purpose of a return air plenum in an HVAC system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To distribute conditioned air to rooms",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To collect air returning to the air handler from the conditioned space",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To mix outdoor air with return air",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To increase system pressure",
+              "correct": false
+            }
+          ],
+          "explanation": "A return air plenum collects air returning to the air handler from the conditioned space. It provides a pathway for air to return to the HVAC equipment for reconditioning."
+        },
+        {
+          "id": "q2",
+          "text": "What is the recommended maximum air velocity in a residential supply duct trunk to minimize noise?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "400 feet per minute",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "700 feet per minute",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "1200 feet per minute",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "2000 feet per minute",
+              "correct": false
+            }
+          ],
+          "explanation": "For residential supply duct trunks, the recommended maximum air velocity is typically 700-800 feet per minute (FPM) to minimize noise. Higher velocities create more turbulence and noise."
+        },
+        {
+          "id": "q3",
+          "text": "What is the purpose of duct insulation in an unconditioned space?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To prevent condensation and reduce energy loss",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "To reduce duct noise",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "To increase airflow capacity",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To maintain higher air pressure",
+              "correct": false
+            }
+          ],
+          "explanation": "Duct insulation in unconditioned spaces serves two primary purposes: preventing condensation on duct surfaces (particularly in cooling operation) and reducing energy loss as conditioned air moves through spaces that aren't being heated or cooled."
+        },
+        {
+          "id": "q4",
+          "text": "What does the term 'external static pressure' refer to in air distribution systems?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "The pressure measured at the supply registers",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "The atmospheric pressure outside the building",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "The resistance to airflow created by ductwork and components outside the equipment",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "The pressure drop across the heat exchanger",
+              "correct": false
+            }
+          ],
+          "explanation": "External static pressure (ESP) refers to the resistance to airflow created by components external to the air handling equipment, including supply and return ducts, fittings, dampers, grilles, filters, and coils. It is typically measured in inches of water column (in. w.c.)."
+        },
+        {
+          "id": "q5",
+          "text": "What is the primary disadvantage of using flexible duct compared to rigid metal duct?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Higher cost",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Lower insulation value",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Higher air resistance and pressure drop",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "More air leakage",
+              "correct": false
+            }
+          ],
+          "explanation": "Flexible duct has significantly higher air resistance and pressure drop compared to smooth metal ductwork, especially when not properly installed (stretched tight). This increases fan energy consumption and can reduce system capacity."
+        },
+        {
+          "id": "q6",
+          "text": "What is the primary purpose of a balancing damper in a duct system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To control outdoor air intake",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To adjust airflow to different zones or rooms",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To prevent backdrafting",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To improve air filtration",
+              "correct": false
+            }
+          ],
+          "explanation": "Balancing dampers are used to adjust airflow distribution throughout a duct system, allowing technicians to ensure each room or zone receives the proper amount of conditioned air according to design specifications."
+        },
+        {
+          "id": "q7",
+          "text": "In duct design, what does the Equal Friction Method determine?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "The required insulation thickness",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "The proper duct size based on maintaining consistent friction rate",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "The location of supply registers",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "The required filtration efficiency",
+              "correct": false
+            }
+          ],
+          "explanation": "The Equal Friction Method is a duct sizing technique that maintains a constant pressure drop per foot of duct throughout the system. It determines proper duct sizes by considering airflow requirements while maintaining a consistent friction rate."
+        },
+        {
+          "id": "q8",
+          "text": "What does a high air velocity pressure reading at a supply register indicate?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Undersized ducts or register",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Oversized ducts",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Excessive duct insulation",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Low fan speed",
+              "correct": false
+            }
+          ],
+          "explanation": "High air velocity pressure at a supply register typically indicates undersized ducts or registers, forcing air through a smaller opening at higher speed. This can cause noise issues and poor air distribution."
+        },
+        {
+          "id": "q9",
+          "text": "What is the purpose of a turning vane in a duct system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To increase airflow velocity",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To reduce noise transmission",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "To minimize pressure drop in duct elbows",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "To mix return and outdoor air",
+              "correct": false
+            }
+          ],
+          "explanation": "Turning vanes are installed in rectangular duct elbows to guide airflow through the turn with minimal turbulence. They significantly reduce pressure drop in elbows compared to empty elbows, improving system efficiency."
+        },
+        {
+          "id": "q10",
+          "text": "What is a common recommendation for the location of supply registers in cooling mode?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Low on interior walls",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "High on exterior walls",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "In the center of the ceiling",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Low on exterior walls",
+              "correct": false
+            }
+          ],
+          "explanation": "For cooling mode, supply registers are often placed high on exterior walls to counteract heat gain through windows and exterior surfaces. This creates a cooling curtain effect and improves comfort. Ceiling locations are also common in many modern installations."
+        }
+      ]
+    },
+    {
+      "id": "refrigerant_management",
+      "title": "Refrigerant Management",
+      "description": "Test your knowledge of refrigerant handling, recovery, and regulatory requirements",
+      "category_id": "refrigeration",
+      "difficulty": "intermediate",
+      "time_limit_minutes": 10,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the current status of R-22 (HCFC-22) refrigerant in the United States?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Banned for all uses",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Available with no restrictions",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "New production and import banned; only reclaimed or recycled R-22 is available",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Only available for military applications",
+              "correct": false
+            }
+          ],
+          "explanation": "As of January 1, 2020, new production and import of R-22 is banned in the United States. Only reclaimed or recycled R-22 is available for servicing existing systems. This is part of the phaseout of HCFCs under the Montreal Protocol and Clean Air Act."
+        },
+        {
+          "id": "q2",
+          "text": "What is the difference between refrigerant recovery and recycling?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Recovery means removing refrigerant from equipment; recycling means cleaning refrigerant for reuse",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Recovery is for CFCs only; recycling is for HFCs only",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Recovery is voluntary; recycling is mandatory",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "They are different terms for the same process",
+              "correct": false
+            }
+          ],
+          "explanation": "Recovery is the process of removing refrigerant from equipment in any condition and storing it in an external container. Recycling goes further by cleaning the refrigerant for reuse by oil separation and single or multiple passes through filter-driers."
+        },
+        {
+          "id": "q3",
+          "text": "What certification is required for technicians handling refrigerants in stationary equipment in the United States?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "EPA Section 608",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "EPA Section 609",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "DOT Hazmat",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "ASHRAE",
+              "correct": false
+            }
+          ],
+          "explanation": "EPA Section 608 certification is required for technicians who maintain, service, repair, or dispose of equipment that could release refrigerants into the atmosphere. Section 609 certification is for automotive air conditioning service."
+        },
+        {
+          "id": "q4",
+          "text": "What happens if different refrigerants are mixed in a system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "System efficiency improves",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "System capacity and efficiency decrease, and component damage may occur",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "The refrigerants will separate naturally over time",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Nothing, most modern refrigerants are compatible",
+              "correct": false
+            }
+          ],
+          "explanation": "Mixing different refrigerants creates a blend with unpredictable properties, causing decreased system efficiency and capacity. It can also cause component damage, oil return problems, and makes future recovery and recycling impossible since the refrigerant is now a contaminated mixture."
+        },
+        {
+          "id": "q5",
+          "text": "What does the term 'Global Warming Potential' (GWP) measure for refrigerants?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "The refrigerant's ability to deplete the ozone layer",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "The refrigerant's heat transfer capability",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "The refrigerant's potency as a greenhouse gas compared to CO₂",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "The refrigerant's toxicity level",
+              "correct": false
+            }
+          ],
+          "explanation": "Global Warming Potential (GWP) measures how much heat a greenhouse gas traps in the atmosphere relative to carbon dioxide (CO₂), which has a GWP of 1. HFC refrigerants like R-410A have high GWPs, while newer alternatives like R-32 and R-454B have lower GWPs."
+        },
+        {
+          "id": "q6",
+          "text": "What safety classification is assigned to mildly flammable refrigerants like R-32?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "A1",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "A2L",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "B1",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "A3",
+              "correct": false
+            }
+          ],
+          "explanation": "A2L is the safety classification for refrigerants with lower flammability and low toxicity. The 'L' denotes 'lower flammability' with a lower flame propagation speed. A1 refrigerants are nonflammable with low toxicity, while A3 refrigerants are highly flammable."
+        },
+        {
+          "id": "q7",
+          "text": "What action is required before opening a refrigeration system containing refrigerant?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Recover the refrigerant",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Add more refrigerant",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Cool the system to ambient temperature",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "No action required",
+              "correct": false
+            }
+          ],
+          "explanation": "Before opening a refrigeration system, technicians must recover the refrigerant to prevent its release to the atmosphere. This is required by EPA regulations under Section 608 of the Clean Air Act."
+        },
+        {
+          "id": "q8",
+          "text": "What is the primary environmental concern with HFC refrigerants like R-410A?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Ozone depletion",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "High global warming potential",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Water pollution",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Soil contamination",
+              "correct": false
+            }
+          ],
+          "explanation": "HFC refrigerants like R-410A have zero ozone depletion potential but high global warming potential (GWP). R-410A has a GWP of approximately 2088, meaning it traps 2088 times more heat than CO₂ over a 100-year period."
+        },
+        {
+          "id": "q9",
+          "text": "What is required to purchase refrigerant in quantities larger than 2 pounds in the United States?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "No requirements; anyone can purchase refrigerant",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "EPA certification",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "State contractor license",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Manufacturer training certificate",
+              "correct": false
+            }
+          ],
+          "explanation": "EPA regulations restrict the sale of refrigerant in containers larger than 2 pounds to certified technicians. Buyers must provide proof of EPA Section 608 certification appropriate for the type of refrigerant being purchased."
+        },
+        {
+          "id": "q10",
+          "text": "When should a refrigerant cylinder with a 'one-time use' designation be refilled?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Only once",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Up to three times",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "As many times as needed",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Never; it's illegal to refill disposable cylinders",
+              "correct": true
+            }
+          ],
+          "explanation": "Disposable or 'one-time use' refrigerant cylinders should never be refilled. It is illegal under EPA regulations to refill these cylinders as they are not designed for repeated pressurization and could fail, causing injury or refrigerant release."
+        }
+      ]
+    },
+    {
+      "id": "commercial_refrigeration",
+      "title": "Commercial Refrigeration Systems",
+      "description": "Test your knowledge of commercial refrigeration systems, components, and troubleshooting",
+      "category_id": "refrigeration",
+      "difficulty": "advanced",
+      "time_limit_minutes": 15,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the typical temperature range for a medium-temperature commercial refrigeration system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "-20°F to 0°F (-29°C to -18°C)",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "0°F to 20°F (-18°C to -7°C)",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "20°F to 45°F (-7°C to 7°C)",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "45°F to 60°F (7°C to 16°C)",
+              "correct": false
+            }
+          ],
+          "explanation": "Medium-temperature commercial refrigeration systems typically operate in the range of 20°F to 45°F (-7°C to 7°C) and are used for preserving fresh foods, beverages, and other items that don't require freezing."
+        },
+        {
+          "id": "q2",
+          "text": "What type of expansion device is commonly used in commercial refrigeration systems with multiple evaporators at different temperatures?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Capillary tube",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Thermostatic expansion valve (TXV)",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Automatic expansion valve (AXV)",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Float valve",
+              "correct": false
+            }
+          ],
+          "explanation": "Thermostatic expansion valves (TXVs) are commonly used in commercial refrigeration systems with multiple evaporators at different temperatures because they can maintain proper superheat regardless of load conditions and can be selected for specific temperature applications."
+        },
+        {
+          "id": "q3",
+          "text": "What is the purpose of a hot gas defrost system in a commercial freezer?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To increase cooling capacity",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To remove frost buildup on the evaporator coil",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To maintain proper oil return to the compressor",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To reduce the load on the condenser",
+              "correct": false
+            }
+          ],
+          "explanation": "Hot gas defrost systems use hot refrigerant gas from the compressor discharge to melt frost that accumulates on the evaporator coil during normal operation. This helps maintain system efficiency and capacity in low-temperature applications where frost buildup is common."
+        },
+        {
+          "id": "q4",
+          "text": "In a parallel compressor rack system, what is the primary advantage of having multiple compressors?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Lower initial cost",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Higher operating pressures",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Capacity modulation to match varying loads",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Simpler piping arrangements",
+              "correct": false
+            }
+          ],
+          "explanation": "Parallel compressor rack systems use multiple compressors connected to a common suction and discharge manifold. The primary advantage is capacity modulation - compressors can be staged on and off to match varying refrigeration loads, improving efficiency and reducing cycling."
+        },
+        {
+          "id": "q5",
+          "text": "What component is used to separate liquid refrigerant from vapor in the suction line to protect the compressor?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Receiver",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Suction accumulator",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "Filter drier",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Oil separator",
+              "correct": false
+            }
+          ],
+          "explanation": "A suction accumulator is installed in the suction line to temporarily store and separate liquid refrigerant from vapor, ensuring that only vapor enters the compressor. This protects the compressor from liquid slugging, which can cause severe damage."
+        },
+        {
+          "id": "q6",
+          "text": "What refrigerant property is most important when selecting a refrigerant for low-temperature commercial applications?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Low boiling point",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "High critical temperature",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Low latent heat of vaporization",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "High specific gravity",
+              "correct": false
+            }
+          ],
+          "explanation": "A low boiling point is the most important property when selecting a refrigerant for low-temperature commercial applications because it allows the refrigerant to evaporate and absorb heat at the low temperatures required in freezers and other low-temp applications."
+        },
+        {
+          "id": "q7",
+          "text": "What is the purpose of an oil separator in a commercial refrigeration system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To remove oil from the refrigerant before it enters the evaporator",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To separate oil from the discharge gas and return it to the compressor crankcase",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To filter contaminants from the oil",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To cool the oil before it returns to the compressor",
+              "correct": false
+            }
+          ],
+          "explanation": "An oil separator is installed in the discharge line to separate oil from the hot discharge gas and return it directly to the compressor crankcase. This ensures adequate lubrication of the compressor, particularly in systems with long pipe runs or multiple evaporators where oil return can be challenging."
+        },
+        {
+          "id": "q8",
+          "text": "What is a common cause of short cycling in a commercial refrigeration system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Oversized compressor",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "Undersized condenser",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "High superheat",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "Low refrigerant charge",
+              "correct": false
+            }
+          ],
+          "explanation": "An oversized compressor is a common cause of short cycling in commercial refrigeration systems. The oversized compressor quickly satisfies the thermostat, then shuts off, only to restart shortly after. This frequent starting and stopping reduces efficiency and increases wear on components."
+        },
+        {
+          "id": "q9",
+          "text": "What is the purpose of a liquid-line solenoid valve in a commercial refrigeration system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To prevent liquid refrigerant from entering the compressor",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "To control the flow of refrigerant to the evaporator",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "To regulate discharge pressure",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To ensure proper oil return",
+              "correct": false
+            }
+          ],
+          "explanation": "A liquid-line solenoid valve controls the flow of refrigerant to the evaporator, opening and closing in response to signals from the temperature control system. When closed, it prevents refrigerant from entering the evaporator, allowing for tight temperature control and pump-down cycles."
+        },
+        {
+          "id": "q10",
+          "text": "What is the purpose of a suction line filter-drier in a commercial refrigeration system?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To remove moisture from the refrigerant",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "To increase suction pressure",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "To improve oil return",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To reduce suction line noise",
+              "correct": false
+            }
+          ],
+          "explanation": "A suction line filter-drier removes moisture, acid, and debris from the refrigerant before it enters the compressor. This is particularly important after a compressor burnout, when acid and other contaminants may be present in the system."
+        },
+        {
+          "id": "q11",
+          "text": "In a supermarket refrigeration system, what is the purpose of sub-cooling the liquid refrigerant?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "To prevent flash gas in the liquid line",
+              "correct": true
+            },
+            {
+              "id": "b",
+              "text": "To reduce compressor work",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "To increase evaporator pressure",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "To prevent liquid refrigerant from entering the compressor",
+              "correct": false
+            }
+          ],
+          "explanation": "Sub-cooling the liquid refrigerant prevents flash gas formation in the liquid line, particularly in systems with long liquid line runs. Flash gas reduces system capacity and can cause erratic TXV operation. Sub-cooling ensures that pure liquid reaches the expansion device."
+        },
+        {
+          "id": "q12",
+          "text": "What is a floating head pressure control system in commercial refrigeration?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "A system that maintains constant head pressure regardless of ambient conditions",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "A system that allows head pressure to decrease as ambient temperature decreases",
+              "correct": true
+            },
+            {
+              "id": "c",
+              "text": "A system that increases head pressure during defrost cycles",
+              "correct": false
+            },
+            {
+              "id": "d",
+              "text": "A system that equalizes head pressure between multiple compressors",
+              "correct": false
+            }
+          ],
+          "explanation": "A floating head pressure control system allows the condensing (head) pressure to decrease as the ambient temperature decreases, rather than maintaining a constant high pressure year-round. This improves system efficiency during cooler weather by reducing compressor power consumption."
+        },
+        {
+          "id": "q13",
+          "text": "What type of compressor is most commonly used in large commercial refrigeration systems?",
+          "type": "multiple_choice",
+          "answers": [
+            {
+              "id": "a",
+              "text": "Reciprocating compressor",
+              "correct": false
+            },
+            {
+              "id": "b",
+              "text": "Scroll compressor",
+              "correct": false
+            },
+            {
+              "id": "c",
+              "text": "Screw compressor",
+              "correct": true
+            },
+            {
+              "id": "d",
+              "text": "Rotary compressor",
+              "correct": false
+            }
+          ],
+          "explanation": "Screw compressors are commonly used in large commercial refrigeration systems due to their efficiency with higher capacities, ability to handle varying loads, reliability, and relatively low maintenance requirements compared to reciprocating compressors of similar capacity."
+        }
+      ]
+    }
+  ]
+}

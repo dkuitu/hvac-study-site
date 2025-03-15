@@ -1,0 +1,217 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Flashcards - HVAC Study Site{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Manage Flashcards</h1>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Database Flashcards</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" id="categoriesTabs" role="tablist">
+                        {% for category in categories %}
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link {% if loop.first %}active{% endif %}" 
+                                    id="category-{{ category.id }}-tab" 
+                                    data-bs-toggle="tab" 
+                                    data-bs-target="#category-{{ category.id }}" 
+                                    type="button" 
+                                    role="tab" 
+                                    aria-controls="category-{{ category.id }}" 
+                                    aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+                                {{ category.name }}
+                            </button>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content mt-3" id="categoriesTabContent">
+                        {% for category in categories %}
+                        <div class="tab-pane fade {% if loop.first %}show active{% endif %}" 
+                             id="category-{{ category.id }}" 
+                             role="tabpanel" 
+                             aria-labelledby="category-{{ category.id }}-tab">
+                            
+                            <h4>{{ category.name }}</h4>
+                            <p>{{ category.description }}</p>
+                            
+                            <div class="accordion" id="chapters-{{ category.id }}">
+                                {% for chapter in category.chapters %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="chapter-{{ chapter.id }}-heading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#chapter-{{ chapter.id }}-content" aria-expanded="false" aria-controls="chapter-{{ chapter.id }}-content">
+                                            {{ chapter.name }} ({{ chapter.decks.count() }} decks)
+                                        </button>
+                                    </h2>
+                                    <div id="chapter-{{ chapter.id }}-content" class="accordion-collapse collapse" aria-labelledby="chapter-{{ chapter.id }}-heading" data-bs-parent="#chapters-{{ category.id }}">
+                                        <div class="accordion-body">
+                                            <div class="row">
+                                                {% for deck in chapter.decks %}
+                                                <div class="col-md-6 mb-3">
+                                                    <div class="card h-100">
+                                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                                            <h6 class="mb-0">{{ deck.name }}</h6>
+                                                            <span class="badge bg-{{ deck.difficulty == 'beginner' and 'success' or (deck.difficulty == 'intermediate' and 'warning' or 'danger') }}">
+                                                                {{ deck.difficulty }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <p class="mb-2">{{ deck.cards.count() }} flashcards</p>
+                                                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#deck-{{ deck.id }}-cards" aria-expanded="false" aria-controls="deck-{{ deck.id }}-cards">
+                                                                View Flashcards
+                                                            </button>
+                                                            
+                                                            <div class="collapse mt-3" id="deck-{{ deck.id }}-cards">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-sm table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Question</th>
+                                                                                <th>Answer</th>
+                                                                                <th>Actions</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            {% for card in deck.cards %}
+                                                                            <tr>
+                                                                                <td>{{ card.question|truncate(50) }}</td>
+                                                                                <td>{{ card.answer|truncate(50) }}</td>
+                                                                                <td>
+                                                                                    <a href="{{ url_for('admin.edit_flashcard', card_id=card.id) }}" class="btn btn-sm btn-outline-primary">
+                                                                                        <i class="fas fa-edit"></i>
+                                                                                    </a>
+                                                                                    <form method="POST" action="{{ url_for('admin.delete_flashcard', card_id=card.id) }}" class="d-inline">
+                                                                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this flashcard?')">
+                                                                                            <i class="fas fa-trash"></i>
+                                                                                        </button>
+                                                                                    </form>
+                                                                                </td>
+                                                                            </tr>
+                                                                            {% endfor %}
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Add New Flashcard</h5>
+                </div>
+                <div class="card-body">
+                    <form id="flashcard-form" class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="category_id" class="form-label">Category ID</label>
+                            <input type="text" class="form-control" id="category_id" name="category_id" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="category_name" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="category_name" name="category_name" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="category_description" class="form-label">Category Description</label>
+                            <input type="text" class="form-control" id="category_description" name="category_description">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="chapter_id" class="form-label">Chapter ID</label>
+                            <input type="text" class="form-control" id="chapter_id" name="chapter_id" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="chapter_name" class="form-label">Chapter Name</label>
+                            <input type="text" class="form-control" id="chapter_name" name="chapter_name" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="deck_id" class="form-label">Deck ID</label>
+                            <input type="text" class="form-control" id="deck_id" name="deck_id" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="deck_name" class="form-label">Deck Name</label>
+                            <input type="text" class="form-control" id="deck_name" name="deck_name" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="difficulty" class="form-label">Difficulty</label>
+                            <select class="form-select" id="difficulty" name="difficulty" required>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="question" class="form-label">Question</label>
+                            <textarea class="form-control" id="question" name="question" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="answer" class="form-label">Answer</label>
+                            <textarea class="form-control" id="answer" name="answer" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-primary">Add Flashcard</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('flashcard-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    try {
+        const response = await fetch('{{ url_for("admin.flashcards") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Flashcard added successfully!');
+            this.reset();
+            // Reload the page to show the new flashcard
+            location.reload();
+        } else {
+            alert('Error adding flashcard: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        alert('Error adding flashcard: ' + error.message);
+    }
+});
+</script>
+{% endblock %}

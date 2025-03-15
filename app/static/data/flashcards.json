@@ -1,0 +1,879 @@
+{
+  "categories": [
+    {
+      "id": "certifications",
+      "name": "Certification Preparation",
+      "description": "Study materials specifically designed for HVAC certification exams",
+      "chapters": [
+        {
+          "id": "epa608",
+          "name": "EPA 608 Certification",
+          "decks": [
+            {
+              "id": "epa608_core",
+              "name": "EPA 608 Core Knowledge",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the primary purpose of Section 608 of the Clean Air Act?",
+                  "answer": "To minimize the release of refrigerants during the service, maintenance, repair, and disposal of air conditioning and refrigeration equipment to reduce damage to the ozone layer."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the minimum leak repair requirement for commercial refrigeration equipment containing 50 or more pounds of refrigerant?",
+                  "answer": "Leaks must be repaired when the leak rate exceeds 30% of the equipment's charge during a 12-month period."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the maximum allowable leakage rate for recovery equipment used with small appliances?",
+                  "answer": "0.1 cubic inches per minute at 0 psi (0 inches of vacuum)."
+                },
+                {
+                  "id": "card4",
+                  "question": "What is the required evacuation level for recovery equipment used on small appliances with a non-operational compressor?",
+                  "answer": "At least 0 psig (0 inches of mercury vacuum)."
+                },
+                {
+                  "id": "card5",
+                  "question": "What colors are used to identify refrigerant cylinders according to ARI standards?",
+                  "answer": "Light green (mint) for R-22, rose/coral pink for R-410A, light blue for R-134a, purple for R-12, and yellow for R-502."
+                },
+                {
+                  "id": "card6",
+                  "question": "How long must technicians maintain records of refrigerant purchases and usage?",
+                  "answer": "For a minimum of 3 years."
+                },
+                {
+                  "id": "card7",
+                  "question": "What is the correct procedure if a small amount of air enters a refrigeration system during service?",
+                  "answer": "Recover the refrigerant, evacuate the system thoroughly, and recharge with new or properly recycled refrigerant."
+                },
+                {
+                  "id": "card8",
+                  "question": "What is the purpose of a filter drier in a refrigeration system?",
+                  "answer": "To remove moisture, acid, and particulate contaminants from the refrigerant and to protect the metering device and compressor from damage."
+                }
+              ]
+            },
+            {
+              "id": "epa608_types",
+              "name": "EPA 608 Certification Types",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What types of equipment are covered under EPA 608 Type I certification?",
+                  "answer": "Small appliances containing 5 pounds or less of refrigerant, such as household refrigerators, window air conditioners, and PTAC units."
+                },
+                {
+                  "id": "card2",
+                  "question": "What types of equipment are covered under EPA 608 Type II certification?",
+                  "answer": "High-pressure and very high-pressure equipment including most residential and commercial air conditioning and heat pump systems."
+                },
+                {
+                  "id": "card3",
+                  "question": "What types of equipment are covered under EPA 608 Type III certification?",
+                  "answer": "Low-pressure equipment such as chillers that use refrigerants with low boiling points, including R-11, R-123, and R-113."
+                },
+                {
+                  "id": "card4",
+                  "question": "What is EPA 608 Universal certification?",
+                  "answer": "Universal certification covers all equipment categories included in Type I, Type II, and Type III certifications, allowing technicians to work on any type of equipment."
+                },
+                {
+                  "id": "card5",
+                  "question": "What is the typical pressure range for Type I equipment during operation?",
+                  "answer": "Small appliance refrigeration systems typically operate with pressures below 200 psig on the high side."
+                },
+                {
+                  "id": "card6",
+                  "question": "What refrigerants are commonly found in Type II equipment?",
+                  "answer": "R-410A, R-407C, R-134a, and R-22 (in older systems) are common refrigerants in high-pressure systems covered by Type II certification."
+                },
+                {
+                  "id": "card7",
+                  "question": "What unique safety considerations apply to Type III (low-pressure) equipment?",
+                  "answer": "Low-pressure chillers can create a vacuum that could draw in atmospheric air if improperly serviced. They often use larger refrigerant charges and require purge systems to remove non-condensables."
+                },
+                {
+                  "id": "card8",
+                  "question": "What are the key evacuation requirements that differ between Type I, II, and III equipment?",
+                  "answer": "Type I requires recovery of 80-90% of refrigerant depending on compressor status. Type II requires evacuation to 0-10 inches Hg vacuum depending on equipment age. Type III requires 25-29 mm Hg absolute pressure evacuation."
+                }
+              ]
+            },
+            {
+              "id": "epa608_regulations",
+              "name": "EPA Refrigerant Regulations",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is considered a safe level of vacuum when evacuating a system for EPA 608 Type II certification?",
+                  "answer": "500 microns or 29.9 inches of mercury vacuum."
+                },
+                {
+                  "id": "card2",
+                  "question": "What are the recovery requirements for a system with a non-functioning compressor according to EPA 608 regulations?",
+                  "answer": "Passive recovery techniques such as system pressurization with nitrogen or another inert gas are permitted when the compressor is non-functional."
+                },
+                {
+                  "id": "card3",
+                  "question": "What are the EPA requirements for disposing of recovered refrigerant that is contaminated and cannot be reclaimed?",
+                  "answer": "Contaminated refrigerant that cannot be reclaimed must be brought to an EPA-approved refrigerant reclaimer or disposed of according to EPA regulations for hazardous waste at an approved destruction facility."
+                },
+                {
+                  "id": "card4",
+                  "question": "What is the difference between refrigerant recovery, recycling, and reclamation according to EPA regulations?",
+                  "answer": "Recovery is removing refrigerant from equipment in any condition. Recycling is cleaning recovered refrigerant for reuse using oil separation and single or multiple passes through filter-driers. Reclamation is processing refrigerant to meet ARI-700 standards of purity."
+                },
+                {
+                  "id": "card5",
+                  "question": "What are the required refrigerant leak inspection frequencies for equipment containing more than 50 pounds of refrigerant?",
+                  "answer": "Commercial refrigeration must be inspected once every three months, industrial process and comfort cooling equipment once per calendar year, and equipment with automatic leak detection systems quarterly."
+                },
+                {
+                  "id": "card6",
+                  "question": "What are the requirements for repairing refrigerant leaks in comfort cooling equipment containing more than 50 pounds of refrigerant?",
+                  "answer": "Leaks must be repaired when they exceed 10% of the charge over a 12-month period. Repairs must bring the leak rate below this threshold or the equipment must be retrofitted or retired."
+                },
+                {
+                  "id": "card7",
+                  "question": "What are the key record-keeping requirements for refrigerant sales under EPA regulations?",
+                  "answer": "Wholesalers may only sell refrigerant to certified technicians, must verify certification, and must maintain records of purchaser name, certification type and number, and quantity purchased for at least 3 years."
+                },
+                {
+                  "id": "card8",
+                  "question": "What is the Significant New Alternatives Policy (SNAP) program and how does it relate to refrigerant regulations?",
+                  "answer": "The SNAP program evaluates and regulates substitutes for ozone-depleting substances. It determines which alternative refrigerants are acceptable or unacceptable based on factors including environmental impact, health risk, and safety."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nate",
+          "name": "NATE Certification",
+          "decks": [
+            {
+              "id": "nate_core",
+              "name": "NATE Core Exam",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What safety equipment should be used when soldering or brazing refrigerant lines?",
+                  "answer": "Safety glasses/goggles, leather gloves, appropriate clothing coverage, fire extinguisher nearby, proper ventilation, and a heat shield to protect surrounding materials."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the standard service outlet voltage range for a 240V outlet in a residential application?",
+                  "answer": "216-254 volts (nominal 240V with a ±10% tolerance)."
+                },
+                {
+                  "id": "card3",
+                  "question": "What formula is used to calculate the CFM of air in a duct using velocity pressure?",
+                  "answer": "CFM = Velocity (FPM) × Duct Area (square feet). Velocity can be calculated as V = 4005 × √Velocity Pressure."
+                },
+                {
+                  "id": "card4",
+                  "question": "What is the purpose of a multimeter in HVAC diagnostics?",
+                  "answer": "To measure electrical properties including voltage, resistance, current, and continuity, allowing technicians to troubleshoot electrical components and circuits in HVAC systems."
+                },
+                {
+                  "id": "card5",
+                  "question": "What does MSDS stand for and why is it important for HVAC technicians?",
+                  "answer": "Material Safety Data Sheet (now called Safety Data Sheet or SDS). It provides critical information about chemical hazards, safe handling procedures, personal protection, and emergency response for materials used in HVAC work."
+                },
+                {
+                  "id": "card6",
+                  "question": "What is the proper handling procedure for refrigerant cylinders?",
+                  "answer": "Store upright in a cool, dry place below 125°F. Secure cylinders to prevent tipping. Never expose to open flame or high heat. Use proper lifting techniques and a cart for transport. Close valves and replace caps when not in use."
+                },
+                {
+                  "id": "card7",
+                  "question": "What is the proper method for checking the oil level in a compressor?",
+                  "answer": "With the compressor off and system pressures equalized, view the oil level through the sight glass. Proper oil level is typically at the middle or slightly above the middle of the sight glass, but refer to manufacturer specifications."
+                },
+                {
+                  "id": "card8",
+                  "question": "What are the key components of effective customer communication for HVAC technicians?",
+                  "answer": "Clear explanation of problems and solutions in non-technical terms, respect for customer property, professional appearance, listening to customer concerns, providing written estimates and documentation, and following up after service."
+                }
+              ]
+            },
+            {
+              "id": "nate_ac",
+              "name": "NATE Air Conditioning Specialty",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the typical temperature difference (Delta T) across an evaporator coil in a properly operating residential air conditioning system?",
+                  "answer": "Between 15°F and 20°F (typically 18-20°F) across the evaporator coil."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the recommended subcooling range for a TXV system using R-410A refrigerant?",
+                  "answer": "10°F to 18°F of subcooling, but always refer to the manufacturer's specifications as this can vary by equipment."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the formula for calculating SEER (Seasonal Energy Efficiency Ratio)?",
+                  "answer": "SEER = Total cooling output during the cooling season (in BTUs) divided by the total electrical energy input (in watt-hours) during the same period."
+                },
+                {
+                  "id": "card4",
+                  "question": "How should the airflow in a typical residential air conditioning system be set?",
+                  "answer": "Typically 350-450 CFM per ton of cooling capacity, with proper adjustment based on climate conditions, equipment specifications, and latent load requirements."
+                },
+                {
+                  "id": "card5",
+                  "question": "What is the proper refrigerant charging method for a fixed orifice air conditioning system?",
+                  "answer": "The superheat charging method, measuring suction line temperature and pressure to calculate superheat, then comparing to the target superheat based on indoor wet bulb and outdoor dry bulb temperatures."
+                },
+                {
+                  "id": "card6",
+                  "question": "What is the difference between sensible heat ratio (SHR) and latent capacity in air conditioning?",
+                  "answer": "Sensible heat ratio is the proportion of total cooling capacity used for temperature reduction (sensible cooling) versus humidity removal (latent cooling). Latent capacity is the system's ability to remove moisture from the air."
+                },
+                {
+                  "id": "card7",
+                  "question": "What is the purpose of the liquid line filter drier in an air conditioning system?",
+                  "answer": "To remove moisture, acid, and solid contaminants from the refrigerant, preventing damage to the metering device and other components while keeping the system clean and dry."
+                },
+                {
+                  "id": "card8",
+                  "question": "What would cause low suction pressure and high superheat in an air conditioning system?",
+                  "answer": "Possible causes include refrigerant undercharge, restricted metering device, blocked filter drier, restricted suction line, low airflow across evaporator, or a dirty evaporator coil."
+                }
+              ]
+            },
+            {
+              "id": "nate_heating",
+              "name": "NATE Gas Heating Specialty",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the proper manifold pressure for a natural gas furnace if the manufacturer's rating plate specifies 3.5\" w.c.?",
+                  "answer": "3.5 inches water column (±0.3\" w.c.) at the gas valve outlet or manifold with the furnace operating at high fire."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the acceptable CO level in the flue gases of a properly operating natural gas furnace?",
+                  "answer": "Less than 100 ppm (air-free) for a natural draft furnace and less than 200 ppm (air-free) for a forced draft/power vented furnace."
+                },
+                {
+                  "id": "card3",
+                  "question": "How should a technician determine proper combustion air requirements for a gas furnace installation?",
+                  "answer": "Use the formula: 50 cubic feet of air per 1,000 BTU/hr of appliance input rating for natural ventilation, or follow the specific requirements in the National Fuel Gas Code (NFPA 54) based on the installation type (direct vent, confined space, etc.)."
+                },
+                {
+                  "id": "card4",
+                  "question": "What is the proper procedure for checking gas valve outlet pressure?",
+                  "answer": "Connect a manometer to the outlet pressure tap of the gas valve, operate the furnace in heating mode, and read the pressure. Compare to manufacturer specifications and adjust if necessary using the pressure regulator."
+                },
+                {
+                  "id": "card5",
+                  "question": "What safety device prevents gas flow if the pilot light goes out in a standing pilot furnace?",
+                  "answer": "The thermocouple or thermopile generates a small electrical current when heated by the pilot flame, which keeps the gas valve open. If the pilot goes out, the current stops and the valve closes automatically."
+                },
+                {
+                  "id": "card6",
+                  "question": "What is the difference between primary and secondary heat exchangers in a condensing furnace?",
+                  "answer": "The primary heat exchanger extracts the first portion of heat from the combustion gases. The secondary heat exchanger extracts additional heat by cooling the flue gases below the dew point, condensing water vapor and capturing the latent heat."
+                },
+                {
+                  "id": "card7",
+                  "question": "What should be the proper rise in temperature across a gas furnace heat exchanger?",
+                  "answer": "Typically between 40°F to 70°F temperature rise from return air to supply air, but always follow the manufacturer's specified range on the furnace rating plate."
+                },
+                {
+                  "id": "card8",
+                  "question": "What is the purpose of a flame rectification system in modern gas furnaces?",
+                  "answer": "It proves the presence of a flame by using the flame as a conductor to complete a circuit between the flame sensor and the burner. This creates a small DC current (microamps) that tells the control board the burners are lit."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ice",
+          "name": "ICE Certification",
+          "decks": [
+            {
+              "id": "ice_residential",
+              "name": "ICE Residential HVAC",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What does the ICE acronym stand for in HVAC certification?",
+                  "answer": "Industry Competency Exam. It's designed to test entry-level technicians on core competencies in HVAC/R systems."
+                },
+                {
+                  "id": "card2",
+                  "question": "What are the minimum static pressure requirements for a typical residential duct system?",
+                  "answer": "Maximum 0.5\" w.c. total external static pressure for most residential systems, but can vary by manufacturer and equipment type."
+                },
+                {
+                  "id": "card3",
+                  "question": "According to ICE certification standards, what is the recommended procedure for measuring supply air temperature in a residential system?",
+                  "answer": "Measure 18-24 inches downstream from the cooling coil in the supply plenum, away from direct radiant heat of the heat exchanger, using a properly calibrated thermometer or temperature probe."
+                }
+              ]
+            },
+            {
+              "id": "ice_commercial",
+              "name": "ICE Commercial HVAC",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the difference between a constant air volume (CAV) and variable air volume (VAV) commercial HVAC system?",
+                  "answer": "A CAV system delivers a constant airflow rate regardless of the thermal load, while a VAV system varies the airflow rate based on the heating or cooling demand to improve energy efficiency."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of an economizer in a commercial HVAC system?",
+                  "answer": "To use outdoor air for free cooling when conditions permit, reducing mechanical cooling requirements and saving energy when outdoor temperatures and humidity are favorable."
+                },
+                {
+                  "id": "card3",
+                  "question": "In a commercial building, what is the ASHRAE Standard 62.1 recommendation for minimum outdoor air ventilation rate?",
+                  "answer": "The rate varies based on occupancy type and density but typically ranges from 5-20 CFM per person plus 0.06-0.18 CFM per square foot of floor area, depending on the space use."
+                }
+              ]
+            },
+            {
+              "id": "ice_refrigeration",
+              "name": "ICE Commercial Refrigeration",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the typical suction pressure range for a medium-temperature commercial refrigeration system using R-404A?",
+                  "answer": "Approximately 20-25 psig, corresponding to an evaporating temperature of around 20°F, but can vary based on application and manufacturer specifications."
+                },
+                {
+                  "id": "card2",
+                  "question": "What safety device is required on all commercial refrigeration systems to prevent excessive discharge pressure?",
+                  "answer": "High-pressure cutout switch (HPCO) that stops compressor operation when discharge pressure exceeds safe operating limits."
+                },
+                {
+                  "id": "card3",
+                  "question": "In commercial refrigeration, what is the proper superheat range for a TXV-controlled evaporator?",
+                  "answer": "Typically 8-12°F of superheat at the evaporator outlet, but always refer to the manufacturer's specifications as this can vary by equipment type and application."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "refrigeration",
+      "name": "Refrigeration Systems",
+      "description": "Study materials for refrigeration components and cycles",
+      "chapters": [
+        {
+          "id": "basics",
+          "name": "Refrigeration Basics",
+          "decks": [
+            {
+              "id": "components",
+              "name": "Refrigeration Cycle Components",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What are the four components of a basic vapor compression refrigeration cycle?",
+                  "answer": "Compressor, condenser, expansion device (metering device), and evaporator."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of the compressor in a refrigeration system?",
+                  "answer": "To increase the pressure and temperature of the refrigerant vapor and circulate the refrigerant through the system."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the function of an expansion device?",
+                  "answer": "To reduce the pressure and temperature of the liquid refrigerant as it enters the evaporator, allowing it to absorb heat."
+                }
+              ]
+            },
+            {
+              "id": "refrigerants",
+              "name": "Refrigerant Properties",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the difference between R-410A and R-22 refrigerants?",
+                  "answer": "R-410A is a hydrofluorocarbon (HFC) that does not deplete the ozone layer, while R-22 is a hydrochlorofluorocarbon (HCFC) that does. R-410A operates at higher pressures and has different handling requirements."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is subcooling in a refrigeration system?",
+                  "answer": "Subcooling is the difference between the condensing temperature of the refrigerant and the actual liquid temperature at the outlet of the condenser. It ensures that only liquid refrigerant enters the expansion device."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is superheat in a refrigeration system?",
+                  "answer": "Superheat is the temperature difference between the actual temperature of the refrigerant vapor and its saturation temperature at a given pressure. It ensures that only vapor enters the compressor."
+                }
+              ]
+            },
+            {
+              "id": "efficiency",
+              "name": "System Efficiency Concepts",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the difference between EER and SEER ratings?",
+                  "answer": "EER (Energy Efficiency Ratio) measures cooling efficiency at a specific operating point, while SEER (Seasonal Energy Efficiency Ratio) measures efficiency over an entire cooling season, accounting for varying conditions."
+                },
+                {
+                  "id": "card2",
+                  "question": "How does refrigerant charge affect system efficiency?",
+                  "answer": "Improper refrigerant charge (both undercharge and overcharge) reduces system efficiency. Undercharge causes reduced cooling capacity and higher superheat, while overcharge causes high head pressure and reduced subcooling."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the relationship between latent and sensible cooling capacity?",
+                  "answer": "Total cooling capacity is the sum of latent and sensible cooling. Latent cooling removes moisture from the air, while sensible cooling lowers air temperature. The ratio depends on climate conditions and application needs."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "advanced",
+          "name": "Advanced Refrigeration",
+          "decks": [
+            {
+              "id": "troubleshooting",
+              "name": "System Troubleshooting",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What are signs of refrigerant undercharge?",
+                  "answer": "Low suction pressure, high superheat, lower than normal head pressure, and poor cooling performance."
+                },
+                {
+                  "id": "card2",
+                  "question": "What might cause a compressor to short cycle?",
+                  "answer": "Low refrigerant charge, faulty thermostat, dirty condenser coil, electrical problems, or an oversized system."
+                },
+                {
+                  "id": "card3",
+                  "question": "How can you diagnose a restricted metering device?",
+                  "answer": "Low suction pressure, high superheat, normal to slightly lower head pressure, and a temperature drop across the filter drier."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heating",
+      "name": "Heating Systems",
+      "description": "Study materials for residential and commercial heating systems",
+      "chapters": [
+        {
+          "id": "gas_heating",
+          "name": "Gas Heating Systems",
+          "decks": [
+            {
+              "id": "furnace_basics",
+              "name": "Furnace Fundamentals",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What are the main components of a gas furnace?",
+                  "answer": "Gas valve, burners, heat exchanger, blower motor, draft inducer motor, and control board."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of a furnace heat exchanger?",
+                  "answer": "To transfer heat from the combustion process to the air being circulated through the home while keeping the combustion gases separate from the indoor air."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the difference between conventional and condensing furnaces?",
+                  "answer": "Condensing furnaces have a secondary heat exchanger that extracts additional heat from flue gases by condensing water vapor, achieving higher efficiency (90%+ AFUE) compared to conventional furnaces (80% AFUE)."
+                }
+              ]
+            },
+            {
+              "id": "combustion",
+              "name": "Combustion Analysis",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the proper range for O₂ percentage in combustion analysis of a natural gas furnace?",
+                  "answer": "Typically between 7-9% O₂ for optimal combustion efficiency in most natural gas furnaces."
+                },
+                {
+                  "id": "card2",
+                  "question": "What causes high CO levels in a furnace?",
+                  "answer": "Incomplete combustion due to insufficient air, improper gas pressure, dirty burners, cracked heat exchanger, or improper venting."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the purpose of a draft inducer motor in a furnace?",
+                  "answer": "To create a negative pressure that draws combustion gases through the heat exchanger and out the flue, ensuring proper venting and combustion."
+                }
+              ]
+            },
+            {
+              "id": "safety_controls",
+              "name": "Furnace Safety Controls",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "How does a flame rollout switch protect a furnace?",
+                  "answer": "It detects flames escaping from the burner box, which could indicate a blocked flue or heat exchanger, and shuts down the furnace to prevent fire hazards."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of a high limit switch in a furnace?",
+                  "answer": "To shut down the burner if the temperature in the heat exchanger exceeds a safe level, preventing overheating and potential damage."
+                },
+                {
+                  "id": "card3",
+                  "question": "How does a furnace pressure switch ensure safe operation?",
+                  "answer": "It verifies that the draft inducer is creating proper negative pressure before allowing the gas valve to open, ensuring that combustion gases will be properly vented."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ventilation",
+      "name": "Ventilation",
+      "description": "Study materials for ventilation systems and indoor air quality",
+      "chapters": [
+        {
+          "id": "air_distribution",
+          "name": "Air Distribution Systems",
+          "decks": [
+            {
+              "id": "duct_design",
+              "name": "Duct Design Principles",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the difference between supply and return ducts?",
+                  "answer": "Supply ducts deliver conditioned air from the HVAC equipment to the living spaces, while return ducts bring air back from the living spaces to the equipment for reconditioning."
+                },
+                {
+                  "id": "card2",
+                  "question": "What are the main types of duct materials used in HVAC systems?",
+                  "answer": "Sheet metal, fiberglass duct board, flexible ducts, and fabric ducts."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the purpose of duct insulation?",
+                  "answer": "To prevent energy loss, reduce condensation on cold surfaces, and minimize noise transmission."
+                }
+              ]
+            },
+            {
+              "id": "airflow_measurements",
+              "name": "Airflow Measurement Techniques",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What instrument is used to measure air velocity in a duct?",
+                  "answer": "An anemometer or a Pitot tube with a manometer."
+                },
+                {
+                  "id": "card2",
+                  "question": "How is CFM calculated from air velocity?",
+                  "answer": "CFM (Cubic Feet per Minute) = Velocity (feet per minute) × Cross-sectional Area (square feet)."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is the proper method for measuring total external static pressure?",
+                  "answer": "Measure the pressure difference between the supply plenum (after the coil) and the return plenum (before the filter), using a manometer with proper probe placement."
+                }
+              ]
+            },
+            {
+              "id": "air_balancing",
+              "name": "Air Balancing Procedures",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the purpose of air balancing in an HVAC system?",
+                  "answer": "To adjust the distribution of air throughout the system to ensure each room receives the proper amount of conditioned air according to its load requirements."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is a proportional balancing method?",
+                  "answer": "A method where all terminal devices are adjusted proportionally to achieve the desired airflow at each outlet while maintaining the correct total system airflow."
+                },
+                {
+                  "id": "card3",
+                  "question": "How does excessive static pressure affect system performance?",
+                  "answer": "It can reduce airflow, cause the blower to consume more energy, create noise, and potentially damage system components like the blower motor or heat exchanger."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electrical",
+      "name": "HVAC Electrical Systems",
+      "description": "Study materials for electrical components and troubleshooting",
+      "chapters": [
+        {
+          "id": "basic_electrical",
+          "name": "Basic Electrical Concepts",
+          "decks": [
+            {
+              "id": "fundamentals",
+              "name": "Electrical Fundamentals",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is Ohm's Law?",
+                  "answer": "Voltage (V) equals current (I) multiplied by resistance (R), or V = I × R."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the difference between AC and DC current?",
+                  "answer": "AC (alternating current) periodically changes direction, while DC (direct current) flows in only one direction."
+                },
+                {
+                  "id": "card3",
+                  "question": "What are the three types of electrical loads in HVAC systems?",
+                  "answer": "Resistive loads (heaters), inductive loads (motors), and capacitive loads (capacitors)."
+                }
+              ]
+            },
+            {
+              "id": "motor_types",
+              "name": "HVAC Motor Technologies",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the difference between PSC and ECM motors?",
+                  "answer": "PSC (Permanent Split Capacitor) motors run at one or a few preset speeds and are less efficient. ECM (Electronically Commutated Motor) motors use electronic controls to vary speed precisely and are more energy efficient."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of a run capacitor in an HVAC motor?",
+                  "answer": "To create a phase shift in the auxiliary winding, which helps maintain proper motor torque during operation."
+                },
+                {
+                  "id": "card3",
+                  "question": "How does a variable frequency drive (VFD) control motor speed?",
+                  "answer": "By varying the frequency and voltage of the power supplied to the motor, which changes the motor's rotational speed."
+                }
+              ]
+            },
+            {
+              "id": "electrical_troubleshooting",
+              "name": "Electrical Diagnostics",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What are common symptoms of a failed run capacitor?",
+                  "answer": "Motor hard starting, overheating, reduced performance, humming noise, or complete motor failure."
+                },
+                {
+                  "id": "card2",
+                  "question": "How do you properly test a dual run capacitor?",
+                  "answer": "Discharge the capacitor safely, then use a capacitor tester or multimeter with capacitance function to check each section (fan and compressor) separately against the rated capacitance values."
+                },
+                {
+                  "id": "card3",
+                  "question": "What safety steps must be taken before performing electrical troubleshooting on HVAC equipment?",
+                  "answer": "Turn off power at the disconnect and circuit breaker, verify power is off with a multimeter, use proper PPE including insulated tools and gloves, and follow lockout/tagout procedures."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "codes",
+      "name": "Codes & Regulations",
+      "description": "Study materials for building codes and safety regulations",
+      "chapters": [
+        {
+          "id": "building_codes",
+          "name": "Building Code Requirements",
+          "decks": [
+            {
+              "id": "code_basics",
+              "name": "Code Fundamentals",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is the International Mechanical Code (IMC)?",
+                  "answer": "A model code that regulates the design and installation of mechanical systems, providing minimum standards for public safety."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of the National Electrical Code (NEC)?",
+                  "answer": "To establish requirements for safe electrical installations to protect people and property from electrical hazards."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is ASHRAE Standard 62.1?",
+                  "answer": "A standard that specifies minimum ventilation rates and indoor air quality requirements for commercial and institutional buildings."
+                }
+              ]
+            },
+            {
+              "id": "safety_requirements",
+              "name": "Safety Code Requirements",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What are the code requirements for combustion air for a gas furnace?",
+                  "answer": "The furnace must have adequate supply of fresh air for combustion, typically from two permanent openings to the outside or adequately ventilated interior spaces, sized according to the appliance's BTU input."
+                },
+                {
+                  "id": "card2",
+                  "question": "What clearance is typically required around HVAC equipment for service?",
+                  "answer": "Most codes require at least 30 inches of working space in front of equipment requiring service, with specific requirements varying by equipment type and local codes."
+                },
+                {
+                  "id": "card3",
+                  "question": "What are the code requirements for refrigerant leak detection in mechanical rooms?",
+                  "answer": "Mechanical rooms containing refrigeration equipment must have refrigerant leak detection and alarms if refrigerant concentration could exceed exposure limits in case of a leak."
+                }
+              ]
+            },
+            {
+              "id": "code_compliance",
+              "name": "Compliance Documentation",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What documentation is typically required for HVAC permit approval?",
+                  "answer": "Detailed plans showing equipment location, duct layout, load calculations, equipment specifications, ventilation calculations, and energy compliance documentation."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is a Certificate of Occupancy and how does it relate to HVAC work?",
+                  "answer": "A document issued by the local government certifying a building complies with applicable building codes. The HVAC system must pass all required inspections before this certificate can be issued."
+                },
+                {
+                  "id": "card3",
+                  "question": "What energy code compliance paths are available for HVAC installations?",
+                  "answer": "Prescriptive path (following specific requirements for each component), performance path (using energy modeling to show equivalent performance), or the Energy Rating Index path (using a scoring system like HERS)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "name": "Tools & Equipment",
+      "description": "Study materials for HVAC tools and diagnostic equipment",
+      "chapters": [
+        {
+          "id": "service_tools",
+          "name": "Service & Diagnostic Tools",
+          "decks": [
+            {
+              "id": "hand_tools",
+              "name": "Essential Hand Tools",
+              "difficulty": "beginner",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What is a service valve wrench used for?",
+                  "answer": "To open and close refrigerant service valves on HVAC equipment, particularly those with square stems."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of a tube cutter in HVAC work?",
+                  "answer": "To make clean, square cuts in copper tubing before flaring or soldering."
+                },
+                {
+                  "id": "card3",
+                  "question": "What is a fin comb used for?",
+                  "answer": "To straighten bent fins on condenser or evaporator coils, improving airflow and heat transfer."
+                }
+              ]
+            },
+            {
+              "id": "measurement_tools",
+              "name": "Diagnostic Instruments",
+              "difficulty": "intermediate",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "What does a digital manifold gauge set measure?",
+                  "answer": "It measures refrigerant pressures on both high and low sides of a system, calculates superheat and subcooling, and can display corresponding saturation temperatures."
+                },
+                {
+                  "id": "card2",
+                  "question": "How is a clamp-on ammeter used in HVAC diagnostics?",
+                  "answer": "It measures electrical current draw without breaking the circuit by clamping around a single conductor, helping to diagnose motor and compressor issues."
+                },
+                {
+                  "id": "card3",
+                  "question": "What does a micron gauge measure and why is it important?",
+                  "answer": "A micron gauge measures very low vacuum pressure in microns (1/1000 of a millimeter of mercury). It's used during evacuation to ensure moisture and non-condensables are removed from a refrigeration system."
+                }
+              ]
+            },
+            {
+              "id": "advanced_diagnostics",
+              "name": "Advanced Diagnostic Equipment",
+              "difficulty": "advanced",
+              "cards": [
+                {
+                  "id": "card1",
+                  "question": "How is an ultrasonic leak detector used in HVAC systems?",
+                  "answer": "It detects high-frequency sounds produced by pressurized gas leaking from refrigerant lines or compressed air systems, which are inaudible to human ears."
+                },
+                {
+                  "id": "card2",
+                  "question": "What is the purpose of a power analyzer in HVAC diagnostics?",
+                  "answer": "To measure and analyze electrical parameters like voltage, current, power factor, and harmonics, helping diagnose power quality issues affecting equipment performance."
+                },
+                {
+                  "id": "card3",
+                  "question": "How is thermal imaging used in HVAC diagnostics?",
+                  "answer": "Thermal imaging cameras create a visual heat map showing temperature variations, useful for identifying insulation issues, air leaks, overheating components, refrigerant flow problems, or duct leakage."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

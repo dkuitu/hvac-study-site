@@ -1,0 +1,125 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Interactive Demos - HVAC Study Site{% endblock %}
+
+{% block content %}
+<div class="content-manager">
+    <h1>Manage Interactive Demos</h1>
+    
+    <div class="form-container">
+        <h2>Add New Interactive Demo</h2>
+        <form id="demo-form">
+            <div class="form-group">
+                <label for="title">Demo Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="category_id">Category ID</label>
+                <input type="text" id="category_id" name="category_id" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="html_content">HTML Content</label>
+                <textarea id="html_content" name="html_content" class="code-editor" rows="10"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="js_content">JavaScript Content</label>
+                <textarea id="js_content" name="js_content" class="code-editor" rows="10"></textarea>
+            </div>
+            
+            <button type="submit">Create Demo</button>
+        </form>
+    </div>
+    
+    <div class="content-preview">
+        <h2>Preview</h2>
+        <div id="demo-preview">
+            <div id="preview-container"></div>
+        </div>
+        <button type="button" id="preview-button" class="secondary-button">Preview Demo</button>
+    </div>
+</div>
+
+<script>
+document.getElementById('demo-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        title: document.getElementById('title').value,
+        description: document.getElementById('description').value,
+        category_id: document.getElementById('category_id').value,
+        html_content: document.getElementById('html_content').value,
+        js_content: document.getElementById('js_content').value
+    };
+    
+    try {
+        const response = await fetch('{{ url_for("admin.demos") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Interactive demo added successfully!');
+            this.reset();
+            document.getElementById('preview-container').innerHTML = '';
+        } else {
+            alert('Error adding demo: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        alert('Error adding demo: ' + error.message);
+    }
+});
+
+// Preview functionality
+document.getElementById('preview-button').addEventListener('click', function() {
+    const htmlContent = document.getElementById('html_content').value;
+    const jsContent = document.getElementById('js_content').value;
+    
+    const previewContainer = document.getElementById('preview-container');
+    previewContainer.innerHTML = htmlContent;
+    
+    // Execute JS in a safe way
+    const script = document.createElement('script');
+    script.textContent = jsContent;
+    previewContainer.appendChild(script);
+});
+</script>
+
+<style>
+.code-editor {
+    font-family: monospace;
+    white-space: pre;
+    overflow-x: auto;
+    background-color: #f1f1f1;
+    padding: 10px;
+}
+
+#preview-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    min-height: 200px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.secondary-button {
+    background-color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+.secondary-button:hover {
+    background-color: #636e72;
+}
+</style>

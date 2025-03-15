@@ -1,0 +1,617 @@
+{% extends "base.html" %}
+
+{% block title %}HVAC Pro Study - Practice Quizzes{% endblock %}
+
+{% block content %}
+<!-- Quizzes Header -->
+<section class="bg-light-blue py-5 mt-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-4 fw-bold mb-3">HVAC Practice Quizzes</h1>
+                <p class="lead text-muted mb-4">Test your HVAC knowledge with timed quizzes. Select a category to begin and track your progress.</p>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <div class="bg-primary text-white rounded-3 shadow d-flex align-items-center justify-content-center" style="height: 180px; width: 100%;">
+                    <div class="text-center">
+                        <i class="fas fa-tasks fa-4x mb-2"></i>
+                        <h4>Test Yourself</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quiz Selection -->
+<section class="py-5">
+    <div class="container">
+        <div id="quiz-selection">
+            <h2 class="mb-4">Available Quizzes</h2>
+            <div class="row g-4">
+                <!-- Refrigeration Quiz Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white py-3">
+                            <h3 class="h5 mb-0">Refrigeration Basics Quiz</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Test your knowledge of basic refrigeration concepts and systems.</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="badge bg-light text-dark me-2"><i class="fas fa-clock me-1"></i> 5 min</div>
+                                <div class="badge bg-light text-dark me-2"><i class="fas fa-question-circle me-1"></i> 4 questions</div>
+                                <div class="badge bg-light text-dark"><i class="fas fa-signal me-1"></i> Beginner</div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="startQuiz('refrigeration_basics')">Start Quiz</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Electrical Quiz Card -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-header bg-primary text-white py-3">
+                            <h3 class="h5 mb-0">HVAC Electrical Fundamentals</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">Test your knowledge of electrical concepts in HVAC systems.</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="badge bg-light text-dark me-2"><i class="fas fa-clock me-1"></i> 5 min</div>
+                                <div class="badge bg-light text-dark me-2"><i class="fas fa-question-circle me-1"></i> 4 questions</div>
+                                <div class="badge bg-light text-dark"><i class="fas fa-signal me-1"></i> Beginner</div>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="startQuiz('electrical_fundamentals')">Start Quiz</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quiz Area (initially hidden, shown when a quiz starts) -->
+        <div id="quiz-area" style="display: none;">
+            <div class="quiz-header mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 id="quiz-title">Quiz Title</h2>
+                    <div class="quiz-timer p-3 bg-light rounded-3 shadow-sm">
+                        <h4 class="mb-0 text-center"><i class="fas fa-clock me-2"></i><span id="timer">05:00</span></h4>
+                    </div>
+                </div>
+                <div class="progress mt-3">
+                    <div id="quiz-progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+            
+            <div id="question-container" class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <div class="question-number text-muted mb-2">Question <span id="current-question">1</span> of <span id="total-questions">4</span></div>
+                    <h3 id="question-text" class="card-title mb-4">Question text goes here?</h3>
+                    
+                    <div id="answer-options" class="mb-4">
+                        <!-- Answer options will be populated here -->
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <button id="prev-question" class="btn btn-outline-secondary" disabled>
+                            <i class="fas fa-arrow-left me-2"></i>Previous
+                        </button>
+                        <button id="next-question" class="btn btn-primary">
+                            Next<i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-center">
+                <button id="submit-quiz" class="btn btn-success px-4">
+                    <i class="fas fa-check-circle me-2"></i>Submit Quiz
+                </button>
+            </div>
+        </div>
+        
+        <!-- Results Screen (initially hidden, shown when quiz is completed) -->
+        <div id="results-area" style="display: none;">
+            <div class="card border-0 shadow">
+                <div class="card-body p-5 text-center">
+                    <div class="results-icon mb-4">
+                        <i class="fas fa-award fa-5x text-success"></i>
+                    </div>
+                    <h2 class="mb-3">Quiz Completed!</h2>
+                    <div class="score-display mb-4">
+                        <div class="display-1 fw-bold text-primary"><span id="score-percentage">75</span>%</div>
+                        <p class="lead">You answered <span id="correct-answers">3</span> out of <span id="total-answers">4</span> questions correctly.</p>
+                    </div>
+                    
+                    <div class="time-taken mb-4">
+                        <p><i class="fas fa-clock me-2"></i>Time taken: <span id="time-taken">2:45</span></p>
+                    </div>
+                    
+                    <div class="review-section mb-4">
+                        <h3 class="mb-3">Review Your Answers</h3>
+                        <div id="answers-review" class="text-start">
+                            <!-- Review content will be added here -->
+                        </div>
+                    </div>
+                    
+                    <div class="actions mt-4">
+                        <button id="retry-quiz" class="btn btn-primary me-2">
+                            <i class="fas fa-redo me-2"></i>Retry Quiz
+                        </button>
+                        <button id="back-to-quizzes" class="btn btn-outline-secondary">
+                            <i class="fas fa-list me-2"></i>Back to Quizzes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Study Tips Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3 mb-4 mb-lg-0 text-center">
+                <div class="bg-primary text-white rounded-3 shadow d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <div class="text-center">
+                        <i class="fas fa-lightbulb fa-4x mb-3"></i>
+                        <h4>Test Taking Tips</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <h2 class="section-title text-start">Tips for Success on HVAC Certification Exams</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="card-title d-flex align-items-center mb-3">
+                                    <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-book"></i>
+                                    </span>
+                                    <h3 class="h5 mb-0">Study Systematically</h3>
+                                </div>
+                                <p class="card-text">Break down your study sessions into specific topics. Focus on one area at a time before moving onto the next. Create a study schedule that covers all exam topics.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="card-title d-flex align-items-center mb-3">
+                                    <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-clock"></i>
+                                    </span>
+                                    <h3 class="h5 mb-0">Practice Time Management</h3>
+                                </div>
+                                <p class="card-text">Practice completing timed tests to improve your speed. Skip difficult questions and return to them later. Budget your time based on the number of questions and exam duration.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="card-title d-flex align-items-center mb-3">
+                                    <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <h3 class="h5 mb-0">Understand Terminology</h3>
+                                </div>
+                                <p class="card-text">Create flashcards for HVAC-specific terminology and review them regularly. Understanding the precise meaning of terms will help you interpret questions correctly.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Quiz functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Quiz state
+    let currentQuiz = null;
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    let timerInterval = null;
+    let startTime = null;
+    let timeRemaining = 0;
+    
+    // DOM elements
+    const quizSelection = document.getElementById('quiz-selection');
+    const quizArea = document.getElementById('quiz-area');
+    const resultsArea = document.getElementById('results-area');
+    
+    // Initialize event listeners
+    document.getElementById('next-question').addEventListener('click', nextQuestion);
+    document.getElementById('prev-question').addEventListener('click', prevQuestion);
+    document.getElementById('submit-quiz').addEventListener('click', submitQuiz);
+    document.getElementById('retry-quiz').addEventListener('click', retryQuiz);
+    document.getElementById('back-to-quizzes').addEventListener('click', backToQuizzes);
+    
+    // Fetch all available quizzes
+    async function fetchQuizzes() {
+        try {
+            console.log('%c🔄 ATTEMPTING TO FETCH QUIZZES FROM DATABASE API', 'background: #0066cc; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+            const response = await fetch('/api/quizzes');
+            
+            if (!response.ok) {
+                throw new Error(`Failed to fetch quizzes from API: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            console.log('%c✅ SUCCESS: LOADED QUIZZES FROM DATABASE API', 'background: #00cc66; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+            console.log(`📊 Data summary: ${data.quizzes.length} quizzes`);
+            
+            // Update the quiz selection UI with the fetched quizzes
+            updateQuizSelection(data.quizzes);
+            
+            return data.quizzes;
+        } catch (error) {
+            console.error('%c❌ ERROR FETCHING QUIZZES FROM API:', 'background: #cc0000; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;', error);
+            
+            // Fallback to local JSON file
+            try {
+                console.log('%c🔄 FALLBACK: ATTEMPTING TO FETCH FROM JSON FILE', 'background: #ff9900; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+                const fallbackResponse = await fetch('/static/data/quizzes.json');
+                
+                if (!fallbackResponse.ok) {
+                    throw new Error(`Failed to fetch fallback: ${fallbackResponse.status}`);
+                }
+                
+                const fallbackData = await fallbackResponse.json();
+                
+                console.log('%c⚠️ NOTICE: USING JSON FALLBACK', 'background: #ff9900; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+                console.log(`📊 Fallback data summary: ${fallbackData.quizzes.length} quizzes`);
+                
+                // Update the quiz selection UI with the fallback quizzes
+                updateQuizSelection(fallbackData.quizzes);
+                
+                return fallbackData.quizzes;
+            } catch (fallbackError) {
+                console.error('%c❌ CRITICAL: BOTH API AND FALLBACK FAILED', 'background: #cc0000; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;', fallbackError);
+                alert('Failed to load quizzes. Please try refreshing the page.');
+                return [];
+            }
+        }
+    }
+    
+    // Update the quiz selection UI with the fetched quizzes
+    function updateQuizSelection(quizzes) {
+        const quizSelectionContainer = document.querySelector('#quiz-selection .row.g-4');
+        quizSelectionContainer.innerHTML = '';
+        
+        quizzes.forEach(quiz => {
+            const quizCard = document.createElement('div');
+            quizCard.className = 'col-md-6';
+            quizCard.innerHTML = `
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h3 class="h5 mb-0">${quiz.title}</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">${quiz.description}</p>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="badge bg-light text-dark me-2"><i class="fas fa-clock me-1"></i> ${quiz.time_limit_minutes} min</div>
+                            <div class="badge bg-light text-dark me-2"><i class="fas fa-question-circle me-1"></i> ${quiz.questions.length} questions</div>
+                            <div class="badge bg-light text-dark"><i class="fas fa-signal me-1"></i> ${quiz.difficulty}</div>
+                        </div>
+                        <button class="btn btn-primary w-100" onclick="startQuiz('${quiz.id}')">Start Quiz</button>
+                    </div>
+                </div>
+            `;
+            quizSelectionContainer.appendChild(quizCard);
+        });
+    }
+    
+    // Initialize by fetching quizzes
+    fetchQuizzes();
+    
+    // Global function to start a quiz
+    window.startQuiz = async function(quizId) {
+        try {
+            console.log(`🔄 Starting quiz with ID: ${quizId}`);
+            
+            // Fetch specific quiz data
+            let currentQuizData;
+            
+            try {
+                console.log('%c🔄 FETCHING QUIZ FROM API', 'background: #0066cc; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+                const response = await fetch(`/api/quizzes/${quizId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch quiz from API: ${response.status}`);
+                }
+                
+                currentQuizData = await response.json();
+                console.log('%c✅ QUIZ LOADED FROM DATABASE', 'background: #00cc66; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+            } catch (error) {
+                console.error('%c❌ ERROR FETCHING QUIZ FROM API:', 'background: #cc0000; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;', error);
+                
+                // Fallback to all quizzes JSON file
+                console.log('%c🔄 FALLBACK: FETCHING FROM JSON', 'background: #ff9900; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+                const fallbackResponse = await fetch('/static/data/quizzes.json');
+                const data = await fallbackResponse.json();
+                
+                // Find the quiz by ID
+                currentQuizData = data.quizzes.find(quiz => quiz.id === quizId);
+                
+                if (!currentQuizData) {
+                    throw new Error(`Quiz not found: ${quizId}`);
+                }
+                
+                console.log('%c⚠️ QUIZ LOADED FROM JSON FALLBACK', 'background: #ff9900; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+            }
+            
+            // Set current quiz
+            currentQuiz = currentQuizData;
+            
+            // Initialize quiz state
+            currentQuestions = currentQuiz.questions;
+            currentQuestionIndex = 0;
+            userAnswers = currentQuestions.map(() => null);
+            
+            // Update UI
+            document.getElementById('quiz-title').textContent = currentQuiz.title;
+            document.getElementById('total-questions').textContent = currentQuestions.length;
+            
+            // Show quiz area, hide selection
+            quizSelection.style.display = 'none';
+            quizArea.style.display = 'block';
+            resultsArea.style.display = 'none';
+            
+            // Start timer
+            startTimer(currentQuiz.time_limit_minutes * 60);
+            
+            // Show first question
+            showCurrentQuestion();
+            updateProgress();
+        } catch (error) {
+            console.error('%c❌ ERROR STARTING QUIZ:', 'background: #cc0000; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;', error);
+            alert('Error starting quiz. Please try again later.');
+        }
+    };
+    
+    // Show the current question
+    function showCurrentQuestion() {
+        const question = currentQuestions[currentQuestionIndex];
+        
+        // Update question number and text
+        document.getElementById('current-question').textContent = currentQuestionIndex + 1;
+        document.getElementById('question-text').textContent = question.text;
+        
+        // Build answer options
+        const answerOptionsContainer = document.getElementById('answer-options');
+        answerOptionsContainer.innerHTML = '';
+        
+        question.answers.forEach((answer, index) => {
+            const isSelected = userAnswers[currentQuestionIndex] === index;
+            
+            const optionDiv = document.createElement('div');
+            optionDiv.className = `answer-option mb-3 p-3 rounded ${isSelected ? 'selected bg-light border border-primary' : 'border'}`;
+            optionDiv.style.cursor = 'pointer';
+            optionDiv.dataset.index = index;
+            
+            optionDiv.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <div class="option-indicator me-3 ${isSelected ? 'bg-primary text-white' : 'bg-light text-dark'}" 
+                         style="width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                        ${answer.id}
+                    </div>
+                    <div class="option-text">${answer.text}</div>
+                </div>
+            `;
+            
+            optionDiv.addEventListener('click', function() {
+                selectAnswer(index);
+            });
+            
+            answerOptionsContainer.appendChild(optionDiv);
+        });
+        
+        // Update navigation buttons
+        document.getElementById('prev-question').disabled = currentQuestionIndex === 0;
+        document.getElementById('next-question').textContent = currentQuestionIndex === currentQuestions.length - 1 ? 'Finish' : 'Next';
+        document.getElementById('next-question').className = currentQuestionIndex === currentQuestions.length - 1 ? 'btn btn-success' : 'btn btn-primary';
+        
+        // Hide/show submit button
+        document.getElementById('submit-quiz').style.display = allQuestionsAnswered() ? 'block' : 'none';
+    }
+    
+    // Select an answer
+    function selectAnswer(answerIndex) {
+        userAnswers[currentQuestionIndex] = answerIndex;
+        showCurrentQuestion(); // Refresh to show selected answer
+        updateProgress();
+    }
+    
+    // Navigate to next question
+    function nextQuestion() {
+        if (currentQuestionIndex < currentQuestions.length - 1) {
+            currentQuestionIndex++;
+            showCurrentQuestion();
+        } else {
+            submitQuiz();
+        }
+    }
+    
+    // Navigate to previous question
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showCurrentQuestion();
+        }
+    }
+    
+    // Check if all questions are answered
+    function allQuestionsAnswered() {
+        return userAnswers.every(answer => answer !== null);
+    }
+    
+    // Update progress bar
+    function updateProgress() {
+        const answeredCount = userAnswers.filter(answer => answer !== null).length;
+        const percentage = (answeredCount / currentQuestions.length) * 100;
+        
+        const progressBar = document.getElementById('quiz-progress');
+        progressBar.style.width = `${percentage}%`;
+        progressBar.setAttribute('aria-valuenow', percentage);
+    }
+    
+    // Start timer
+    function startTimer(seconds) {
+        clearInterval(timerInterval);
+        startTime = Date.now();
+        timeRemaining = seconds;
+        
+        updateTimerDisplay();
+        
+        timerInterval = setInterval(function() {
+            timeRemaining--;
+            
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                submitQuiz(); // Auto-submit when time runs out
+            } else {
+                updateTimerDisplay();
+            }
+        }, 1000);
+    }
+    
+    // Update timer display
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        
+        document.getElementById('timer').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Add warning color when less than 1 minute remains
+        if (timeRemaining < 60) {
+            document.getElementById('timer').classList.add('text-danger');
+        } else {
+            document.getElementById('timer').classList.remove('text-danger');
+        }
+    }
+    
+    // Submit quiz and show results
+    function submitQuiz() {
+        // Stop timer
+        clearInterval(timerInterval);
+        
+        // Calculate time taken
+        const timeTaken = calculateTimeTaken();
+        
+        // Calculate score
+        const { score, correctCount } = calculateScore();
+        
+        // Update results UI
+        document.getElementById('score-percentage').textContent = Math.round(score * 100);
+        document.getElementById('correct-answers').textContent = correctCount;
+        document.getElementById('total-answers').textContent = currentQuestions.length;
+        document.getElementById('time-taken').textContent = timeTaken;
+        
+        // Generate review content
+        generateReviewContent();
+        
+        // Show results area
+        quizArea.style.display = 'none';
+        resultsArea.style.display = 'block';
+    }
+    
+    // Calculate time taken
+    function calculateTimeTaken() {
+        const totalTimeInSeconds = currentQuiz.time_limit_minutes * 60 - timeRemaining;
+        const minutes = Math.floor(totalTimeInSeconds / 60);
+        const seconds = totalTimeInSeconds % 60;
+        
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    // Calculate score
+    function calculateScore() {
+        let correctCount = 0;
+        
+        currentQuestions.forEach((question, index) => {
+            const userAnswerIndex = userAnswers[index];
+            
+            if (userAnswerIndex !== null && question.answers[userAnswerIndex].correct) {
+                correctCount++;
+            }
+        });
+        
+        const score = correctCount / currentQuestions.length;
+        return { score, correctCount };
+    }
+    
+    // Generate review content
+    function generateReviewContent() {
+        const reviewContainer = document.getElementById('answers-review');
+        reviewContainer.innerHTML = '';
+        
+        currentQuestions.forEach((question, index) => {
+            const userAnswerIndex = userAnswers[index];
+            let isCorrect = false;
+            
+            if (userAnswerIndex !== null) {
+                isCorrect = question.answers[userAnswerIndex].correct;
+            }
+            
+            const correctAnswerIndex = question.answers.findIndex(answer => answer.correct);
+            
+            const reviewItem = document.createElement('div');
+            reviewItem.className = `review-item mb-4 p-3 border rounded ${isCorrect ? 'border-success bg-success bg-opacity-10' : 'border-danger bg-danger bg-opacity-10'}`;
+            
+            reviewItem.innerHTML = `
+                <div class="d-flex align-items-start mb-2">
+                    <div class="me-3">
+                        <span class="badge ${isCorrect ? 'bg-success' : 'bg-danger'} rounded-circle p-2">
+                            <i class="fas ${isCorrect ? 'fa-check' : 'fa-times'}"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <h5>Question ${index + 1}</h5>
+                        <p>${question.text}</p>
+                    </div>
+                </div>
+                
+                <div class="ms-4 mb-2">
+                    <div class="your-answer mb-2">
+                        <strong>Your answer:</strong> ${userAnswerIndex !== null ? question.answers[userAnswerIndex].text : 'Not answered'}
+                    </div>
+                    
+                    ${!isCorrect ? `
+                    <div class="correct-answer mb-2">
+                        <strong>Correct answer:</strong> ${question.answers[correctAnswerIndex].text}
+                    </div>
+                    ` : ''}
+                    
+                    <div class="explanation">
+                        <strong>Explanation:</strong> ${question.explanation}
+                    </div>
+                </div>
+            `;
+            
+            reviewContainer.appendChild(reviewItem);
+        });
+    }
+    
+    // Retry the current quiz
+    function retryQuiz() {
+        startQuiz(currentQuiz.id);
+    }
+    
+    // Go back to quiz selection
+    function backToQuizzes() {
+        quizSelection.style.display = 'block';
+        resultsArea.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,616 @@
+/* Admin styles */
+:root {
+    --primary-color: #34495e;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --background-color: #f5f5f5;
+    --text-color: #333;
+    --card-bg-color: #fff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header & Navigation */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+nav ul li a:hover {
+    color: var(--secondary-color);
+}
+
+/* Main content */
+main {
+    min-height: calc(100vh - 140px);
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Login styles */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: var(--accent-color);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-group textarea {
+    min-height: 100px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--primary-color);
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Dashboard styles */
+.dashboard {
+    padding: 20px;
+}
+
+.dashboard h1 {
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.card h2 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.card p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.button {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* Content manager styles */
+.content-manager {
+    padding: 20px;
+}
+
+.content-manager h1 {
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.form-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.form-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.content-preview {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.content-preview h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.preview-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    perspective: 1000px;
+    min-height: 200px;
+}
+
+.preview-front, .preview-back {
+    padding: 20px;
+    min-height: 200px;
+}
+
+.preview-front {
+    background-color: #f9f9f9;
+}
+
+.preview-back {
+    background-color: #e9f7fe;
+    display: none;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+# Create admin quizzes template
+cat > app/templates/admin/quizzes.html << 'EOF'
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Quizzes - HVAC Study Site{% endblock %}
+
+{% block content %}
+<div class="content-manager">
+    <h1>Manage Quizzes</h1>
+    
+    <div class="form-container">
+        <h2>Add New Quiz</h2>
+        <form id="quiz-form">
+            <div class="form-group">
+                <label for="title">Quiz Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="category_id">Category ID</label>
+                <input type="text" id="category_id" name="category_id" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="difficulty">Difficulty</label>
+                <select id="difficulty" name="difficulty" required>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="time_limit_minutes">Time Limit (minutes, 0 for no limit)</label>
+                <input type="number" id="time_limit_minutes" name="time_limit_minutes" min="0" value="0">
+            </div>
+            
+            <div id="questions-container">
+                <h3>Questions</h3>
+                <div class="question-item">
+                    <div class="form-group">
+                        <label>Question Text</label>
+                        <textarea name="questions[0][text]" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Question Type</label>
+                        <select name="questions[0][type]" required>
+                            <option value="multiple_choice">Multiple Choice</option>
+                            <option value="true_false">True/False</option>
+                            <option value="short_answer">Short Answer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="answers-container">
+                        <div class="form-group">
+                            <label>Answer 1</label>
+                            <input type="text" name="questions[0][answers][0][text]" required>
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][0][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Answer 2</label>
+                            <input type="text" name="questions[0][answers][1][text]" required>
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][1][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Answer 3</label>
+                            <input type="text" name="questions[0][answers][2][text]">
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][2][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Answer 4</label>
+                            <input type="text" name="questions[0][answers][3][text]">
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][3][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Explanation (shown after answering)</label>
+                        <textarea name="questions[0][explanation]"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="button" id="add-question" class="secondary-button">Add Another Question</button>
+            
+            <button type="submit">Create Quiz</button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('quiz-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Process form data
+    const formData = new FormData(this);
+    const data = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        category_id: formData.get('category_id'),
+        difficulty: formData.get('difficulty'),
+        time_limit_minutes: parseInt(formData.get('time_limit_minutes') || 0),
+        questions: []
+    };
+    
+    // Get all question elements
+    const questionElements = document.querySelectorAll('.question-item');
+    
+    // Process each question
+    questionElements.forEach((questionEl, qIndex) => {
+        const question = {
+            text: formData.get(`questions[${qIndex}][text]`),
+            type: formData.get(`questions[${qIndex}][type]`),
+            explanation: formData.get(`questions[${qIndex}][explanation]`),
+            answers: []
+        };
+        
+        // Get all answers for this question
+        for (let aIndex = 0; aIndex < 4; aIndex++) {
+            const answerText = formData.get(`questions[${qIndex}][answers][${aIndex}][text]`);
+            if (answerText) {
+                question.answers.push({
+                    text: answerText,
+                    correct: formData.get(`questions[${qIndex}][answers][${aIndex}][correct]`) === 'on'
+                });
+            }
+        }
+        
+        data.questions.push(question);
+    });
+    
+    try {
+        const response = await fetch('{{ url_for("admin.quizzes") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            alert('Quiz added successfully!');
+            this.reset();
+            // Reset the questions container to just one question
+            document.getElementById('questions-container').innerHTML = `
+                <h3>Questions</h3>
+                <div class="question-item">
+                    <div class="form-group">
+                        <label>Question Text</label>
+                        <textarea name="questions[0][text]" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Question Type</label>
+                        <select name="questions[0][type]" required>
+                            <option value="multiple_choice">Multiple Choice</option>
+                            <option value="true_false">True/False</option>
+                            <option value="short_answer">Short Answer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="answers-container">
+                        <div class="form-group">
+                            <label>Answer 1</label>
+                            <input type="text" name="questions[0][answers][0][text]" required>
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][0][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Answer 2</label>
+                            <input type="text" name="questions[0][answers][1][text]" required>
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][1][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Answer 3</label>
+                            <input type="text" name="questions[0][answers][2][text]">
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][2][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Answer 4</label>
+                            <input type="text" name="questions[0][answers][3][text]">
+                            <label>
+                                <input type="checkbox" name="questions[0][answers][3][correct]">
+                                Correct Answer
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Explanation (shown after answering)</label>
+                        <textarea name="questions[0][explanation]"></textarea>
+                    </div>
+                </div>
+            `;
+        } else {
+            alert('Error adding quiz: ' + (result.error || 'Unknown error'));
+        }
+    } catch (error) {
+        alert('Error adding quiz: ' + error.message);
+    }
+});
+
+// Add question functionality
+document.getElementById('add-question').addEventListener('click', function() {
+    const questionsContainer = document.getElementById('questions-container');
+    const questionCount = document.querySelectorAll('.question-item').length;
+    
+    const newQuestion = document.createElement('div');
+    newQuestion.className = 'question-item';
+    newQuestion.innerHTML = `
+        <hr class="question-divider">
+        <div class="form-group">
+            <label>Question Text</label>
+            <textarea name="questions[${questionCount}][text]" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Question Type</label>
+            <select name="questions[${questionCount}][type]" required>
+                <option value="multiple_choice">Multiple Choice</option>
+                <option value="true_false">True/False</option>
+                <option value="short_answer">Short Answer</option>
+            </select>
+        </div>
+        
+        <div class="answers-container">
+            <div class="form-group">
+                <label>Answer 1</label>
+                <input type="text" name="questions[${questionCount}][answers][0][text]" required>
+                <label>
+                    <input type="checkbox" name="questions[${questionCount}][answers][0][correct]">
+                    Correct Answer
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label>Answer 2</label>
+                <input type="text" name="questions[${questionCount}][answers][1][text]" required>
+                <label>
+                    <input type="checkbox" name="questions[${questionCount}][answers][1][correct]">
+                    Correct Answer
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label>Answer 3</label>
+                <input type="text" name="questions[${questionCount}][answers][2][text]">
+                <label>
+                    <input type="checkbox" name="questions[${questionCount}][answers][2][correct]">
+                    Correct Answer
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label>Answer 4</label>
+                <input type="text" name="questions[${questionCount}][answers][3][text]">
+                <label>
+                    <input type="checkbox" name="questions[${questionCount}][answers][3][correct]">
+                    Correct Answer
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Explanation (shown after answering)</label>
+            <textarea name="questions[${questionCount}][explanation]"></textarea>
+        </div>
+        
+        <button type="button" class="remove-question danger-button">Remove Question</button>
+    `;
+    
+    questionsContainer.appendChild(newQuestion);
+    
+    // Add event listener to remove button
+    newQuestion.querySelector('.remove-question').addEventListener('click', function() {
+        newQuestion.remove();
+    });
+});
+</script>
+
+<style>
+.question-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.question-divider {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+.secondary-button {
+    background-color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+.secondary-button:hover {
+    background-color: #636e72;
+}
+
+.danger-button {
+    background-color: #e74c3c;
+    margin-top: 10px;
+}
+
+.danger-button:hover {
+    background-color: #c0392b;
+}
+</style>

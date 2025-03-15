@@ -1,0 +1,540 @@
+{% extends "base.html" %}
+
+{% block title %}HVAC Pro Study - Interactive Demos{% endblock %}
+
+{% block content %}
+<!-- Demos Header -->
+<section class="bg-light-blue py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-4 fw-bold mb-3">Interactive HVAC Demos</h1>
+                <p class="lead text-muted mb-4">Experience realistic simulations of HVAC systems and learn through hands-on practice.</p>
+            </div>
+            <div class="col-md-4 text-center text-md-end">
+                <div class="bg-primary text-white rounded-3 shadow d-flex align-items-center justify-content-center" style="height: 180px; width: 100%;">
+                    <div class="text-center">
+                        <i class="fas fa-tools fa-4x mb-2"></i>
+                        <h4>Interactive Tools</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo List -->
+<section class="py-4">
+    <div class="container">
+        <h2 class="mb-4">Available Demos</h2>
+        <div id="demo-list">
+            <!-- Demo cards will be loaded by JavaScript -->
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo Navigation -->
+<section class="py-4 border-bottom border-top mt-4">
+    <div class="container">
+        <ul class="nav nav-pills nav-fill mb-0" id="demo-nav">
+            <!-- Demo tabs will be loaded by JavaScript -->
+        </ul>
+    </div>
+</section>
+
+<!-- Demo Content -->
+<section class="py-5">
+    <div class="container" id="demo-container">
+        <div class="tab-content">
+            <!-- Refrigeration Diagnostics Demo -->
+            <div class="tab-pane fade show active" id="refrigeration-demo">
+                <div class="row mb-4">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3">Refrigeration Diagnostics Simulator</h2>
+                        <p class="lead">Practice diagnosing common HVAC system issues using pressure and temperature readings. Calculate superheat and subcooling values to determine system performance.</p>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>This simulator uses R-410A refrigerant. Use the pressure-temperature chart to help with your calculations.
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div id="final-score" class="alert alert-success fw-bold fs-5" style="display: none;"></div>
+                    </div>
+                </div>
+                
+                <div class="row g-4 mb-5">
+                    <!-- Gauges Section -->
+                    <div class="col-md-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">System Gauges</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">High Side</p>
+                                        <canvas id="highPressureGauge" width="200" height="200"></canvas>
+                                        <p id="high-pressure-value" class="fw-bold">0 psig</p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <p class="mb-1">Low Side</p>
+                                        <canvas id="lowPressureGauge" width="200" height="200"></canvas>
+                                        <p id="low-pressure-value" class="fw-bold">0 psig</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- System Info Section -->
+                    <div class="col-md-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">System Information</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <label class="fw-bold mb-1">Ambient Temperature</label>
+                                        <p id="ambient-temp" class="border-bottom pb-2">75°F</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="fw-bold mb-1">Refrigerant Type</label>
+                                        <p id="refrigerant-type" class="border-bottom pb-2">R-410A</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="fw-bold mb-1">Condenser Exit Temp</label>
+                                        <p id="cond-exit-temp" class="border-bottom pb-2">90°F</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="fw-bold mb-1">Evaporator Exit Temp</label>
+                                        <p id="evap-exit-temp" class="border-bottom pb-2">55°F</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <!-- Diagnostic Inputs -->
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">Diagnostic Inputs</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="superheat-calc" class="form-label">
+                                        Superheat Calculation (°F)
+                                        <i id="superheat-info" class="fas fa-info-circle text-primary ms-2" style="cursor: pointer;"></i>
+                                    </label>
+                                    <input type="number" class="form-control" id="superheat-calc" placeholder="Enter superheat value">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subcooling-calc" class="form-label">
+                                        Subcooling Calculation (°F)
+                                        <i id="subcooling-info" class="fas fa-info-circle text-primary ms-2" style="cursor: pointer;"></i>
+                                    </label>
+                                    <input type="number" class="form-control" id="subcooling-calc" placeholder="Enter subcooling value">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fault-diagnosis" class="form-label">System Diagnosis</label>
+                                    <select class="form-select" id="fault-diagnosis">
+                                        <option value="" selected disabled>Select diagnosis</option>
+                                        <option value="normal">Normal Operation</option>
+                                        <option value="low-charge">Low Refrigerant Charge</option>
+                                        <option value="high-charge">High Refrigerant Charge</option>
+                                        <option value="restricted-txv">Restricted TXV</option>
+                                        <option value="dirty-condenser">Dirty Condenser</option>
+                                    </select>
+                                </div>
+                                <div class="mt-4">
+                                    <button id="submit-diagnosis" class="btn btn-primary me-2">Submit Diagnosis</button>
+                                    <button id="next-scenario" class="btn btn-outline-primary disabled">Next Scenario</button>
+                                </div>
+                                <div id="diagnosis-result" class="mt-3 p-3 rounded" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PT Chart -->
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">R-410A Pressure-Temperature Chart</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                                    <table id="pt-table" class="table table-striped table-sm">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Temp (°F)</th>
+                                                <th>Pressure (psig)</th>
+                                                <th>Temp (°F)</th>
+                                                <th>Pressure (psig)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Will be populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Help Modals -->
+                <div id="superheatModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title">How to Calculate Superheat</h5>
+                                <button type="button" id="closeSuperheatModal" class="btn-close btn-close-white"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Superheat = Evaporator Exit Temperature - Saturation Temperature (from low side pressure)</strong></p>
+                                <ol>
+                                    <li>Look up the saturation temperature that corresponds to the low side pressure in the PT chart.</li>
+                                    <li>Subtract this saturation temperature from the actual evaporator exit temperature.</li>
+                                    <li>The result is the superheat value.</li>
+                                </ol>
+                                <div class="alert alert-info">
+                                    Example: If low pressure is 125 psig (corresponds to approximately 43°F saturation temperature) and evaporator exit temperature is 55°F, then superheat = 55°F - 43°F = 12°F.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="subcoolingModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title">How to Calculate Subcooling</h5>
+                                <button type="button" id="closeSubcoolingModal" class="btn-close btn-close-white"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Subcooling = Saturation Temperature (from high side pressure) - Condenser Exit Temperature</strong></p>
+                                <ol>
+                                    <li>Look up the saturation temperature that corresponds to the high side pressure in the PT chart.</li>
+                                    <li>Subtract the actual condenser exit temperature from this saturation temperature.</li>
+                                    <li>The result is the subcooling value.</li>
+                                </ol>
+                                <div class="alert alert-info">
+                                    Example: If high pressure is 295.1 psig (corresponds to approximately 95°F saturation temperature) and condenser exit temperature is 85°F, then subcooling = 95°F - 85°F = 10°F.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Electrical Troubleshooting Demo -->
+            <div class="tab-pane fade" id="electrical-demo">
+                <div class="row mb-4">
+                    <div class="col-lg-8">
+                        <h2 class="mb-3">HVAC Electrical Troubleshooting</h2>
+                        <p class="lead">Practice troubleshooting electrical circuits using Ohm's Law (V=IR). Identify faults in a simple blower motor circuit.</p>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>Follow the step-by-step approach to diagnose the circuit. Use the multimeter to measure voltage, current, and resistance.
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <div id="electrical-score" class="alert alert-success fw-bold fs-5" style="display: none;"></div>
+                    </div>
+                </div>
+                
+                <!-- Circuit Diagram and Multimeter -->
+                <div class="row g-4 mb-5">
+                    <div class="col-md-7">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">Blower Motor Circuit</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="circuit-diagram text-center mb-3">
+                                    <svg id="circuit-svg" width="100%" height="300" style="max-width: 600px;"></svg>
+                                    <div class="text-muted"><small>Tip: Click on the switch to open/close it</small></div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch mb-2">
+                                            <input class="form-check-input" type="checkbox" id="power-switch" checked>
+                                            <label class="form-check-label" for="power-switch">Power (24V)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-outline-secondary me-2" id="reset-circuit">Reset Circuit</button>
+                                            <button class="btn btn-outline-primary" id="introduce-fault">Introduce Fault</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-5">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">Digital Multimeter</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="multimeter text-center mb-3">
+                                    <div class="meter-display p-3 mb-3 border rounded bg-dark text-light">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span id="meter-mode">Volts (V)</span>
+                                            <span id="meter-value" class="h3 mb-0">0.00</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="btn-group mb-3 w-100" role="group">
+                                        <button class="btn btn-outline-secondary active" id="mode-voltage">Voltage</button>
+                                        <button class="btn btn-outline-secondary" id="mode-resistance">Resistance</button>
+                                        <button class="btn btn-outline-secondary" id="mode-current">Current</button>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Test Points</label>
+                                        <select class="form-select" id="test-points">
+                                            <option value="power">Power Source (24V)</option>
+                                            <option value="fuse">Across Fuse</option>
+                                            <option value="switch">Across Switch</option>
+                                            <option value="resistor">Across Resistor (8Ω)</option>
+                                            <option value="motor">Across Motor (16Ω)</option>
+                                            <option value="ground">To Ground</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <button class="btn btn-primary w-100" id="measure-button">Measure</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Troubleshooting Section -->
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">Fault Diagnosis</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="fault-diagnosis-electrical" class="form-label">System Diagnosis</label>
+                                    <select class="form-select" id="fault-diagnosis-electrical">
+                                        <option value="" selected disabled>Select diagnosis</option>
+                                        <option value="normal">Normal Operation</option>
+                                        <option value="blown-fuse">Blown Fuse</option>
+                                        <option value="open-switch">Open Switch</option>
+                                        <option value="open-resistor">Open Resistor</option>
+                                        <option value="open-motor">Open Motor</option>
+                                        <option value="short-motor">Shorted Motor</option>
+                                        <option value="short-resistor">Shorted Resistor</option>
+                                    </select>
+                                </div>
+
+                                <div class="mt-4">
+                                    <button id="submit-electrical-diagnosis" class="btn btn-primary me-2">Submit Diagnosis</button>
+                                    <button id="next-electrical-scenario" class="btn btn-outline-primary disabled">Next Scenario</button>
+                                </div>
+                                <div id="electrical-diagnosis-result" class="mt-3 p-3 rounded" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="h5 mb-0">Ohm's Law Reference</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h4 class="h6 fw-bold">Ohm's Law Formula</h4>
+                                        <p class="mb-3">V = I × R</p>
+                                        <p>Where:<br>
+                                        V = Voltage (Volts)<br>
+                                        I = Current (Amps)<br>
+                                        R = Resistance (Ohms)</p>
+                                        
+                                        <div class="alert alert-info mt-3">
+                                            <p class="mb-0"><strong>Example:</strong> If a circuit has 24V and the resistance is 8Ω, the current would be I = V/R = 24/8 = 3A</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="h6 fw-bold">Circuit Components</h4>
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2"><strong>Power Source:</strong> 24V DC</li>
+                                            <li class="mb-2"><strong>Fuse:</strong> 5A</li>
+                                            <li class="mb-2"><strong>Switch:</strong> On/Off control</li>
+                                            <li class="mb-2"><strong>Resistor:</strong> 8Ω (blower speed control)</li>
+                                            <li class="mb-2"><strong>Motor:</strong> 16Ω (blower motor)</li>
+                                        </ul>
+                                        
+                                        <h4 class="h6 fw-bold mt-3">Total Circuit Resistance</h4>
+                                        <p>Series circuit: R<sub>total</sub> = R<sub>1</sub> + R<sub>2</sub></p>
+                                        <p>Total = 8Ω + 16Ω = 24Ω</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Airflow Simulation Demo -->
+            <div class="tab-pane fade" id="airflow-demo">
+                <!-- This content will be dynamically populated by the airflow demo module -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Instructions Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 mb-4 mb-lg-0 text-center">
+                <div class="bg-primary text-white rounded-3 shadow d-flex align-items-center justify-content-center" style="height: 350px;">
+                    <div class="text-center">
+                        <i class="fas fa-hard-hat fa-5x mb-3"></i>
+                        <h3>HVAC Technician</h3>
+                        <p class="mt-2">Professional Training</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <h2 class="section-title text-start">How to Use the Interactive Demos</h2>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="card-title d-flex align-items-center mb-3">
+                                    <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-1"></i>
+                                    </span>
+                                    <h3 class="h5 mb-0">Select a Demo</h3>
+                                </div>
+                                <p class="card-text">Choose from our available interactive demos. Each demo focuses on a specific HVAC skill or concept that is important for technicians to master.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="card-title d-flex align-items-center mb-3">
+                                    <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-2"></i>
+                                    </span>
+                                    <h3 class="h5 mb-0">Interact & Learn</h3>
+                                </div>
+                                <p class="card-text">Follow the instructions in each demo to interact with the simulation. Our hands-on approach helps reinforce key concepts through practical application.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12 mt-0">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="card-title d-flex align-items-center mb-3">
+                                    <span class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fas fa-3"></i>
+                                    </span>
+                                    <h3 class="h5 mb-0">Test Your Skills</h3>
+                                </div>
+                                <p class="card-text">Most demos include a troubleshooting or diagnostic component. Test your knowledge and get immediate feedback on your answers to reinforce learning.</p>
+                                <p class="card-text mt-2"><strong>Educational Note:</strong> These simulators help develop diagnostic skills that are essential for HVAC technicians, focusing on common system issues and industry standard procedures.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- External Libraries -->
+<script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+
+<!-- Load individual demo scripts -->
+<script src="{{ url_for('static', filename='js/demos/refrigeration-diagnostics.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demos/electrical-troubleshooting.js') }}"></script>
+<script src="{{ url_for('static', filename='js/demos/airflow-simulation.js') }}"></script>
+
+<!-- Demo Module Loader -->
+<script src="{{ url_for('static', filename='js/demos/demo-loader.js') }}"></script>
+
+<!-- Custom Styles -->
+<style>
+    /* Custom styles for the demos */
+    .results {
+        font-weight: bold;
+    }
+    
+    .correct {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .incorrect {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    
+    /* Gauge styling */
+    canvas {
+        width: 100%; 
+        max-width: 200px;
+    }
+    
+    /* Modal styling */
+    .modal {
+        transition: opacity 0.15s linear;
+    }
+    
+    /* PT Table styling */
+    #pt-table th, #pt-table td {
+        text-align: center;
+        padding: 0.5rem;
+    }
+    
+    /* Tab styling */
+    .nav-pills .nav-link.active {
+        background-color: var(--primary-color);
+    }
+    
+    .nav-pills .nav-link {
+        color: var(--primary-color);
+        font-weight: 500;
+    }
+    
+    .nav-pills .nav-link:hover:not(.active) {
+        background-color: rgba(0, 86, 179, 0.1);
+    }
+    
+    /* Demo cards styling */
+    .demo-card {
+        transition: transform 0.3s;
+    }
+    
+    .demo-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

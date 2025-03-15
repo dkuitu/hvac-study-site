@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Image Test{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1>Image Path Test</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Hero Image</h3>
+            <img src="{{ url_for('static', filename='images/heroimage.png') }}" alt="Hero" class="img-fluid mb-4">
+            <p>Path: <code>{{ url_for('static', filename='images/heroimage.png') }}</code></p>
+        </div>
+        
+        <div class="col-md-6">
+            <h3>Manifest Image</h3>
+            <img src="{{ url_for('static', filename='images/manifold.png') }}" alt="Manifold" class="img-fluid mb-4">
+            <p>Path: <code>{{ url_for('static', filename='images/manifold.png') }}</code></p>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h3>Direct Path Tests</h3>
+            <img src="/static/images/heroimage.png" alt="Hero Direct" class="img-fluid mb-2" style="max-height: 150px;">
+            <p>Direct path: <code>/static/images/heroimage.png</code></p>
+        </div>
+        
+        <div class="col-md-4">
+            <h3>Alternative Path Tests</h3>
+            <img src="../static/images/heroimage.png" alt="Hero Alt" class="img-fluid mb-2" style="max-height: 150px;">
+            <p>Relative path: <code>../static/images/heroimage.png</code></p>
+        </div>
+        
+        <div class="col-md-4">
+            <h3>Full URL Path Tests</h3>
+            <img src="http://127.0.0.1:5000/static/images/heroimage.png" alt="Hero URL" class="img-fluid mb-2" style="max-height: 150px;">
+            <p>Full URL: <code>http://127.0.0.1:5000/static/images/heroimage.png</code></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
