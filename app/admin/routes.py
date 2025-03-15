@@ -43,59 +43,134 @@ def dashboard():
 @admin_required
 def flashcards():
     if request.method == 'POST':
-        data = request.json
-        result = add_flashcard(data)
-        return jsonify(result)
+        try:
+            data = request.json
+            if not data:
+                return jsonify({"success": False, "error": "Invalid JSON data"})
+                
+            # Validate required fields
+            required_fields = ['category_id', 'category_name', 'chapter_id', 'chapter_name', 
+                              'deck_id', 'deck_name', 'difficulty', 'question', 'answer']
+            missing_fields = [field for field in required_fields if field not in data]
+            if missing_fields:
+                return jsonify({"success": False, "error": f"Missing required fields: {', '.join(missing_fields)}"})
+            
+            result = add_flashcard(data)
+            return jsonify(result)
+        except Exception as e:
+            current_app.logger.error(f"Error adding flashcard: {str(e)}")
+            return jsonify({"success": False, "error": f"Server error: {str(e)}"})
+    
+    try:
+        # Get all categories, chapters, decks and cards for management
+        categories = Category.query.all()
         
-    # Get all categories, chapters, decks and cards for management
-    categories = Category.query.all()
-    
-    # Prepare data for dropdown menus
-    category_data = []
-    for category in categories:
-        cat_info = {
-            'id': category.id,
-            'name': category.name,
-            'chapters': []
-        }
-        for chapter in category.chapters:
-            chap_info = {
-                'id': chapter.id,
-                'name': chapter.name,
-                'decks': []
-            }
-            for deck in chapter.decks:
-                chap_info['decks'].append({
-                    'id': deck.id,
-                    'name': deck.name,
-                    'difficulty': deck.difficulty
-                })
-            cat_info['chapters'].append(chap_info)
-        category_data.append(cat_info)
-    
-    return render_template('admin/flashcards.html', categories=categories, category_data=category_data)
+        # Prepare data for dropdown menus
+        category_data = []
+        for category in categories:
+            try:
+                cat_info = {
+                    'id': category.id,
+                    'name': category.name,
+                    'chapters': []
+                }
+                
+                if hasattr(category, 'chapters'):
+                    for chapter in category.chapters:
+                        try:
+                            chap_info = {
+                                'id': chapter.id,
+                                'name': chapter.name,
+                                'decks': []
+                            }
+                            
+                            if hasattr(chapter, 'decks'):
+                                for deck in chapter.decks:
+                                    try:
+                                        chap_info['decks'].append({
+                                            'id': deck.id,
+                                            'name': deck.name,
+                                            'difficulty': deck.difficulty
+                                        })
+                                    except Exception as deck_err:
+                                        current_app.logger.error(f"Error processing deck {deck.id}: {str(deck_err)}")
+                                        continue
+                                        
+                            cat_info['chapters'].append(chap_info)
+                        except Exception as chap_err:
+                            current_app.logger.error(f"Error processing chapter {chapter.id}: {str(chap_err)}")
+                            continue
+                            
+                category_data.append(cat_info)
+            except Exception as cat_err:
+                current_app.logger.error(f"Error processing category {category.id}: {str(cat_err)}")
+                continue
+        
+        return render_template('admin/flashcards.html', categories=categories, category_data=category_data)
+    except Exception as e:
+        current_app.logger.error(f"Error loading flashcards page: {str(e)}")
+        flash(f"Error loading page: {str(e)}", "danger")
+        return render_template('admin/error.html', error=str(e))
 
 @admin.route('/flashcards/edit/<card_id>', methods=['GET', 'POST'])
 @admin_required
 def edit_flashcard(card_id):
-    card = Flashcard.query.get_or_404(card_id)
-    
-    if request.method == 'POST':
-        card.question = request.form['question']
-        card.answer = request.form['answer']
-        db.session.commit()
-        flash('Flashcard updated successfully', 'success')
+    try:
+        card = Flashcard.query.get(card_id)
+        if not card:
+            flash(f"Flashcard with ID {card_id} not found", "danger")
+            return redirect(url_for('admin.flashcards'))
+        
+        if request.method == 'POST':
+            try:
+                # Validate form data
+                if 'question' not in request.form or not request.form['question'].strip():
+                    flash("Question field is required", "danger")
+                    return render_template('admin/edit_flashcard.html', card=card)
+                    
+                if 'answer' not in request.form or not request.form['answer'].strip():
+                    flash("Answer field is required", "danger")
+                    return render_template('admin/edit_flashcard.html', card=card)
+                
+                card.question = request.form['question']
+                card.answer = request.form['answer']
+                
+                db.session.commit()
+                flash('Flashcard updated successfully', 'success')
+                return redirect(url_for('admin.flashcards'))
+            except Exception as e:
+                db.session.rollback()
+                current_app.logger.error(f"Error updating flashcard {card_id}: {str(e)}")
+                flash(f"Error updating flashcard: {str(e)}", "danger")
+                return render_template('admin/edit_flashcard.html', card=card)
+        
+        return render_template('admin/edit_flashcard.html', card=card)
+    except Exception as e:
+        current_app.logger.error(f"Error loading flashcard edit page: {str(e)}")
+        flash(f"Error loading flashcard: {str(e)}", "danger")
         return redirect(url_for('admin.flashcards'))
-    
-    return render_template('admin/edit_flashcard.html', card=card)
 
 @admin.route('/flashcards/delete/<card_id>', methods=['POST'])
 @admin_required
 def delete_flashcard(card_id):
-    card = Flashcard.query.get_or_404(card_id)
-    db.session.delete(card)
-    db.session.commit()
-    flash('Flashcard deleted successfully', 'success')
+    try:
+        card = Flashcard.query.get(card_id)
+        if not card:
+            flash(f"Flashcard with ID {card_id} not found", "danger")
+            return redirect(url_for('admin.flashcards'))
+            
+        try:
+            db.session.delete(card)
+            db.session.commit()
+            flash('Flashcard deleted successfully', 'success')
+        except Exception as e:
+            db.session.rollback()
+            current_app.logger.error(f"Error deleting flashcard {card_id}: {str(e)}")
+            flash(f"Error deleting flashcard: {str(e)}", "danger")
+    except Exception as e:
+        current_app.logger.error(f"Error finding flashcard {card_id}: {str(e)}")
+        flash(f"Error finding flashcard: {str(e)}", "danger")
+        
     return redirect(url_for('admin.flashcards'))
 
 @admin.route('/categories')
@@ -243,27 +318,69 @@ def quizzes():
     from app.models.database import Quiz
     
     if request.method == 'POST':
-        data = request.json
-        result = add_quiz(data)
-        return jsonify(result)
+        try:
+            data = request.json
+            if not data:
+                return jsonify({"success": False, "error": "Invalid JSON data"})
+                
+            # Validate required fields
+            required_fields = ['title', 'description', 'category_id', 
+                             'difficulty', 'questions']
+            missing_fields = [field for field in required_fields if field not in data]
+            if missing_fields:
+                return jsonify({"success": False, 
+                              "error": f"Missing required fields: {', '.join(missing_fields)}"})
+            
+            # Validate that questions is a list and not empty
+            if not isinstance(data.get('questions', []), list) or not data.get('questions', []):
+                return jsonify({"success": False, 
+                              "error": "Questions must be a non-empty list"})
+            
+            result = add_quiz(data)
+            return jsonify(result)
+        except Exception as e:
+            current_app.logger.error(f"Error adding quiz: {str(e)}")
+            return jsonify({"success": False, "error": f"Server error: {str(e)}"})
     
-    # Use get_quizzes() function instead of direct database query
-    # This will include the JSON fallback logic
-    quizzes_data = get_quizzes()
-    all_quizzes = quizzes_data.get('quizzes', [])
-    
-    return render_template('admin/quizzes.html', quizzes=all_quizzes)
+    try:
+        # Use get_quizzes() function instead of direct database query
+        # This will include the JSON fallback logic
+        quizzes_data = get_quizzes()
+        if not quizzes_data:
+            all_quizzes = []
+        else:
+            all_quizzes = quizzes_data.get('quizzes', [])
+        
+        return render_template('admin/quizzes.html', quizzes=all_quizzes)
+    except Exception as e:
+        current_app.logger.error(f"Error loading quizzes page: {str(e)}")
+        flash(f"Error loading page: {str(e)}", "danger")
+        return render_template('admin/error.html', error=str(e))
 
 @admin.route('/quizzes/delete/<quiz_id>', methods=['POST'])
 @admin_required
 def delete_quiz(quiz_id):
     from app.models.content import delete_quiz as content_delete_quiz
     
-    result = content_delete_quiz(quiz_id)
-    if result['success']:
-        flash('Quiz deleted successfully', 'success')
-    else:
-        flash(f'Error deleting quiz: {result.get("error", "Unknown error")}', 'danger')
+    try:
+        if not quiz_id:
+            flash('Invalid quiz ID', 'danger')
+            return redirect(url_for('admin.quizzes'))
+        
+        result = content_delete_quiz(quiz_id)
+        
+        # Check if result is a dictionary
+        if not isinstance(result, dict):
+            flash('Error deleting quiz: Unexpected response from server', 'danger')
+            return redirect(url_for('admin.quizzes'))
+            
+        if result.get('success'):
+            flash('Quiz deleted successfully', 'success')
+        else:
+            flash(f'Error deleting quiz: {result.get("error", "Unknown error")}', 'danger')
+    except Exception as e:
+        current_app.logger.error(f"Error deleting quiz {quiz_id}: {str(e)}")
+        flash(f'Error deleting quiz: {str(e)}', 'danger')
     
     return redirect(url_for('admin.quizzes'))
 
@@ -271,16 +388,52 @@ def delete_quiz(quiz_id):
 @admin_required
 def edit_quiz(quiz_id):
     from app.models.database import Quiz
-    from app.models.content import update_quiz
+    from app.models.content import update_quiz, get_quiz
     
-    quiz = Quiz.query.get_or_404(quiz_id)
-    
-    if request.method == 'POST':
-        data = request.json
-        result = update_quiz(quiz_id, data)
-        return jsonify(result)
-    
-    return render_template('admin/edit_quiz.html', quiz=quiz)
+    try:
+        # First try to get the quiz from the database or fallback to JSON
+        quiz = Quiz.query.get(quiz_id)
+        
+        # If not found in database, try to get from content module
+        if not quiz:
+            quiz_data = get_quiz(quiz_id)
+            if not quiz_data:
+                flash(f"Quiz with ID {quiz_id} not found", "danger")
+                return redirect(url_for('admin.quizzes'))
+                
+            # Create a temporary Quiz object for the template
+            quiz = Quiz(
+                id=quiz_data['id'],
+                title=quiz_data['title'],
+                description=quiz_data.get('description', ''),
+                category_id=quiz_data['category_id'],
+                difficulty=quiz_data['difficulty'],
+                time_limit_minutes=quiz_data.get('time_limit_minutes', 0),
+                questions=quiz_data['questions']
+            )
+        
+        if request.method == 'POST':
+            try:
+                data = request.json
+                if not data:
+                    return jsonify({"success": False, "error": "Invalid JSON data"})
+                
+                # Validate required fields if they are present in the data
+                if data and 'questions' in data:
+                    if not isinstance(data['questions'], list):
+                        return jsonify({"success": False, "error": "Questions must be a list"})
+                
+                result = update_quiz(quiz_id, data)
+                return jsonify(result)
+            except Exception as e:
+                current_app.logger.error(f"Error updating quiz: {str(e)}")
+                return jsonify({"success": False, "error": f"Server error: {str(e)}"})
+        
+        return render_template('admin/edit_quiz.html', quiz=quiz)
+    except Exception as e:
+        current_app.logger.error(f"Error loading quiz edit page: {str(e)}")
+        flash(f"Error loading quiz: {str(e)}", "danger")
+        return redirect(url_for('admin.quizzes'))
 
 @admin.route('/demos', methods=['GET', 'POST'])
 @admin_required

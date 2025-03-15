@@ -90,26 +90,59 @@ class Quiz(db.Model):
     @property
     def questions(self):
         """Deserialize questions from JSON"""
-        if self._questions_json:
+        if not self._questions_json:
+            return []
+            
+        try:
             return json.loads(self._questions_json)
-        return []
+        except json.JSONDecodeError as e:
+            import logging
+            logging.error(f"Error deserializing questions JSON for quiz {self.id}: {str(e)}")
+            return []
     
     @questions.setter
     def questions(self, value):
         """Serialize questions to JSON"""
-        if isinstance(value, list):
-            self._questions_json = json.dumps(value)
-        else:
-            self._questions_json = value
+        try:
+            if isinstance(value, list):
+                self._questions_json = json.dumps(value)
+            elif isinstance(value, str):
+                # Make sure the string is valid JSON before setting
+                json.loads(value)  # This will raise JSONDecodeError if invalid
+                self._questions_json = value
+            else:
+                raise ValueError("Questions must be a list or JSON string")
+        except (json.JSONDecodeError, ValueError) as e:
+            import logging
+            logging.error(f"Error serializing questions: {str(e)}")
+            # Set to empty array as fallback
+            self._questions_json = "[]"
     
     def to_dict(self):
-        return {
-            'id': self.id,
-            'title': self.title,
-            'description': self.description,
-            'category_id': self.category_id,
-            'difficulty': self.difficulty,
-            'time_limit_minutes': self.time_limit_minutes,
-            'questions': self.questions,
-            'created_at': self.created_at.isoformat()
-        }
+        try:
+            created_at_str = self.created_at.isoformat() if self.created_at else None
+            
+            return {
+                'id': self.id,
+                'title': self.title,
+                'description': self.description or '',
+                'category_id': self.category_id,
+                'difficulty': self.difficulty,
+                'time_limit_minutes': self.time_limit_minutes or 0,
+                'questions': self.questions,  # This uses our safe property getter
+                'created_at': created_at_str
+            }
+        except Exception as e:
+            import logging
+            logging.error(f"Error converting quiz {self.id} to dict: {str(e)}")
+            # Return minimal valid data
+            return {
+                'id': self.id,
+                'title': getattr(self, 'title', 'Untitled Quiz'),
+                'description': '',
+                'category_id': getattr(self, 'category_id', ''),
+                'difficulty': getattr(self, 'difficulty', 'beginner'),
+                'time_limit_minutes': 0,
+                'questions': [],
+                'created_at': None
+            }
