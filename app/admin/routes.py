@@ -121,11 +121,48 @@ def decks():
 @admin.route('/quizzes', methods=['GET', 'POST'])
 @admin_required
 def quizzes():
+    from app.models.content import get_quizzes, add_quiz
+    from app.models.database import Quiz
+    
     if request.method == 'POST':
         data = request.json
         result = add_quiz(data)
         return jsonify(result)
-    return render_template('admin/quizzes.html')
+    
+    # Use get_quizzes() function instead of direct database query
+    # This will include the JSON fallback logic
+    quizzes_data = get_quizzes()
+    all_quizzes = quizzes_data.get('quizzes', [])
+    
+    return render_template('admin/quizzes.html', quizzes=all_quizzes)
+
+@admin.route('/quizzes/delete/<quiz_id>', methods=['POST'])
+@admin_required
+def delete_quiz(quiz_id):
+    from app.models.content import delete_quiz as content_delete_quiz
+    
+    result = content_delete_quiz(quiz_id)
+    if result['success']:
+        flash('Quiz deleted successfully', 'success')
+    else:
+        flash(f'Error deleting quiz: {result.get("error", "Unknown error")}', 'danger')
+    
+    return redirect(url_for('admin.quizzes'))
+
+@admin.route('/quizzes/edit/<quiz_id>', methods=['GET', 'POST'])
+@admin_required
+def edit_quiz(quiz_id):
+    from app.models.database import Quiz
+    from app.models.content import update_quiz
+    
+    quiz = Quiz.query.get_or_404(quiz_id)
+    
+    if request.method == 'POST':
+        data = request.json
+        result = update_quiz(quiz_id, data)
+        return jsonify(result)
+    
+    return render_template('admin/edit_quiz.html', quiz=quiz)
 
 @admin.route('/demos', methods=['GET', 'POST'])
 @admin_required

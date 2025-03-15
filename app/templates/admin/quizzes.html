@@ -4,6 +4,28 @@
 {% block page_title %}Manage Quizzes{% endblock %}
 
 {% block content %}
+<!-- Delete Quiz Modal -->
+<div class="modal fade" id="deleteQuizModal" tabindex="-1" aria-labelledby="deleteQuizModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteQuizModalLabel">Delete Quiz</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the quiz "<span id="deleteQuizTitle"></span>"?</p>
+                <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteQuizForm" method="POST" action="">
+                    <button type="submit" class="btn btn-danger">Delete Quiz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12">
         <!-- Quiz Form Card -->
@@ -194,21 +216,59 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead class="bg-light">
                             <tr>
-                                <th class="py-3">Title</th>
+                                <th class="py-3 px-3">Title</th>
                                 <th class="py-3">Category</th>
                                 <th class="py-3">Difficulty</th>
                                 <th class="py-3">Questions</th>
                                 <th class="py-3">Time Limit</th>
-                                <th class="py-3 text-end">Actions</th>
+                                <th class="py-3 text-end pe-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Will be populated with existing quizzes -->
-                            <tr>
-                                <td colspan="6" class="text-center py-4 text-muted">
-                                    <i class="fas fa-info-circle me-2"></i>No quizzes found. Create your first quiz above.
-                                </td>
-                            </tr>
+                            {% if quizzes and quizzes|length > 0 %}
+                                {% for quiz in quizzes %}
+                                <tr>
+                                    <td class="px-3">
+                                        <strong>{{ quiz.title }}</strong>
+                                        <div class="small text-muted text-truncate" style="max-width: 250px;">{{ quiz.description }}</div>
+                                    </td>
+                                    <td>{{ quiz.category_id }}</td>
+                                    <td>
+                                        <span class="badge {% if quiz.difficulty == 'beginner' %}bg-success{% elif quiz.difficulty == 'intermediate' %}bg-warning{% else %}bg-danger{% endif %}">
+                                            {{ quiz.difficulty|capitalize }}
+                                        </span>
+                                    </td>
+                                    <td>{{ quiz.questions|length }}</td>
+                                    <td>
+                                        {% if quiz.time_limit_minutes and quiz.time_limit_minutes > 0 %}
+                                            {{ quiz.time_limit_minutes }} min
+                                        {% else %}
+                                            No limit
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end pe-3">
+                                        <div class="btn-group">
+                                            <a href="{{ url_for('admin.edit_quiz', quiz_id=quiz.id) }}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#deleteQuizModal" 
+                                                    data-quiz-id="{{ quiz.id }}" 
+                                                    data-quiz-title="{{ quiz.title }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="fas fa-info-circle me-2"></i>No quizzes found. Create your first quiz above.
+                                    </td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -220,6 +280,41 @@
 
 {% block extra_js %}
 <script>
+    // Initialize delete quiz modal
+    const deleteQuizModal = document.getElementById('deleteQuizModal');
+    if (deleteQuizModal) {
+        deleteQuizModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const quizId = button.getAttribute('data-quiz-id');
+            const quizTitle = button.getAttribute('data-quiz-title');
+            
+            document.getElementById('deleteQuizTitle').textContent = quizTitle;
+            document.getElementById('deleteQuizForm').action = "{{ url_for('admin.delete_quiz', quiz_id='') }}" + quizId;
+        });
+    }
+    
+    // Flash messages
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                const flashAlert = document.createElement('div');
+                flashAlert.className = 'alert alert-{{ category }} alert-dismissible fade show';
+                flashAlert.innerHTML = `
+                    <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-circle' }} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                document.querySelector('.col-12').insertAdjacentElement('afterbegin', flashAlert);
+                
+                // Auto-dismiss after 5 seconds
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(flashAlert);
+                    bsAlert.close();
+                }, 5000);
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
     // Question counter
     let questionCount = 1;
     
