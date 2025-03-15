@@ -62,47 +62,76 @@ def get_flashcards(category=None, chapter=None, difficulty=None):
 
 def add_flashcard(data):
     """Add a new flashcard to the database"""
-    # Check if category exists
-    category = Category.query.filter_by(id=data['category_id']).first()
-    if not category:
-        category = Category(
-            id=data['category_id'],
-            name=data['category_name'],
-            description=data.get('category_description', '')
-        )
-        db.session.add(category)
+    import logging
     
-    # Check if chapter exists
-    chapter = Chapter.query.filter_by(id=data['chapter_id'], category_id=data['category_id']).first()
-    if not chapter:
-        chapter = Chapter(
-            id=data['chapter_id'],
-            name=data['chapter_name'],
-            category_id=data['category_id']
-        )
-        db.session.add(chapter)
-    
-    # Check if deck exists
-    deck = Deck.query.filter_by(id=data['deck_id'], chapter_id=data['chapter_id']).first()
-    if not deck:
-        deck = Deck(
-            id=data['deck_id'],
-            name=data['deck_name'],
-            difficulty=data['difficulty'],
-            chapter_id=data['chapter_id']
-        )
-        db.session.add(deck)
-    
-    # Create new flashcard
-    flashcard = Flashcard(
-        question=data['question'],
-        answer=data['answer'],
-        deck_id=data['deck_id']
-    )
-    db.session.add(flashcard)
-    db.session.commit()
-    
-    return {"success": True, "card_id": flashcard.id}
+    try:
+        # Validate required fields
+        required_fields = ['category_id', 'category_name', 'chapter_id', 'chapter_name', 
+                          'deck_id', 'deck_name', 'difficulty', 'question', 'answer']
+        for field in required_fields:
+            if field not in data:
+                return {"success": False, "error": f"Missing required field: {field}"}
+        
+        # Check for empty values in critical fields
+        for field in ['question', 'answer']:
+            if not data[field] or not str(data[field]).strip():
+                return {"success": False, "error": f"Field '{field}' cannot be empty"}
+        
+        try:
+            # Check if category exists
+            category = Category.query.filter_by(id=data['category_id']).first()
+            if not category:
+                category = Category(
+                    id=data['category_id'],
+                    name=data['category_name'],
+                    description=data.get('category_description', '')
+                )
+                db.session.add(category)
+                logging.info(f"Created new category: {data['category_id']}")
+        
+            # Check if chapter exists
+            chapter = Chapter.query.filter_by(id=data['chapter_id'], category_id=data['category_id']).first()
+            if not chapter:
+                chapter = Chapter(
+                    id=data['chapter_id'],
+                    name=data['chapter_name'],
+                    category_id=data['category_id']
+                )
+                db.session.add(chapter)
+                logging.info(f"Created new chapter: {data['chapter_id']}")
+        
+            # Check if deck exists
+            deck = Deck.query.filter_by(id=data['deck_id'], chapter_id=data['chapter_id']).first()
+            if not deck:
+                deck = Deck(
+                    id=data['deck_id'],
+                    name=data['deck_name'],
+                    difficulty=data['difficulty'],
+                    chapter_id=data['chapter_id']
+                )
+                db.session.add(deck)
+                logging.info(f"Created new deck: {data['deck_id']}")
+            
+            # First commit to ensure all parent entities exist
+            db.session.commit()
+            
+            # Create new flashcard
+            flashcard = Flashcard(
+                question=data['question'],
+                answer=data['answer'],
+                deck_id=data['deck_id']
+            )
+            db.session.add(flashcard)
+            db.session.commit()
+            
+            return {"success": True, "card_id": flashcard.id}
+        except Exception as db_error:
+            db.session.rollback()
+            logging.error(f"Database error in add_flashcard: {str(db_error)}")
+            return {"success": False, "error": f"Database error: {str(db_error)}"}
+    except Exception as e:
+        logging.error(f"Unexpected error in add_flashcard: {str(e)}")
+        return {"success": False, "error": f"Server error: {str(e)}"}
 
 # Migration function for flashcards
 def migrate_json_to_db():
@@ -187,46 +216,88 @@ def migrate_json_to_db():
 # Quizzes functions
 def get_quizzes(category=None, difficulty=None):
     """Get quizzes, optionally filtered by category and difficulty"""
-    print(f"[SERVER] Fetching quizzes from DATABASE. Filters: category={category}, difficulty={difficulty}")
+    import logging
     
-    from app.models.database import Quiz
+    logging.info(f"Fetching quizzes. Filters: category={category}, difficulty={difficulty}")
     
-    # Start with a base query
-    query = Quiz.query
-    
-    if category:
-        query = query.filter_by(category_id=category)
-    
-    if difficulty:
-        query = query.filter_by(difficulty=difficulty)
-    
-    # Execute the query
-    quizzes = query.all()
-    print(f"[SERVER] Found {len(quizzes)} quizzes in database")
-    
-    # Format the response
-    result = {"quizzes": [quiz.to_dict() for quiz in quizzes]}
-    
-    # Fallback to JSON if no quizzes found in database
-    if not quizzes:
-        print("[SERVER] No quizzes found in database, checking JSON fallback")
-        data = _load_json('quizzes.json')
-        if data and 'quizzes' in data:
-            print(f"[SERVER] Found {len(data['quizzes'])} quizzes in JSON file")
+    try:
+        from app.models.database import Quiz
+        
+        try:
+            # Start with a base query
+            query = Quiz.query
             
-            # Apply filters to JSON data
-            json_quizzes = data['quizzes']
             if category:
-                json_quizzes = [q for q in json_quizzes if q['category_id'] == category]
-            if difficulty:
-                json_quizzes = [q for q in json_quizzes if q['difficulty'] == difficulty]
+                query = query.filter_by(category_id=category)
             
-            result = {"quizzes": json_quizzes}
-            print(f"[SERVER] Returning {len(json_quizzes)} quizzes from JSON file")
-        else:
-            print("[SERVER] No quizzes found in JSON file either")
-    
-    return result
+            if difficulty:
+                query = query.filter_by(difficulty=difficulty)
+            
+            # Execute the query
+            quizzes = query.all()
+            logging.info(f"Found {len(quizzes)} quizzes in database")
+            
+            # Format the response safely
+            result = {"quizzes": []}
+            for quiz in quizzes:
+                try:
+                    quiz_dict = quiz.to_dict()
+                    result["quizzes"].append(quiz_dict)
+                except Exception as quiz_err:
+                    logging.error(f"Error serializing quiz {quiz.id}: {str(quiz_err)}")
+                    # Add minimal info for the quiz
+                    result["quizzes"].append({
+                        "id": quiz.id,
+                        "title": getattr(quiz, "title", "Error Loading Quiz"),
+                        "description": "",
+                        "questions": []
+                    })
+            
+            # Fallback to JSON if no quizzes found in database
+            if not quizzes:
+                logging.info("No quizzes found in database, checking JSON fallback")
+                try:
+                    data = _load_json('quizzes.json')
+                    if data and 'quizzes' in data and isinstance(data['quizzes'], list):
+                        logging.info(f"Found {len(data['quizzes'])} quizzes in JSON file")
+                        
+                        # Apply filters to JSON data
+                        json_quizzes = data['quizzes']
+                        if category:
+                            json_quizzes = [q for q in json_quizzes if q.get('category_id') == category]
+                        if difficulty:
+                            json_quizzes = [q for q in json_quizzes if q.get('difficulty') == difficulty]
+                        
+                        result = {"quizzes": json_quizzes}
+                        logging.info(f"Returning {len(json_quizzes)} quizzes from JSON file")
+                    else:
+                        logging.info("No quizzes found in JSON file either")
+                except Exception as json_err:
+                    logging.error(f"Error reading JSON file: {str(json_err)}")
+            
+            return result
+        except Exception as db_err:
+            logging.error(f"Database error in get_quizzes: {str(db_err)}")
+            
+            # Try JSON fallback in case of database error
+            try:
+                data = _load_json('quizzes.json')
+                if data and 'quizzes' in data and isinstance(data['quizzes'], list):
+                    json_quizzes = data['quizzes']
+                    if category:
+                        json_quizzes = [q for q in json_quizzes if q.get('category_id') == category]
+                    if difficulty:
+                        json_quizzes = [q for q in json_quizzes if q.get('difficulty') == difficulty]
+                    
+                    return {"quizzes": json_quizzes}
+                else:
+                    return {"quizzes": [], "error": "No quizzes found"}
+            except Exception as json_err:
+                logging.error(f"JSON fallback error: {str(json_err)}")
+                return {"quizzes": [], "error": f"Server error: {str(db_err)}"}
+    except Exception as e:
+        logging.error(f"Unexpected error in get_quizzes: {str(e)}")
+        return {"quizzes": [], "error": f"Server error: {str(e)}"}
 
 def add_quiz(data):
     """Add a new quiz to the database"""
