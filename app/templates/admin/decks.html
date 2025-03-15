@@ -1,0 +1,316 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Decks | Admin Dashboard{% endblock %}
+{% block page_title %}Manage Decks{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-layer-group me-2"></i>Manage Flashcard Decks</h5>
+                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addDeckModal">
+                        <i class="fas fa-plus me-1"></i> Add Deck
+                    </button>
+                </div>
+                <div class="card-body p-4">
+                    {% if decks %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Chapter</th>
+                                    <th>Difficulty</th>
+                                    <th>Cards</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for deck in decks %}
+                                <tr>
+                                    <td>{{ deck.id }}</td>
+                                    <td>{{ deck.name }}</td>
+                                    <td>{{ deck.chapter.name }}</td>
+                                    <td>
+                                        {% if deck.difficulty == 'beginner' %}
+                                        <span class="badge bg-success">Beginner</span>
+                                        {% elif deck.difficulty == 'intermediate' %}
+                                        <span class="badge bg-warning text-dark">Intermediate</span>
+                                        {% elif deck.difficulty == 'advanced' %}
+                                        <span class="badge bg-danger">Advanced</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">{{ deck.difficulty }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ deck.cards.count() }}</td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-outline-primary edit-deck-btn" 
+                                            data-id="{{ deck.id }}" 
+                                            data-name="{{ deck.name }}"
+                                            data-chapter="{{ deck.chapter_id }}"
+                                            data-difficulty="{{ deck.difficulty }}">
+                                            <i class="fas fa-edit me-1"></i> Edit
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger delete-deck-btn" 
+                                            data-id="{{ deck.id }}" 
+                                            data-name="{{ deck.name }}">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>No decks found. Create your first deck to get started.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Deck Modal -->
+<div class="modal fade" id="addDeckModal" tabindex="-1" aria-labelledby="addDeckModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="addDeckModalLabel"><i class="fas fa-plus-circle me-2"></i>Add New Deck</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addDeckForm">
+                    <div class="mb-3">
+                        <label for="deckId" class="form-label">Deck ID</label>
+                        <input type="text" class="form-control" id="deckId" name="id" required>
+                        <small class="text-muted">Use a unique identifier without spaces (e.g., "hvac_basics_deck1")</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deckName" class="form-label">Deck Name</label>
+                        <input type="text" class="form-control" id="deckName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapterId" class="form-label">Chapter</label>
+                        <select class="form-select" id="chapterId" name="chapter_id" required>
+                            <option value="">Select a chapter</option>
+                            {% for chapter in chapters %}
+                            <option value="{{ chapter.id }}">{{ chapter.name }} ({{ chapter.category.name }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="difficulty" class="form-label">Difficulty Level</label>
+                        <select class="form-select" id="difficulty" name="difficulty" required>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveDeckBtn">Save Deck</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Deck Modal -->
+<div class="modal fade" id="editDeckModal" tabindex="-1" aria-labelledby="editDeckModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editDeckModalLabel"><i class="fas fa-edit me-2"></i>Edit Deck</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editDeckForm">
+                    <input type="hidden" id="editDeckId" name="id">
+                    <div class="mb-3">
+                        <label for="editDeckName" class="form-label">Deck Name</label>
+                        <input type="text" class="form-control" id="editDeckName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editChapterId" class="form-label">Chapter</label>
+                        <select class="form-select" id="editChapterId" name="chapter_id" required>
+                            <option value="">Select a chapter</option>
+                            {% for chapter in chapters %}
+                            <option value="{{ chapter.id }}">{{ chapter.name }} ({{ chapter.category.name }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDifficulty" class="form-label">Difficulty Level</label>
+                        <select class="form-select" id="editDifficulty" name="difficulty" required>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="updateDeckBtn">Update Deck</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Deck Modal -->
+<div class="modal fade" id="deleteDeckModal" tabindex="-1" aria-labelledby="deleteDeckModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteDeckModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Delete Deck</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the deck <strong id="deleteDeckName"></strong>?</p>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle me-2"></i>This will also delete all flashcards in this deck.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteDeckForm" method="POST">
+                    <button type="submit" class="btn btn-danger" id="confirmDeleteDeckBtn">Delete Deck</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add Deck
+    document.getElementById('saveDeckBtn').addEventListener('click', async function() {
+        const form = document.getElementById('addDeckForm');
+        const formData = new FormData(form);
+        const data = {
+            id: formData.get('id'),
+            name: formData.get('name'),
+            chapter_id: formData.get('chapter_id'),
+            difficulty: formData.get('difficulty')
+        };
+        
+        try {
+            const response = await fetch("{{ url_for('admin.decks') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert('success', 'Deck added successfully!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                showAlert('danger', `Error: ${result.error || 'Failed to add deck'}`);
+            }
+        } catch (error) {
+            showAlert('danger', `Error: ${error.message || 'Failed to add deck'}`);
+        }
+    });
+    
+    // Edit Deck - Open Modal
+    document.querySelectorAll('.edit-deck-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const chapterId = this.getAttribute('data-chapter');
+            const difficulty = this.getAttribute('data-difficulty');
+            
+            document.getElementById('editDeckId').value = id;
+            document.getElementById('editDeckName').value = name;
+            document.getElementById('editChapterId').value = chapterId;
+            document.getElementById('editDifficulty').value = difficulty;
+            
+            const editModal = new bootstrap.Modal(document.getElementById('editDeckModal'));
+            editModal.show();
+        });
+    });
+    
+    // Edit Deck - Update
+    document.getElementById('updateDeckBtn').addEventListener('click', async function() {
+        const form = document.getElementById('editDeckForm');
+        const formData = new FormData(form);
+        const deckId = document.getElementById('editDeckId').value;
+        
+        const data = {
+            name: formData.get('name'),
+            chapter_id: formData.get('chapter_id'),
+            difficulty: formData.get('difficulty')
+        };
+        
+        try {
+            const response = await fetch(`{{ url_for('admin.decks') }}/edit/${deckId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert('success', 'Deck updated successfully!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                showAlert('danger', `Error: ${result.error || 'Failed to update deck'}`);
+            }
+        } catch (error) {
+            showAlert('danger', `Error: ${error.message || 'Failed to update deck'}`);
+        }
+    });
+    
+    // Delete Deck - Open Modal
+    document.querySelectorAll('.delete-deck-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            
+            document.getElementById('deleteDeckName').textContent = name;
+            document.getElementById('deleteDeckForm').action = `{{ url_for('admin.decks') }}/delete/${id}`;
+            
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteDeckModal'));
+            deleteModal.show();
+        });
+    });
+    
+    // Helper function to show alerts
+    function showAlert(type, message) {
+        const alertContainer = document.createElement('div');
+        alertContainer.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+        alertContainer.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        
+        const modalBody = document.querySelector('.modal-body');
+        modalBody.prepend(alertContainer);
+        
+        setTimeout(() => {
+            alertContainer.remove();
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}

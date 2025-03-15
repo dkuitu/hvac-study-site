@@ -104,19 +104,137 @@ def categories():
     categories = Category.query.all()
     return render_template('admin/categories.html', categories=categories)
 
-@admin.route('/chapters')
+@admin.route('/chapters', methods=['GET', 'POST'])
 @admin_required
 def chapters():
+    if request.method == 'POST':
+        data = request.json
+        
+        try:
+            # Check if chapter already exists
+            existing_chapter = Chapter.query.filter_by(id=data['id']).first()
+            if existing_chapter:
+                return jsonify({"success": False, "error": "Chapter ID already exists"})
+            
+            # Verify category exists
+            category = Category.query.filter_by(id=data['category_id']).first()
+            if not category:
+                return jsonify({"success": False, "error": "Category not found"})
+            
+            # Create new chapter
+            chapter = Chapter(
+                id=data['id'],
+                name=data['name'],
+                category_id=data['category_id']
+            )
+            db.session.add(chapter)
+            db.session.commit()
+            
+            return jsonify({"success": True, "chapter_id": chapter.id})
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"success": False, "error": str(e)})
+    
     chapters = Chapter.query.all()
     categories = Category.query.all()
     return render_template('admin/chapters.html', chapters=chapters, categories=categories)
 
-@admin.route('/decks')
+@admin.route('/chapters/edit/<chapter_id>', methods=['POST'])
+@admin_required
+def edit_chapter(chapter_id):
+    chapter = Chapter.query.get_or_404(chapter_id)
+    data = request.json
+    
+    try:
+        chapter.name = data.get('name', chapter.name)
+        chapter.category_id = data.get('category_id', chapter.category_id)
+        db.session.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)})
+
+@admin.route('/chapters/delete/<chapter_id>', methods=['POST'])
+@admin_required
+def delete_chapter(chapter_id):
+    chapter = Chapter.query.get_or_404(chapter_id)
+    
+    try:
+        db.session.delete(chapter)
+        db.session.commit()
+        flash('Chapter deleted successfully', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting chapter: {str(e)}', 'danger')
+    
+    return redirect(url_for('admin.chapters'))
+
+@admin.route('/decks', methods=['GET', 'POST'])
 @admin_required
 def decks():
+    if request.method == 'POST':
+        data = request.json
+        
+        try:
+            # Check if deck already exists
+            existing_deck = Deck.query.filter_by(id=data['id']).first()
+            if existing_deck:
+                return jsonify({"success": False, "error": "Deck ID already exists"})
+            
+            # Verify chapter exists
+            chapter = Chapter.query.filter_by(id=data['chapter_id']).first()
+            if not chapter:
+                return jsonify({"success": False, "error": "Chapter not found"})
+            
+            # Create new deck
+            deck = Deck(
+                id=data['id'],
+                name=data['name'],
+                difficulty=data['difficulty'],
+                chapter_id=data['chapter_id']
+            )
+            db.session.add(deck)
+            db.session.commit()
+            
+            return jsonify({"success": True, "deck_id": deck.id})
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"success": False, "error": str(e)})
+    
     decks = Deck.query.all()
     chapters = Chapter.query.all()
     return render_template('admin/decks.html', decks=decks, chapters=chapters)
+
+@admin.route('/decks/edit/<deck_id>', methods=['POST'])
+@admin_required
+def edit_deck(deck_id):
+    deck = Deck.query.get_or_404(deck_id)
+    data = request.json
+    
+    try:
+        deck.name = data.get('name', deck.name)
+        deck.difficulty = data.get('difficulty', deck.difficulty)
+        deck.chapter_id = data.get('chapter_id', deck.chapter_id)
+        db.session.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"success": False, "error": str(e)})
+
+@admin.route('/decks/delete/<deck_id>', methods=['POST'])
+@admin_required
+def delete_deck(deck_id):
+    deck = Deck.query.get_or_404(deck_id)
+    
+    try:
+        db.session.delete(deck)
+        db.session.commit()
+        flash('Deck deleted successfully', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error deleting deck: {str(e)}', 'danger')
+    
+    return redirect(url_for('admin.decks'))
 
 @admin.route('/quizzes', methods=['GET', 'POST'])
 @admin_required
