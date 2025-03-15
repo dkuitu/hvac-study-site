@@ -42,7 +42,31 @@ def flashcards():
         
     # Get all categories, chapters, decks and cards for management
     categories = Category.query.all()
-    return render_template('admin/flashcards.html', categories=categories)
+    
+    # Prepare data for dropdown menus
+    category_data = []
+    for category in categories:
+        cat_info = {
+            'id': category.id,
+            'name': category.name,
+            'chapters': []
+        }
+        for chapter in category.chapters:
+            chap_info = {
+                'id': chapter.id,
+                'name': chapter.name,
+                'decks': []
+            }
+            for deck in chapter.decks:
+                chap_info['decks'].append({
+                    'id': deck.id,
+                    'name': deck.name,
+                    'difficulty': deck.difficulty
+                })
+            cat_info['chapters'].append(chap_info)
+        category_data.append(cat_info)
+    
+    return render_template('admin/flashcards.html', categories=categories, category_data=category_data)
 
 @admin.route('/flashcards/edit/<card_id>', methods=['GET', 'POST'])
 @admin_required
