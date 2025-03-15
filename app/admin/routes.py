@@ -14,8 +14,12 @@ def admin_required(f):
 
 @admin.route('/login', methods=['GET', 'POST'])
 def login():
+    # Debug output for the ADMIN_PASSWORD
+    print(f"Admin password: {current_app.config['ADMIN_PASSWORD']}")
+    
     if request.method == 'POST':
         password = request.form.get('password')
+        print(f"Submitted password: {password}")
         if password == current_app.config['ADMIN_PASSWORD']:
             session['admin_logged_in'] = True
             return redirect(url_for('admin.dashboard'))

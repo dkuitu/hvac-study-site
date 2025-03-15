@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_migrate import Migrate
+from flask_session import Session
 from config import config
 import datetime
+import os
 
 from app.models.database import db
 
@@ -12,9 +14,14 @@ def create_app(config_name='default'):
     config[config_name].init_app(app)
     
     # Initialize extensions
-    CORS(app)
+    CORS(app, supports_credentials=True)
     db.init_app(app)
     Migrate(app, db)
+    
+    # Create session directory if using filesystem sessions
+    if app.config.get('SESSION_TYPE') == 'filesystem':
+        os.makedirs('flask_session', exist_ok=True)
+        Session(app)
     
     # Add template context processors
     @app.context_processor
