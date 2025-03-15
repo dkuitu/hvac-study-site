@@ -1,0 +1,283 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Manage Chapters | Admin Dashboard{% endblock %}
+{% block page_title %}Manage Chapters{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-book me-2"></i>Manage Chapters</h5>
+                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addChapterModal">
+                        <i class="fas fa-plus me-1"></i> Add Chapter
+                    </button>
+                </div>
+                <div class="card-body p-4">
+                    {% if chapters %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Decks</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for chapter in chapters %}
+                                <tr>
+                                    <td>{{ chapter.id }}</td>
+                                    <td>{{ chapter.name }}</td>
+                                    <td>{{ chapter.category.name }}</td>
+                                    <td>{{ chapter.decks.count() }}</td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-outline-primary edit-chapter-btn" 
+                                            data-id="{{ chapter.id }}" 
+                                            data-name="{{ chapter.name }}"
+                                            data-category="{{ chapter.category_id }}">
+                                            <i class="fas fa-edit me-1"></i> Edit
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger delete-chapter-btn" 
+                                            data-id="{{ chapter.id }}" 
+                                            data-name="{{ chapter.name }}">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>No chapters found. Create your first chapter to get started.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Chapter Modal -->
+<div class="modal fade" id="addChapterModal" tabindex="-1" aria-labelledby="addChapterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="addChapterModalLabel"><i class="fas fa-plus-circle me-2"></i>Add New Chapter</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addChapterForm">
+                    <div class="mb-3">
+                        <label for="chapterId" class="form-label">Chapter ID</label>
+                        <input type="text" class="form-control" id="chapterId" name="id" required>
+                        <small class="text-muted">Use a unique identifier without spaces (e.g., "hvac_basics_chapter1")</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapterName" class="form-label">Chapter Name</label>
+                        <input type="text" class="form-control" id="chapterName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoryId" class="form-label">Category</label>
+                        <select class="form-select" id="categoryId" name="category_id" required>
+                            <option value="">Select a category</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveChapterBtn">Save Chapter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Chapter Modal -->
+<div class="modal fade" id="editChapterModal" tabindex="-1" aria-labelledby="editChapterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editChapterModalLabel"><i class="fas fa-edit me-2"></i>Edit Chapter</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editChapterForm">
+                    <input type="hidden" id="editChapterId" name="id">
+                    <div class="mb-3">
+                        <label for="editChapterName" class="form-label">Chapter Name</label>
+                        <input type="text" class="form-control" id="editChapterName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCategoryId" class="form-label">Category</label>
+                        <select class="form-select" id="editCategoryId" name="category_id" required>
+                            <option value="">Select a category</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="updateChapterBtn">Update Chapter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Chapter Modal -->
+<div class="modal fade" id="deleteChapterModal" tabindex="-1" aria-labelledby="deleteChapterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteChapterModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Delete Chapter</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the chapter <strong id="deleteChapterName"></strong>?</p>
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-circle me-2"></i>This will also delete all decks and flashcards associated with this chapter.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteChapterForm" method="POST">
+                    <button type="submit" class="btn btn-danger" id="confirmDeleteChapterBtn">Delete Chapter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add Chapter
+    document.getElementById('saveChapterBtn').addEventListener('click', async function() {
+        const form = document.getElementById('addChapterForm');
+        const formData = new FormData(form);
+        const data = {
+            id: formData.get('id'),
+            name: formData.get('name'),
+            category_id: formData.get('category_id')
+        };
+        
+        try {
+            const response = await fetch("{{ url_for('admin.chapters') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert('success', 'Chapter added successfully!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                showAlert('danger', `Error: ${result.error || 'Failed to add chapter'}`);
+            }
+        } catch (error) {
+            showAlert('danger', `Error: ${error.message || 'Failed to add chapter'}`);
+        }
+    });
+    
+    // Edit Chapter - Open Modal
+    document.querySelectorAll('.edit-chapter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            const categoryId = this.getAttribute('data-category');
+            
+            document.getElementById('editChapterId').value = id;
+            document.getElementById('editChapterName').value = name;
+            document.getElementById('editCategoryId').value = categoryId;
+            
+            const editModal = new bootstrap.Modal(document.getElementById('editChapterModal'));
+            editModal.show();
+        });
+    });
+    
+    // Edit Chapter - Update
+    document.getElementById('updateChapterBtn').addEventListener('click', async function() {
+        const form = document.getElementById('editChapterForm');
+        const formData = new FormData(form);
+        const chapterId = document.getElementById('editChapterId').value;
+        
+        const data = {
+            name: formData.get('name'),
+            category_id: formData.get('category_id')
+        };
+        
+        try {
+            const response = await fetch(`{{ url_for('admin.chapters') }}/edit/${chapterId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showAlert('success', 'Chapter updated successfully!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            } else {
+                showAlert('danger', `Error: ${result.error || 'Failed to update chapter'}`);
+            }
+        } catch (error) {
+            showAlert('danger', `Error: ${error.message || 'Failed to update chapter'}`);
+        }
+    });
+    
+    // Delete Chapter - Open Modal
+    document.querySelectorAll('.delete-chapter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const name = this.getAttribute('data-name');
+            
+            document.getElementById('deleteChapterName').textContent = name;
+            document.getElementById('deleteChapterForm').action = `{{ url_for('admin.chapters') }}/delete/${id}`;
+            
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteChapterModal'));
+            deleteModal.show();
+        });
+    });
+    
+    // Helper function to show alerts
+    function showAlert(type, message) {
+        const alertContainer = document.createElement('div');
+        alertContainer.className = `alert alert-${type} alert-dismissible fade show mt-3`;
+        alertContainer.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        
+        const modalBody = document.querySelector('.modal-body');
+        modalBody.prepend(alertContainer);
+        
+        setTimeout(() => {
+            alertContainer.remove();
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}
