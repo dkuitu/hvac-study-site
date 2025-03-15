@@ -7,10 +7,12 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-key-for-development'
     ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'hvac-admin'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
     
     @staticmethod
     def init_app(app):
-        pass
+        app.config['SESSION_TYPE'] = 'filesystem'
 
 class DevelopmentConfig(Config):
     DEBUG = True

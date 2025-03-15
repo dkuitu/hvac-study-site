@@ -1,0 +1,522 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Edit Quiz - HVAC Pro Study{% endblock %}
+{% block page_title %}Edit Quiz: {{ quiz.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Quiz</h5>
+            </div>
+            <div class="card-body p-4">
+                <form id="quiz-form" class="row g-3">
+                    <!-- Basic Quiz Information -->
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="title" class="form-label">Quiz Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required value="{{ quiz.title }}">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group mb-3">
+                            <label for="category_id" class="form-label">Category ID</label>
+                            <input type="text" class="form-control" id="category_id" name="category_id" required value="{{ quiz.category_id }}">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group mb-3">
+                            <label for="difficulty" class="form-label">Difficulty Level</label>
+                            <select class="form-select" id="difficulty" name="difficulty" required>
+                                <option value="beginner" {% if quiz.difficulty == 'beginner' %}selected{% endif %}>Beginner</option>
+                                <option value="intermediate" {% if quiz.difficulty == 'intermediate' %}selected{% endif %}>Intermediate</option>
+                                <option value="advanced" {% if quiz.difficulty == 'advanced' %}selected{% endif %}>Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="form-group mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required>{{ quiz.description }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <div class="form-group mb-3">
+                            <label for="time_limit_minutes" class="form-label">Time Limit (minutes)</label>
+                            <input type="number" class="form-control" id="time_limit_minutes" name="time_limit_minutes" min="0" value="{{ quiz.time_limit_minutes }}">
+                            <div class="form-text">Set to 0 for no time limit</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Questions Section -->
+                    <div class="col-12">
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5><i class="fas fa-question-circle me-2"></i>Questions</h5>
+                            <button type="button" class="btn btn-outline-primary" id="add-question">
+                                <i class="fas fa-plus me-2"></i>Add Question
+                            </button>
+                        </div>
+                        
+                        <div id="questions-container">
+                            <!-- Questions will be populated here by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Form Submission -->
+                    <div class="col-12 text-end">
+                        <a href="{{ url_for('admin.quizzes') }}" class="btn btn-outline-secondary me-2">
+                            <i class="fas fa-arrow-left me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Quiz data from database
+    const quizData = {{ quiz.to_dict()|tojson }};
+    let questionCount = quizData.questions.length;
+    
+    // Initialize question management
+    document.addEventListener('DOMContentLoaded', function() {
+        const questionsContainer = document.getElementById('questions-container');
+        
+        // Load existing questions
+        quizData.questions.forEach((question, index) => {
+            addQuestionToDOM(question, index);
+        });
+        
+        // Add event listener to add new questions
+        document.getElementById('add-question').addEventListener('click', function() {
+            addQuestionToDOM({
+                text: '',
+                type: 'multiple_choice',
+                answers: [
+                    { text: '', correct: false },
+                    { text: '', correct: false }
+                ],
+                explanation: ''
+            }, questionCount);
+            questionCount++;
+        });
+    });
+    
+    // Function to add a question to the DOM
+    function addQuestionToDOM(question, index) {
+        const questionsContainer = document.getElementById('questions-container');
+        
+        // Create question element
+        const questionEl = document.createElement('div');
+        questionEl.className = 'question-item card border-0 shadow-sm mb-4';
+        questionEl.innerHTML = `
+            <div class="card-header d-flex justify-content-between align-items-center py-3">
+                <h6 class="mb-0">Question ${index + 1}</h6>
+                <div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary me-2 move-question-up" ${index === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary me-2 move-question-down" ${index === questionCount - 1 ? 'disabled' : ''}>
+                        <i class="fas fa-arrow-down"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-outline-danger delete-question">
+                        <i class="fas fa-trash me-1"></i>Delete
+                    </button>
+                </div>
+            </div>
+            <div class="card-body p-3">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Question Text</label>
+                            <textarea name="questions[${index}][text]" class="form-control" rows="2" required>${question.text}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Question Type</label>
+                            <select name="questions[${index}][type]" class="form-select question-type" required data-question-index="${index}">
+                                <option value="multiple_choice" ${question.type === 'multiple_choice' ? 'selected' : ''}>Multiple Choice</option>
+                                <option value="true_false" ${question.type === 'true_false' ? 'selected' : ''}>True/False</option>
+                                <option value="short_answer" ${question.type === 'short_answer' ? 'selected' : ''}>Short Answer</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 answers-container" data-question-index="${index}">
+                        ${createAnswersHtml(question.type, question.answers, index)}
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label">Explanation <span class="text-muted">(optional)</span></label>
+                            <textarea name="questions[${index}][explanation]" class="form-control" rows="2">${question.explanation || ''}</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        questionsContainer.appendChild(questionEl);
+        
+        // Add event listeners
+        const deleteBtn = questionEl.querySelector('.delete-question');
+        deleteBtn.addEventListener('click', function() {
+            if (questionCount <= 1) {
+                alert('A quiz must have at least one question.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to delete this question?')) {
+                questionEl.remove();
+                questionCount--;
+                updateQuestionNumbering();
+            }
+        });
+        
+        // Move question up
+        const upBtn = questionEl.querySelector('.move-question-up');
+        upBtn.addEventListener('click', function() {
+            const prev = questionEl.previousElementSibling;
+            if (prev) {
+                questionsContainer.insertBefore(questionEl, prev);
+                updateQuestionNumbering();
+            }
+        });
+        
+        // Move question down
+        const downBtn = questionEl.querySelector('.move-question-down');
+        downBtn.addEventListener('click', function() {
+            const next = questionEl.nextElementSibling;
+            if (next) {
+                questionsContainer.insertBefore(next, questionEl);
+                updateQuestionNumbering();
+            }
+        });
+        
+        // Add event listener for question type change
+        const typeSelect = questionEl.querySelector('.question-type');
+        typeSelect.addEventListener('change', function() {
+            const qIndex = this.getAttribute('data-question-index');
+            const answerContainer = questionEl.querySelector(`.answers-container[data-question-index="${qIndex}"]`);
+            const qType = this.value;
+            
+            answerContainer.innerHTML = createAnswersHtml(qType, [], qIndex);
+            
+            // Add event listeners for true/false radios if necessary
+            if (qType === 'true_false') {
+                const tfRadios = answerContainer.querySelectorAll('.true-false-radio');
+                tfRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        const group = this.getAttribute('data-group');
+                        const radios = answerContainer.querySelectorAll(`.true-false-radio[data-group="${group}"]`);
+                        
+                        radios.forEach(r => {
+                            if (r !== this) r.checked = false;
+                        });
+                    });
+                });
+            }
+        });
+    }
+    
+    // Function to create HTML for answers based on question type
+    function createAnswersHtml(type, answers, index) {
+        if (type === 'true_false') {
+            return `
+                <h6 class="text-muted mb-3">Answer Choices</h6>
+                
+                <!-- True option -->
+                <div class="answer-item row mb-2 align-items-center">
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="questions[${index}][answers][0][text]" value="True" readonly>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input true-false-radio" type="checkbox" name="questions[${index}][answers][0][correct]" 
+                                id="answer${index}-0-correct" data-group="${index}" ${answers.length > 0 && answers[0].correct ? 'checked' : ''}>
+                            <label class="form-check-label" for="answer${index}-0-correct">
+                                Correct Answer
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- False option -->
+                <div class="answer-item row mb-2 align-items-center">
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="questions[${index}][answers][1][text]" value="False" readonly>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check">
+                            <input class="form-check-input true-false-radio" type="checkbox" name="questions[${index}][answers][1][correct]"
+                                id="answer${index}-1-correct" data-group="${index}" ${answers.length > 1 && answers[1].correct ? 'checked' : ''}>
+                            <label class="form-check-label" for="answer${index}-1-correct">
+                                Correct Answer
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (type === 'short_answer') {
+            return `
+                <h6 class="text-muted mb-3">Correct Answer(s)</h6>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>For short answer questions, list all possible correct answers. Students must enter one of these exactly.
+                </div>
+                
+                <!-- Answer 1 -->
+                <div class="answer-item row mb-2 align-items-center">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="questions[${index}][answers][0][text]" required 
+                            placeholder="Correct answer 1" value="${answers.length > 0 ? answers[0].text : ''}">
+                        <input type="hidden" name="questions[${index}][answers][0][correct]" value="true">
+                    </div>
+                </div>
+                
+                <!-- Answer 2 -->
+                <div class="answer-item row mb-2 align-items-center">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="questions[${index}][answers][1][text]" 
+                            placeholder="Alternative correct answer (optional)" value="${answers.length > 1 ? answers[1].text : ''}">
+                        <input type="hidden" name="questions[${index}][answers][1][correct]" value="true">
+                    </div>
+                </div>
+                
+                <!-- Answer 3 -->
+                <div class="answer-item row mb-2 align-items-center">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" name="questions[${index}][answers][2][text]" 
+                            placeholder="Alternative correct answer (optional)" value="${answers.length > 2 ? answers[2].text : ''}">
+                        <input type="hidden" name="questions[${index}][answers][2][correct]" value="true">
+                    </div>
+                </div>
+            `;
+        } else { // multiple_choice
+            let answerHtml = `<h6 class="text-muted mb-3">Answer Choices</h6>`;
+            
+            // Display existing answers
+            for (let i = 0; i < Math.max(4, answers.length); i++) {
+                const answer = i < answers.length ? answers[i] : { text: '', correct: false };
+                answerHtml += `
+                    <div class="answer-item row mb-2 align-items-center">
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="questions[${index}][answers][${i}][text]" 
+                                ${i < 2 ? 'required' : ''} placeholder="Answer option ${i+1}" value="${answer.text}">
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="questions[${index}][answers][${i}][correct]" 
+                                    id="answer${index}-${i}-correct" ${answer.correct ? 'checked' : ''}>
+                                <label class="form-check-label" for="answer${index}-${i}-correct">
+                                    Correct Answer
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return answerHtml;
+        }
+    }
+    
+    // Function to update question numbering
+    function updateQuestionNumbering() {
+        const questions = document.querySelectorAll('.question-item');
+        questions.forEach((question, index) => {
+            // Update header
+            question.querySelector('h6').textContent = `Question ${index + 1}`;
+            
+            // Update move buttons
+            question.querySelector('.move-question-up').disabled = (index === 0);
+            question.querySelector('.move-question-down').disabled = (index === questions.length - 1);
+            
+            // Update input names
+            const inputs = question.querySelectorAll('[name^="questions["]');
+            inputs.forEach(input => {
+                const name = input.getAttribute('name');
+                const newName = name.replace(/questions\[\d+\]/, `questions[${index}]`);
+                input.setAttribute('name', newName);
+            });
+            
+            // Update data attributes
+            const typeSelect = question.querySelector('.question-type');
+            if (typeSelect) {
+                typeSelect.setAttribute('data-question-index', index);
+            }
+            
+            const answersContainer = question.querySelector('.answers-container');
+            if (answersContainer) {
+                answersContainer.setAttribute('data-question-index', index);
+            }
+        });
+    }
+    
+    // Form submission
+    document.getElementById('quiz-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Validate at least one question exists
+        if (questionCount < 1) {
+            alert('A quiz must have at least one question.');
+            return;
+        }
+        
+        // Convert form data to JSON
+        const formData = new FormData(this);
+        const formObject = {};
+        
+        // Process basic quiz information
+        formObject.title = formData.get('title');
+        formObject.description = formData.get('description');
+        formObject.category_id = formData.get('category_id');
+        formObject.difficulty = formData.get('difficulty');
+        formObject.time_limit_minutes = parseInt(formData.get('time_limit_minutes')) || 0;
+        formObject.questions = [];
+        
+        // Process questions and answers
+        const questionElements = document.querySelectorAll('.question-item');
+        questionElements.forEach((questionEl, qIndex) => {
+            const questionType = formData.get(`questions[${qIndex}][type]`);
+            const question = {
+                text: formData.get(`questions[${qIndex}][text]`),
+                type: questionType,
+                explanation: formData.get(`questions[${qIndex}][explanation]`) || '',
+                answers: []
+            };
+            
+            // Get answers based on question type
+            if (questionType === 'short_answer') {
+                // For short answer, all are correct
+                for (let aIndex = 0; aIndex < 3; aIndex++) {
+                    const answerText = formData.get(`questions[${qIndex}][answers][${aIndex}][text]`);
+                    if (answerText) {
+                        question.answers.push({
+                            text: answerText,
+                            correct: true
+                        });
+                    }
+                }
+            } else if (questionType === 'true_false') {
+                // For true/false, only one can be correct
+                const trueCorrect = formData.get(`questions[${qIndex}][answers][0][correct]`) === 'on';
+                const falseCorrect = formData.get(`questions[${qIndex}][answers][1][correct]`) === 'on';
+                
+                question.answers.push({
+                    text: 'True',
+                    correct: trueCorrect
+                });
+                
+                question.answers.push({
+                    text: 'False',
+                    correct: falseCorrect
+                });
+            } else {
+                // For multiple choice
+                for (let aIndex = 0; aIndex < 4; aIndex++) {
+                    const answerText = formData.get(`questions[${qIndex}][answers][${aIndex}][text]`);
+                    if (answerText) {
+                        question.answers.push({
+                            text: answerText,
+                            correct: formData.get(`questions[${qIndex}][answers][${aIndex}][correct]`) === 'on'
+                        });
+                    }
+                }
+            }
+            
+            formObject.questions.push(question);
+        });
+        
+        // Submit to server
+        try {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+            submitBtn.disabled = true;
+            
+            const response = await fetch('{{ url_for("admin.edit_quiz", quiz_id=quiz.id) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formObject)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Show success message
+                const successAlert = document.createElement('div');
+                successAlert.className = 'alert alert-success mt-3';
+                successAlert.innerHTML = '<i class="fas fa-check-circle me-2"></i>Quiz updated successfully!';
+                this.appendChild(successAlert);
+                
+                // Redirect after delay
+                setTimeout(() => {
+                    window.location.href = '{{ url_for("admin.quizzes") }}';
+                }, 1500);
+            } else {
+                // Show error message
+                const errorAlert = document.createElement('div');
+                errorAlert.className = 'alert alert-danger mt-3';
+                errorAlert.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>Error: ${result.error || 'Failed to update quiz'}`;
+                this.appendChild(errorAlert);
+                
+                setTimeout(() => {
+                    errorAlert.remove();
+                }, 5000);
+                
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error updating quiz:', error);
+            
+            // Show error message
+            const errorAlert = document.createElement('div');
+            errorAlert.className = 'alert alert-danger mt-3';
+            errorAlert.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>Error: ${error.message || 'Failed to update quiz'}`;
+            this.appendChild(errorAlert);
+            
+            setTimeout(() => {
+                errorAlert.remove();
+            }, 5000);
+            
+            // Reset button
+            this.querySelector('button[type="submit"]').innerHTML = originalText;
+            this.querySelector('button[type="submit"]').disabled = false;
+        }
+    });
+</script>
+
+<style>
+    .question-item {
+        position: relative;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    .question-item:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}

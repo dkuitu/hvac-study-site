@@ -237,18 +237,38 @@ def add_quiz(data):
     # Make sure the category exists
     category = Category.query.filter_by(id=data['category_id']).first()
     if not category:
-        print(f"[SERVER] Category {data['category_id']} not found, cannot add quiz")
-        return {"success": False, "error": f"Category {data['category_id']} does not exist"}
+        print(f"[SERVER] Category {data['category_id']} not found, creating category")
+        # Create the category if it doesn't exist
+        category = Category(
+            id=data['category_id'],
+            name=f"Quiz Category: {data['category_id']}",
+            description="Auto-created for quiz"
+        )
+        db.session.add(category)
+        db.session.commit()
     
     # Create the quiz
     try:
+        # Ensure questions has the correct format
+        questions_data = data['questions']
+        for question in questions_data:
+            # Make sure each question has at least one correct answer
+            has_correct = False
+            for answer in question.get('answers', []):
+                if answer.get('correct'):
+                    has_correct = True
+                    break
+                    
+            if not has_correct and question.get('type') != 'short_answer':
+                raise ValueError(f"Question '{question.get('text', '?')}' must have at least one correct answer")
+        
         quiz = Quiz(
             title=data['title'],
             description=data['description'],
             category_id=data['category_id'],
             difficulty=data['difficulty'],
             time_limit_minutes=data.get('time_limit_minutes', 0),
-            questions=data['questions']
+            questions=questions_data
         )
         
         db.session.add(quiz)
@@ -411,21 +431,26 @@ def get_demos(category=None):
 
 def add_demo(data):
     """Add a new interactive demo"""
-    demos = _load_json('demos.json')
-    if not demos:
-        demos = {"demos": []}
-    
-    # Add new demo
-    demo = {
-        "id": str(uuid.uuid4()),
-        "title": data['title'],
-        "description": data['description'],
-        "category_id": data['category_id'],
-        "html_content": data['html_content'],
-        "js_content": data['js_content'],
-        "created_at": datetime.now().isoformat()
-    }
-    demos['demos'].append(demo)
-    
-    _save_json(demos, 'demos.json')
-    return {"success": True, "demo_id": demo['id']}
+    try:
+        import uuid  # Add this import
+        demos = _load_json('demos.json')
+        if not demos:
+            demos = {"demos": []}
+        
+        # Add new demo
+        demo = {
+            "id": str(uuid.uuid4()),
+            "title": data['title'],
+            "description": data['description'],
+            "category_id": data['category_id'],
+            "html_content": data['html_content'],
+            "js_content": data['js_content'],
+            "created_at": datetime.now().isoformat()
+        }
+        demos['demos'].append(demo)
+        
+        _save_json(demos, 'demos.json')
+        return {"success": True, "demo_id": demo['id']}
+    except Exception as e:
+        print(f"Error adding demo: {str(e)}")
+        return {"success": False, "error": str(e)}

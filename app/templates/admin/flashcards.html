@@ -118,39 +118,76 @@
                 </div>
                 <div class="card-body">
                     <form id="flashcard-form" class="row">
+                        <!-- Hidden fields to store values for form submission -->
+                        <input type="hidden" id="category_id" name="category_id">
+                        <input type="hidden" id="category_name" name="category_name">
+                        <input type="hidden" id="chapter_id" name="chapter_id">
+                        <input type="hidden" id="chapter_name" name="chapter_name">
+                        <input type="hidden" id="deck_id" name="deck_id">
+                        <input type="hidden" id="deck_name" name="deck_name">
                         <div class="col-md-4 mb-3">
-                            <label for="category_id" class="form-label">Category ID</label>
-                            <input type="text" class="form-control" id="category_id" name="category_id" required>
+                            <label for="category_select" class="form-label">Category</label>
+                            <select class="form-select" id="category_select" required>
+                                <option value="" selected disabled>Select Category</option>
+                                {% for category in category_data %}
+                                <option value="{{ category.id }}" data-name="{{ category.name }}">{{ category.name }}</option>
+                                {% endfor %}
+                                <option value="new">+ Add New Category</option>
+                            </select>
                         </div>
                         
-                        <div class="col-md-4 mb-3">
-                            <label for="category_name" class="form-label">Category Name</label>
-                            <input type="text" class="form-control" id="category_name" name="category_name" required>
+                        <!-- These fields only show when "Add New Category" is selected -->
+                        <div class="col-md-4 mb-3 new-category-fields" style="display: none;">
+                            <label for="new_category_id" class="form-label">New Category ID</label>
+                            <input type="text" class="form-control" id="new_category_id" name="new_category_id">
                         </div>
                         
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4 mb-3 new-category-fields" style="display: none;">
+                            <label for="new_category_name" class="form-label">New Category Name</label>
+                            <input type="text" class="form-control" id="new_category_name" name="new_category_name">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3 new-category-fields" style="display: none;">
                             <label for="category_description" class="form-label">Category Description</label>
                             <input type="text" class="form-control" id="category_description" name="category_description">
                         </div>
                         
                         <div class="col-md-4 mb-3">
-                            <label for="chapter_id" class="form-label">Chapter ID</label>
-                            <input type="text" class="form-control" id="chapter_id" name="chapter_id" required>
+                            <label for="chapter_select" class="form-label">Chapter</label>
+                            <select class="form-select" id="chapter_select" required>
+                                <option value="" selected disabled>Select Category First</option>
+                                <option value="new">+ Add New Chapter</option>
+                            </select>
+                        </div>
+                        
+                        <!-- These fields only show when "Add New Chapter" is selected -->
+                        <div class="col-md-4 mb-3 new-chapter-fields" style="display: none;">
+                            <label for="new_chapter_id" class="form-label">New Chapter ID</label>
+                            <input type="text" class="form-control" id="new_chapter_id" name="new_chapter_id">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3 new-chapter-fields" style="display: none;">
+                            <label for="new_chapter_name" class="form-label">New Chapter Name</label>
+                            <input type="text" class="form-control" id="new_chapter_name" name="new_chapter_name">
                         </div>
                         
                         <div class="col-md-4 mb-3">
-                            <label for="chapter_name" class="form-label">Chapter Name</label>
-                            <input type="text" class="form-control" id="chapter_name" name="chapter_name" required>
+                            <label for="deck_select" class="form-label">Deck</label>
+                            <select class="form-select" id="deck_select" required>
+                                <option value="" selected disabled>Select Chapter First</option>
+                                <option value="new">+ Add New Deck</option>
+                            </select>
                         </div>
                         
-                        <div class="col-md-4 mb-3">
-                            <label for="deck_id" class="form-label">Deck ID</label>
-                            <input type="text" class="form-control" id="deck_id" name="deck_id" required>
+                        <!-- These fields only show when "Add New Deck" is selected -->
+                        <div class="col-md-4 mb-3 new-deck-fields" style="display: none;">
+                            <label for="new_deck_id" class="form-label">New Deck ID</label>
+                            <input type="text" class="form-control" id="new_deck_id" name="new_deck_id">
                         </div>
                         
-                        <div class="col-md-4 mb-3">
-                            <label for="deck_name" class="form-label">Deck Name</label>
-                            <input type="text" class="form-control" id="deck_name" name="deck_name" required>
+                        <div class="col-md-4 mb-3 new-deck-fields" style="display: none;">
+                            <label for="new_deck_name" class="form-label">New Deck Name</label>
+                            <input type="text" class="form-control" id="new_deck_name" name="new_deck_name">
                         </div>
                         
                         <div class="col-md-4 mb-3">
@@ -185,10 +222,206 @@
 
 {% block extra_js %}
 <script>
+// Store category data for dynamic dropdowns
+const categoryData = {{ category_data|tojson }};
+
+// Get DOM elements
+const categorySelect = document.getElementById('category_select');
+const chapterSelect = document.getElementById('chapter_select');
+const deckSelect = document.getElementById('deck_select');
+const newCategoryFields = document.querySelectorAll('.new-category-fields');
+const newChapterFields = document.querySelectorAll('.new-chapter-fields');
+const newDeckFields = document.querySelectorAll('.new-deck-fields');
+
+// Function to populate chapter dropdown based on selected category
+function populateChapters(categoryId) {
+    // Clear current options
+    chapterSelect.innerHTML = '<option value="" disabled>Select Chapter</option>';
+    chapterSelect.appendChild(new Option('+ Add New Chapter', 'new'));
+    
+    // If it's a new category, no chapters to populate
+    if (categoryId === 'new') {
+        chapterSelect.selectedIndex = 0;
+        return;
+    }
+    
+    // Find the category data
+    const category = categoryData.find(c => c.id === categoryId);
+    if (!category) return;
+    
+    // Add chapter options
+    category.chapters.forEach(chapter => {
+        const option = new Option(chapter.name, chapter.id);
+        option.dataset.name = chapter.name;
+        chapterSelect.appendChild(option);
+    });
+    
+    // Select first chapter by default
+    if (category.chapters.length > 0) {
+        chapterSelect.selectedIndex = 1;
+        // Trigger change event to populate decks
+        const event = new Event('change');
+        chapterSelect.dispatchEvent(event);
+    }
+}
+
+// Function to populate deck dropdown based on selected chapter
+function populateDecks(categoryId, chapterId) {
+    // Clear current options
+    deckSelect.innerHTML = '<option value="" disabled>Select Deck</option>';
+    deckSelect.appendChild(new Option('+ Add New Deck', 'new'));
+    
+    // If it's a new chapter, no decks to populate
+    if (chapterId === 'new') {
+        deckSelect.selectedIndex = 0;
+        return;
+    }
+    
+    // Find the category and chapter data
+    const category = categoryData.find(c => c.id === categoryId);
+    if (!category) return;
+    
+    const chapter = category.chapters.find(ch => ch.id === chapterId);
+    if (!chapter) return;
+    
+    // Add deck options
+    chapter.decks.forEach(deck => {
+        const option = new Option(deck.name, deck.id);
+        option.dataset.name = deck.name;
+        option.dataset.difficulty = deck.difficulty;
+        deckSelect.appendChild(option);
+    });
+    
+    // Select first deck by default
+    if (chapter.decks.length > 0) {
+        deckSelect.selectedIndex = 1;
+        // Set difficulty based on selected deck
+        const difficultySelect = document.getElementById('difficulty');
+        const selectedDeck = chapter.decks[0];
+        difficultySelect.value = selectedDeck.difficulty;
+    }
+}
+
+// Handle category selection change
+categorySelect.addEventListener('change', function() {
+    const categoryId = this.value;
+    
+    // Show/hide new category fields
+    if (categoryId === 'new') {
+        newCategoryFields.forEach(field => field.style.display = 'block');
+        document.getElementById('new_category_id').required = true;
+        document.getElementById('new_category_name').required = true;
+        // Set the hidden fields from the new fields
+        document.getElementById('new_category_id').addEventListener('input', function() {
+            document.getElementById('category_id').value = this.value;
+        });
+        document.getElementById('new_category_name').addEventListener('input', function() {
+            document.getElementById('category_name').value = this.value;
+        });
+    } else {
+        newCategoryFields.forEach(field => field.style.display = 'none');
+        document.getElementById('new_category_id').required = false;
+        document.getElementById('new_category_name').required = false;
+        
+        // Pre-fill category fields with selected option data
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('category_id').value = categoryId;
+        document.getElementById('category_name').value = selectedOption.dataset.name;
+    }
+    
+    // Populate chapters dropdown
+    populateChapters(categoryId);
+    
+    // Reset chapter and deck fields
+    newChapterFields.forEach(field => field.style.display = 'none');
+    newDeckFields.forEach(field => field.style.display = 'none');
+});
+
+// Handle chapter selection change
+chapterSelect.addEventListener('change', function() {
+    const chapterId = this.value;
+    const categoryId = categorySelect.value;
+    
+    // Show/hide new chapter fields
+    if (chapterId === 'new') {
+        newChapterFields.forEach(field => field.style.display = 'block');
+        document.getElementById('new_chapter_id').required = true;
+        document.getElementById('new_chapter_name').required = true;
+        // Set the hidden fields from the new fields
+        document.getElementById('new_chapter_id').addEventListener('input', function() {
+            document.getElementById('chapter_id').value = this.value;
+        });
+        document.getElementById('new_chapter_name').addEventListener('input', function() {
+            document.getElementById('chapter_name').value = this.value;
+        });
+    } else {
+        newChapterFields.forEach(field => field.style.display = 'none');
+        document.getElementById('new_chapter_id').required = false;
+        document.getElementById('new_chapter_name').required = false;
+        
+        // Pre-fill chapter fields with selected option data
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('chapter_id').value = chapterId;
+        document.getElementById('chapter_name').value = selectedOption.dataset.name;
+    }
+    
+    // Populate decks dropdown
+    populateDecks(categoryId, chapterId);
+    
+    // Reset deck fields
+    newDeckFields.forEach(field => field.style.display = 'none');
+});
+
+// Handle deck selection change
+deckSelect.addEventListener('change', function() {
+    const deckId = this.value;
+    
+    // Show/hide new deck fields
+    if (deckId === 'new') {
+        newDeckFields.forEach(field => field.style.display = 'block');
+        document.getElementById('new_deck_id').required = true;
+        document.getElementById('new_deck_name').required = true;
+        // Set the hidden fields from the new fields
+        document.getElementById('new_deck_id').addEventListener('input', function() {
+            document.getElementById('deck_id').value = this.value;
+        });
+        document.getElementById('new_deck_name').addEventListener('input', function() {
+            document.getElementById('deck_name').value = this.value;
+        });
+    } else {
+        newDeckFields.forEach(field => field.style.display = 'none');
+        document.getElementById('new_deck_id').required = false;
+        document.getElementById('new_deck_name').required = false;
+        
+        // Pre-fill deck fields with selected option data
+        const selectedOption = this.options[this.selectedIndex];
+        document.getElementById('deck_id').value = deckId;
+        document.getElementById('deck_name').value = selectedOption.dataset.name;
+        
+        // Set difficulty if available
+        if (selectedOption.dataset.difficulty) {
+            document.getElementById('difficulty').value = selectedOption.dataset.difficulty;
+        }
+    }
+});
+
+// Form submission
 document.getElementById('flashcard-form').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData.entries());
+    
+    // Gather data from form inputs
+    const data = {
+        category_id: document.getElementById('category_id').value,
+        category_name: document.getElementById('category_name').value,
+        category_description: document.getElementById('category_description').value || '',
+        chapter_id: document.getElementById('chapter_id').value,
+        chapter_name: document.getElementById('chapter_name').value,
+        deck_id: document.getElementById('deck_id').value,
+        deck_name: document.getElementById('deck_name').value,
+        difficulty: document.getElementById('difficulty').value,
+        question: document.getElementById('question').value,
+        answer: document.getElementById('answer').value
+    };
     
     try {
         const response = await fetch('{{ url_for("admin.flashcards") }}', {

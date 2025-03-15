@@ -1,125 +1,215 @@
 {% extends "admin/base.html" %}
 
-{% block title %}Manage Interactive Demos - HVAC Study Site{% endblock %}
+{% block title %}Manage Interactive Demos - HVAC Pro Study{% endblock %}
+{% block page_title %}Manage Interactive Demos{% endblock %}
 
 {% block content %}
-<div class="content-manager">
-    <h1>Manage Interactive Demos</h1>
-    
-    <div class="form-container">
-        <h2>Add New Interactive Demo</h2>
-        <form id="demo-form">
-            <div class="form-group">
-                <label for="title">Demo Title</label>
-                <input type="text" id="title" name="title" required>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Add New Interactive Demo</h5>
             </div>
-            
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" required></textarea>
+            <div class="card-body p-4">
+                <form id="demo-form" class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="title" class="form-label">Demo Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label for="category_id" class="form-label">Category ID</label>
+                            <input type="text" class="form-control" id="category_id" name="category_id" required>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="form-group mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="form-group mb-3">
+                            <label for="html_content" class="form-label">HTML Content</label>
+                            <textarea class="form-control code-editor" id="html_content" name="html_content" rows="10" required></textarea>
+                            <div class="form-text">HTML content for the demo. Will be inserted into the demo container.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="form-group mb-3">
+                            <label for="js_content" class="form-label">JavaScript Content</label>
+                            <textarea class="form-control code-editor" id="js_content" name="js_content" rows="10" required></textarea>
+                            <div class="form-text">JavaScript code for the demo. Will be executed after the HTML is loaded.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 text-end">
+                        <button type="button" id="preview-button" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-eye me-2"></i>Preview
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Demo
+                        </button>
+                    </div>
+                </form>
             </div>
-            
-            <div class="form-group">
-                <label for="category_id">Category ID</label>
-                <input type="text" id="category_id" name="category_id" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="html_content">HTML Content</label>
-                <textarea id="html_content" name="html_content" class="code-editor" rows="10"></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label for="js_content">JavaScript Content</label>
-                <textarea id="js_content" name="js_content" class="code-editor" rows="10"></textarea>
-            </div>
-            
-            <button type="submit">Create Demo</button>
-        </form>
+        </div>
     </div>
     
-    <div class="content-preview">
-        <h2>Preview</h2>
-        <div id="demo-preview">
-            <div id="preview-container"></div>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm sticky-top" style="top: 80px;">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Preview</h5>
+            </div>
+            <div class="card-body">
+                <div id="preview-container" class="border rounded p-3 bg-light mb-3" style="min-height: 300px;"></div>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>Click the Preview button to see your demo here.
+                </div>
+            </div>
         </div>
-        <button type="button" id="preview-button" class="secondary-button">Preview Demo</button>
     </div>
 </div>
 
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white py-3">
+                <h5 class="mb-0"><i class="fas fa-list me-2"></i>Existing Demos</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>Demo management features are under development. Currently, demos are defined in the code.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
 <script>
-document.getElementById('demo-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        title: document.getElementById('title').value,
-        description: document.getElementById('description').value,
-        category_id: document.getElementById('category_id').value,
-        html_content: document.getElementById('html_content').value,
-        js_content: document.getElementById('js_content').value
-    };
-    
-    try {
-        const response = await fetch('{{ url_for("admin.demos") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
+    document.getElementById('demo-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        const result = await response.json();
+        const formData = {
+            title: document.getElementById('title').value,
+            description: document.getElementById('description').value,
+            category_id: document.getElementById('category_id').value,
+            html_content: document.getElementById('html_content').value,
+            js_content: document.getElementById('js_content').value
+        };
         
-        if (result.success) {
-            alert('Interactive demo added successfully!');
-            this.reset();
-            document.getElementById('preview-container').innerHTML = '';
-        } else {
-            alert('Error adding demo: ' + (result.error || 'Unknown error'));
+        try {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+            submitBtn.disabled = true;
+            
+            const response = await fetch('{{ url_for("admin.demos") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Show success message
+                const successAlert = document.createElement('div');
+                successAlert.className = 'alert alert-success mt-3';
+                successAlert.innerHTML = '<i class="fas fa-check-circle me-2"></i>Interactive demo added successfully!';
+                this.appendChild(successAlert);
+                
+                // Reset form
+                setTimeout(() => {
+                    this.reset();
+                    successAlert.remove();
+                    document.getElementById('preview-container').innerHTML = '';
+                }, 2000);
+            } else {
+                // Show error message
+                const errorAlert = document.createElement('div');
+                errorAlert.className = 'alert alert-danger mt-3';
+                errorAlert.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>Error: ${result.error || 'Failed to create demo'}`;
+                this.appendChild(errorAlert);
+                
+                setTimeout(() => {
+                    errorAlert.remove();
+                }, 5000);
+            }
+            
+            // Reset button
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        } catch (error) {
+            console.error('Error creating demo:', error);
+            
+            // Show error message
+            const errorAlert = document.createElement('div');
+            errorAlert.className = 'alert alert-danger mt-3';
+            errorAlert.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>Error: ${error.message || 'Failed to create demo'}`;
+            this.appendChild(errorAlert);
+            
+            setTimeout(() => {
+                errorAlert.remove();
+            }, 5000);
+            
+            // Reset button
+            this.querySelector('button[type="submit"]').innerHTML = originalText;
+            this.querySelector('button[type="submit"]').disabled = false;
         }
-    } catch (error) {
-        alert('Error adding demo: ' + error.message);
-    }
-});
+    });
 
-// Preview functionality
-document.getElementById('preview-button').addEventListener('click', function() {
-    const htmlContent = document.getElementById('html_content').value;
-    const jsContent = document.getElementById('js_content').value;
-    
-    const previewContainer = document.getElementById('preview-container');
-    previewContainer.innerHTML = htmlContent;
-    
-    // Execute JS in a safe way
-    const script = document.createElement('script');
-    script.textContent = jsContent;
-    previewContainer.appendChild(script);
-});
+    // Preview functionality
+    document.getElementById('preview-button').addEventListener('click', function() {
+        const htmlContent = document.getElementById('html_content').value;
+        const jsContent = document.getElementById('js_content').value;
+        
+        const previewContainer = document.getElementById('preview-container');
+        
+        // Add loading indicator
+        previewContainer.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+        
+        // Short delay to show the loading indicator
+        setTimeout(() => {
+            try {
+                previewContainer.innerHTML = htmlContent;
+                
+                // Execute JS in a safe way
+                const script = document.createElement('script');
+                script.textContent = jsContent;
+                previewContainer.appendChild(script);
+            } catch (error) {
+                previewContainer.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-triangle me-2"></i>Error in preview: ${error.message}</div>`;
+            }
+        }, 500);
+    });
 </script>
+{% endblock %}
 
+{% block extra_css %}
 <style>
-.code-editor {
-    font-family: monospace;
-    white-space: pre;
-    overflow-x: auto;
-    background-color: #f1f1f1;
-    padding: 10px;
-}
-
-#preview-container {
-    border: 1px solid #ddd;
-    padding: 20px;
-    min-height: 200px;
-    margin-bottom: 20px;
-    background-color: white;
-}
-
-.secondary-button {
-    background-color: #7f8c8d;
-    margin-bottom: 20px;
-}
-
-.secondary-button:hover {
-    background-color: #636e72;
-}
+    .code-editor {
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        white-space: pre;
+        overflow-x: auto;
+        tab-size: 4;
+    }
+    
+    #preview-container {
+        overflow: auto;
+        transition: all 0.3s ease;
+    }
 </style>
+{% endblock %}

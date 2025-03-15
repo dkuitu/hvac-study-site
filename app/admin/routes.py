@@ -8,14 +8,21 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get('admin_logged_in'):
+            # Add a debug message
+            print("Not logged in, redirecting to login page")
             return redirect(url_for('admin.login'))
+        print("User is logged in as admin")
         return f(*args, **kwargs)
     return decorated_function
 
 @admin.route('/login', methods=['GET', 'POST'])
 def login():
+    # Debug output for the ADMIN_PASSWORD
+    print(f"Admin password: {current_app.config['ADMIN_PASSWORD']}")
+    
     if request.method == 'POST':
         password = request.form.get('password')
+        print(f"Submitted password: {password}")
         if password == current_app.config['ADMIN_PASSWORD']:
             session['admin_logged_in'] = True
             return redirect(url_for('admin.dashboard'))
@@ -42,7 +49,31 @@ def flashcards():
         
     # Get all categories, chapters, decks and cards for management
     categories = Category.query.all()
-    return render_template('admin/flashcards.html', categories=categories)
+    
+    # Prepare data for dropdown menus
+    category_data = []
+    for category in categories:
+        cat_info = {
+            'id': category.id,
+            'name': category.name,
+            'chapters': []
+        }
+        for chapter in category.chapters:
+            chap_info = {
+                'id': chapter.id,
+                'name': chapter.name,
+                'decks': []
+            }
+            for deck in chapter.decks:
+                chap_info['decks'].append({
+                    'id': deck.id,
+                    'name': deck.name,
+                    'difficulty': deck.difficulty
+                })
+            cat_info['chapters'].append(chap_info)
+        category_data.append(cat_info)
+    
+    return render_template('admin/flashcards.html', categories=categories, category_data=category_data)
 
 @admin.route('/flashcards/edit/<card_id>', methods=['GET', 'POST'])
 @admin_required
@@ -90,11 +121,48 @@ def decks():
 @admin.route('/quizzes', methods=['GET', 'POST'])
 @admin_required
 def quizzes():
+    from app.models.content import get_quizzes, add_quiz
+    from app.models.database import Quiz
+    
     if request.method == 'POST':
         data = request.json
         result = add_quiz(data)
         return jsonify(result)
-    return render_template('admin/quizzes.html')
+    
+    # Use get_quizzes() function instead of direct database query
+    # This will include the JSON fallback logic
+    quizzes_data = get_quizzes()
+    all_quizzes = quizzes_data.get('quizzes', [])
+    
+    return render_template('admin/quizzes.html', quizzes=all_quizzes)
+
+@admin.route('/quizzes/delete/<quiz_id>', methods=['POST'])
+@admin_required
+def delete_quiz(quiz_id):
+    from app.models.content import delete_quiz as content_delete_quiz
+    
+    result = content_delete_quiz(quiz_id)
+    if result['success']:
+        flash('Quiz deleted successfully', 'success')
+    else:
+        flash(f'Error deleting quiz: {result.get("error", "Unknown error")}', 'danger')
+    
+    return redirect(url_for('admin.quizzes'))
+
+@admin.route('/quizzes/edit/<quiz_id>', methods=['GET', 'POST'])
+@admin_required
+def edit_quiz(quiz_id):
+    from app.models.database import Quiz
+    from app.models.content import update_quiz
+    
+    quiz = Quiz.query.get_or_404(quiz_id)
+    
+    if request.method == 'POST':
+        data = request.json
+        result = update_quiz(quiz_id, data)
+        return jsonify(result)
+    
+    return render_template('admin/edit_quiz.html', quiz=quiz)
 
 @admin.route('/demos', methods=['GET', 'POST'])
 @admin_required
