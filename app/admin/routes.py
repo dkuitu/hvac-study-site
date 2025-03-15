@@ -8,7 +8,10 @@ def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get('admin_logged_in'):
+            # Add a debug message
+            print("Not logged in, redirecting to login page")
             return redirect(url_for('admin.login'))
+        print("User is logged in as admin")
         return f(*args, **kwargs)
     return decorated_function
 
