@@ -1,70 +1,253 @@
 {% extends "admin/base.html" %}
 
-{% block title %}Admin Dashboard - HVAC Study Site{% endblock %}
+{% block title %}Admin Dashboard - HVAC Pro Study{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="dashboard">
-    <h1>Admin Dashboard</h1>
-    
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
+                <div class="alert alert-{{ category }} mb-4">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} me-2"></i>
+                    {{ message }}
+                </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
     
-    <div class="dashboard-cards">
-        <div class="card">
-            <h2>Flashcards</h2>
-            <p>Manage your flashcard content</p>
-            <a href="{{ url_for('admin.flashcards') }}" class="button">Manage Flashcards</a>
+    <!-- Statistics Summary -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-white-50 mb-2">Flashcards</h6>
+                            <h2 class="mb-0">{{ flashcard_count|default(0) }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="fas fa-layer-group fa-2x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="card">
-            <h2>Quizzes</h2>
-            <p>Create and edit practice quizzes</p>
-            <a href="{{ url_for('admin.quizzes') }}" class="button">Manage Quizzes</a>
+        <div class="col-md-3">
+            <div class="card border-0 bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-white-50 mb-2">Categories</h6>
+                            <h2 class="mb-0">{{ category_count|default(0) }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="fas fa-th-large fa-2x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="card">
-            <h2>Interactive Demos</h2>
-            <p>Create and edit interactive learning demos</p>
-            <a href="{{ url_for('admin.demos') }}" class="button">Manage Demos</a>
+        <div class="col-md-3">
+            <div class="card border-0 bg-warning text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-white-50 mb-2">Quizzes</h6>
+                            <h2 class="mb-0">{{ quiz_count|default(0) }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="fas fa-clipboard-check fa-2x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <div class="card">
-            <h2>Data Migration</h2>
-            <p>Migrate JSON data to database</p>
-            <a href="{{ url_for('admin.migrate_data') }}" class="button">Migrate Data</a>
+        <div class="col-md-3">
+            <div class="card border-0 bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-white-50 mb-2">Demos</h6>
+                            <h2 class="mb-0">{{ demo_count|default(0) }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="fas fa-tools fa-2x text-white"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
-    <div class="mt-5">
-        <h3>Database Management</h3>
-        <div class="row">
-            <div class="col-4">
-                <div class="card p-3">
-                    <h4>Categories</h4>
-                    <p>Manage flashcard categories</p>
-                    <a href="{{ url_for('admin.categories') }}" class="button">Manage Categories</a>
+    <!-- Main Activity Cards -->
+    <h5 class="text-muted mb-3">Content Management</h5>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle bg-primary text-white me-3">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h5 class="mb-0">Flashcards</h5>
+                    </div>
+                    <p class="text-muted">Manage your flashcard content including categories, chapters, and decks.</p>
+                    <a href="{{ url_for('admin.flashcards') }}" class="btn btn-primary w-100">
+                        <i class="fas fa-arrow-right me-2"></i>Manage Flashcards
+                    </a>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card p-3">
-                    <h4>Chapters</h4>
-                    <p>Manage flashcard chapters</p>
-                    <a href="{{ url_for('admin.chapters') }}" class="button">Manage Chapters</a>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle bg-success text-white me-3">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h5 class="mb-0">Quizzes</h5>
+                    </div>
+                    <p class="text-muted">Create and edit practice quizzes with multiple choice questions.</p>
+                    <a href="{{ url_for('admin.quizzes') }}" class="btn btn-success w-100">
+                        <i class="fas fa-arrow-right me-2"></i>Manage Quizzes
+                    </a>
                 </div>
             </div>
-            <div class="col-4">
-                <div class="card p-3">
-                    <h4>Decks</h4>
-                    <p>Manage flashcard decks</p>
-                    <a href="{{ url_for('admin.decks') }}" class="button">Manage Decks</a>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle bg-warning text-white me-3">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h5 class="mb-0">Interactive Demos</h5>
+                    </div>
+                    <p class="text-muted">Create and edit interactive learning demonstrations for HVAC concepts.</p>
+                    <a href="{{ url_for('admin.demos') }}" class="btn btn-warning w-100">
+                        <i class="fas fa-arrow-right me-2"></i>Manage Demos
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle bg-info text-white me-3">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h5 class="mb-0">Data Migration</h5>
+                    </div>
+                    <p class="text-muted">Migrate JSON data to the database. Use this to import or sync content.</p>
+                    <a href="{{ url_for('admin.migrate_data') }}" class="btn btn-info w-100">
+                        <i class="fas fa-arrow-right me-2"></i>Migrate Data
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    
+    <!-- Database Management Section -->
+    <h5 class="text-muted mb-3">Database Management</h5>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-sm bg-primary-subtle text-primary me-3">
+                            <i class="fas fa-th-large"></i>
+                        </div>
+                        <h5 class="mb-0">Categories</h5>
+                    </div>
+                    <p class="text-muted mb-4">Manage top-level category organization for flashcards.</p>
+                    <a href="{{ url_for('admin.categories') }}" class="btn btn-outline-primary mt-auto w-100">
+                        <i class="fas fa-cog me-2"></i>Manage Categories
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-sm bg-success-subtle text-success me-3">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h5 class="mb-0">Chapters</h5>
+                    </div>
+                    <p class="text-muted mb-4">Manage chapter organization within categories.</p>
+                    <a href="{{ url_for('admin.chapters') }}" class="btn btn-outline-success mt-auto w-100">
+                        <i class="fas fa-cog me-2"></i>Manage Chapters
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-sm bg-warning-subtle text-warning me-3">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h5 class="mb-0">Decks</h5>
+                    </div>
+                    <p class="text-muted mb-4">Manage flashcard decks within chapters by difficulty level.</p>
+                    <a href="{{ url_for('admin.decks') }}" class="btn btn-outline-warning mt-auto w-100">
+                        <i class="fas fa-cog me-2"></i>Manage Decks
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .icon-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+    }
+    
+    .icon-sm {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+    
+    .bg-primary-subtle {
+        background-color: rgba(0, 86, 179, 0.1);
+    }
+    
+    .bg-success-subtle {
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+    
+    .bg-warning-subtle {
+        background-color: rgba(255, 193, 7, 0.1);
+    }
+    
+    .bg-info-subtle {
+        background-color: rgba(13, 202, 240, 0.1);
+    }
+</style>
 {% endblock %}
