@@ -98,78 +98,131 @@ function drawCircuit() {
     // Clear previous drawing
     draw.clear();
     
-    // Setup coordinates
-    const startX = 70;
-    const startY = 60;
-    const horizontalSpacing = 90; // Component spacing on horizontal segments
-    const verticalSpacing = 100;  // Height between top and bottom segments
-    const wireLength = 20;
+    // Setup coordinates and dimensions
+    const startX = 120;
+    const endX = 780;
+    const centerY = 170;
+    const componentSpacing = 130;
     
     // Colors
-    const wireColor = '#333';
-    const componentColor = '#0056b3';
-    const textColor = '#333';
-    const powerColor = circuitState.powerOn ? '#00cc00' : '#cc0000';
-    const motorRunningColor = '#4CAF50';
+    const wireColor = '#0078d7'; // Blue wire color
+    const componentColor = '#333'; // Dark color for components
+    const textColor = '#333'; // Text color
+    const powerColor = circuitState.powerOn ? '#00cc00' : '#cc0000'; // Green when on, red when off
+    const motorRunningColor = '#4CAF50'; // Green for running motor
     
-    // Calculate motor color based on state
-    let motorColor = componentColor;
+    // Calculate circuit values
     const circuitValues = calculateCircuitValues();
     const isMotorRunning = circuitState.powerOn && 
                          circuitValues.current > 0 && 
                          circuitState.components.motor.state !== 'open';
     
-    if (isMotorRunning) {
-        motorColor = motorRunningColor; // Green when running
+    // Add a background for better visibility
+    draw.rect('100%', '100%').fill('#f8f9fa').radius(8);
+    
+    // Create a group for the entire circuit
+    const circuitGroup = draw.group();
+    
+    // Main horizontal wire
+    const mainWire = circuitGroup.line(startX, centerY, endX, centerY);
+    if (circuitState.powerOn) {
+        mainWire.stroke({
+            color: wireColor,
+            width: 3
+        });
+    } else {
+        mainWire.stroke({
+            color: componentColor,
+            width: 2
+        });
     }
     
-    // Draw power source
-    draw.circle(30).fill('none').stroke({ color: powerColor, width: 2 }).move(startX - 15, startY - 15);
-    draw.text('+').move(startX - 7, startY - 12).font({ fill: powerColor, family: 'Arial', size: 18 });
-    draw.text('−').move(startX - 7, startY + 2).font({ fill: powerColor, family: 'Arial', size: 18 });
-    draw.text('24V').move(startX - 15, startY + 20).font({ fill: textColor, family: 'Arial', size: 12 });
+    // Position components along the main wire
+    let currentX = startX + 80; // Starting position for first component
     
-    // Starting point for the circuit
-    let currentX = startX + 20;
-    let currentY = startY;
+    // LEFT GROUND
+    const leftGroundGroup = circuitGroup.group();
+    // Draw ground symbol
+    leftGroundGroup.line(startX, centerY, startX, centerY + 20)
+        .stroke({ color: componentColor, width: 2 });
+    leftGroundGroup.line(startX - 15, centerY + 20, startX + 15, centerY + 20)
+        .stroke({ color: componentColor, width: 2 });
+    leftGroundGroup.line(startX - 10, centerY + 25, startX + 10, centerY + 25)
+        .stroke({ color: componentColor, width: 2 });
+    leftGroundGroup.line(startX - 5, centerY + 30, startX + 5, centerY + 30)
+        .stroke({ color: componentColor, width: 2 });
     
-    // Draw wire to first component
-    draw.line(startX, startY, currentX, currentY).stroke({ color: wireColor, width: 2 });
+    // 1. POWER SOURCE
+    const powerSize = 36; // Slightly smaller
+    const powerGroup = circuitGroup.group();
     
-    // Add some space
-    currentX += wireLength;
+    // Draw power source circle
+    powerGroup.circle(powerSize).fill('none').stroke({ color: powerColor, width: 2 }).center(currentX, centerY);
     
-    // Draw fuse
-    const fuseWidth = 60;
-    const fuseHeight = 24;
+    // Add power indication 
+    if (circuitState.powerOn) {
+        // Green fill when on
+        powerGroup.circle(powerSize - 4)
+            .fill(powerColor)
+            .opacity(0.2)
+            .center(currentX, centerY);
+            
+        // Draw "+" and "-" symbols for the power source
+        const ledSize = 20;
+        powerGroup.circle(ledSize).fill(powerColor).center(currentX, centerY);
+        powerGroup.text("||").move(currentX - 5, centerY - 10)
+            .font({ fill: "#fff", family: 'Arial', size: 16, weight: 'bold' });
+    }
+    
+    // Label
+    powerGroup.text('24V').move(currentX - 10, centerY + 25)
+        .font({ fill: textColor, family: 'Arial', size: 11, weight: 'bold' });
+    
+    // Move to next component
+    currentX += componentSpacing;
+    
+    // 2. FUSE
+    const fuseWidth = 36;
+    const fuseHeight = 18;
+    const fuseGroup = circuitGroup.group();
+    
+    // Draw fuse box (rectangle with rounded ends)
     if (circuitState.components.fuse.state === 'blown') {
         // Blown fuse (with break)
-        draw.line(currentX, currentY, currentX + (fuseWidth/2 - 10), currentY).stroke({ color: componentColor, width: 2 });
-        draw.line(currentX + (fuseWidth/2 + 10), currentY, currentX + fuseWidth, currentY).stroke({ color: componentColor, width: 2 });
-        draw.circle(4).fill('#cc0000').move(currentX + fuseWidth/2, currentY - 2);
+        fuseGroup.line(currentX - fuseWidth/2, centerY, currentX - 10, centerY)
+            .stroke({ color: componentColor, width: 2 });
+        fuseGroup.line(currentX + 10, centerY, currentX + fuseWidth/2, centerY)
+            .stroke({ color: componentColor, width: 2 });
+        
+        // Add visual indication of blown fuse
+        fuseGroup.circle(6).fill('#cc0000').center(currentX, centerY);
     } else {
         // Normal fuse
-        draw.line(currentX, currentY, currentX + fuseWidth, currentY).stroke({ color: componentColor, width: 2 });
+        fuseGroup.line(currentX - fuseWidth/2, centerY, currentX + fuseWidth/2, centerY)
+            .stroke({ color: wireColor, width: 2 });
     }
-    draw.rect(fuseWidth, fuseHeight).fill('none').stroke({ color: componentColor, width: 1 }).move(currentX, currentY - fuseHeight/2);
-    draw.text('Fuse').move(currentX + fuseWidth/2 - 12, currentY + 15).font({ fill: textColor, family: 'Arial', size: 12 });
     
-    // Move to after fuse
-    currentX += fuseWidth + wireLength;
+    // Draw fuse symbol - rectangular shape with rounded ends
+    fuseGroup.rect(fuseWidth, fuseHeight)
+        .radius(fuseHeight/2) // Fully rounded ends
+        .fill('none')
+        .stroke({ color: componentColor, width: 1.5 })
+        .move(currentX - fuseWidth/2, centerY - fuseHeight/2);
+        
+    // Add fuse label
+    fuseGroup.text('Fuse (5A)').move(currentX - 20, centerY + 15)
+        .font({ fill: textColor, family: 'Arial', size: 11, weight: 'bold' });
     
-    // Draw wire to vertical segment
-    draw.line(currentX - wireLength, currentY, currentX, currentY).stroke({ color: wireColor, width: 2 });
+    // Move to next component
+    currentX += componentSpacing;
     
-    // Draw vertical wire segment
-    let cornerX = currentX;
-    let cornerY = currentY;
-    currentY += verticalSpacing; // Move down to bottom segment
+    // 3. SWITCH
+    const switchWidth = 35;
+    const switchGroup = circuitGroup.group();
     
-    draw.line(cornerX, cornerY, cornerX, currentY).stroke({ color: wireColor, width: 2 });
-    
-    // Create the switch as a clickable component
-    const switchWidth = 60;
-    const switchGroup = draw.group();
+    // Draw switch circles (connection points)
+    switchGroup.circle(6).fill('#f8f9fa').stroke({ color: componentColor, width: 1.5 }).center(currentX - switchWidth/2, centerY);
+    switchGroup.circle(6).fill('#f8f9fa').stroke({ color: componentColor, width: 1.5 }).center(currentX + switchWidth/2, centerY);
     
     // Interactive switching functionality
     switchGroup.click(function() {
@@ -181,135 +234,233 @@ function drawCircuit() {
         drawCircuit();
     });
     
-    // Draw switch
-    if (circuitState.components.switch.state === 'open') {
-        // Open switch
-        switchGroup.line(cornerX, currentY, cornerX + switchWidth/2, currentY - 15).stroke({ color: componentColor, width: 2 });
-        switchGroup.line(cornerX + switchWidth - wireLength, currentY, cornerX + switchWidth, currentY).stroke({ color: componentColor, width: 2 });
-    } else {
-        // Closed switch
-        switchGroup.line(cornerX, currentY, cornerX + switchWidth, currentY).stroke({ color: componentColor, width: 2 });
-    }
-    
-    switchGroup.circle(6).fill('none').stroke({ color: componentColor, width: 1 }).move(cornerX - 3, currentY - 3);
-    switchGroup.circle(6).fill('none').stroke({ color: componentColor, width: 1 }).move(cornerX + switchWidth - 3, currentY - 3);
-    switchGroup.text('Switch').move(cornerX + switchWidth/2 - 15, currentY + 10).font({ fill: textColor, family: 'Arial', size: 12 });
-    switchGroup.rect(switchWidth + 10, 30).fill('none').opacity(0).move(cornerX - 5, currentY - 20);
-    
-    // Add a hover effect to indicate it's clickable
+    // Add hover effect
     switchGroup.mouseover(function() {
         this.css('cursor', 'pointer');
     });
     
-    // Move to after switch
-    currentX = cornerX + switchWidth + wireLength;
-    
-    // Draw wire to resistor
-    draw.line(cornerX + switchWidth, currentY, currentX, currentY).stroke({ color: wireColor, width: 2 });
-    
-    // Draw resistor
-    const resistorWidth = 70;
-    if (circuitState.components.resistor.state === 'open') {
-        // Open resistor (with break)
-        draw.line(currentX, currentY, currentX + resistorWidth/2 - 10, currentY).stroke({ color: componentColor, width: 2 });
-        draw.line(currentX + resistorWidth/2 + 10, currentY, currentX + resistorWidth, currentY).stroke({ color: componentColor, width: 2 });
-        draw.circle(4).fill('#cc0000').move(currentX + resistorWidth/2, currentY - 2);
-    } else if (circuitState.components.resistor.state === 'shorted') {
-        // Shorted resistor (with bypass)
-        draw.line(currentX, currentY, currentX + resistorWidth, currentY).stroke({ color: wireColor, width: 2 });
-        
-        // Draw resistor symbol with dashed line to indicate short
-        const zigzagPath = 'M ' + currentX + ' ' + currentY + 
-              ' L ' + (currentX + 5) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + 15) + ' ' + (currentY + 8) + 
-              ' L ' + (currentX + 25) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + 35) + ' ' + (currentY + 8) + 
-              ' L ' + (currentX + 45) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + 55) + ' ' + (currentY + 8) + 
-              ' L ' + (currentX + 65) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + resistorWidth) + ' ' + currentY;
-        draw.path(zigzagPath).fill('none').stroke({ color: componentColor, width: 1, dasharray: '2,2' });
+    // Draw switch based on state
+    if (circuitState.components.switch.state === 'open') {
+        // Open switch - lever in up position
+        switchGroup.line(currentX - switchWidth/2, centerY, currentX, centerY - 15)
+            .stroke({ color: componentColor, width: 2 });
     } else {
-        // Normal resistor
-        const zigzagPath = 'M ' + currentX + ' ' + currentY + 
-              ' L ' + (currentX + 5) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + 15) + ' ' + (currentY + 8) + 
-              ' L ' + (currentX + 25) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + 35) + ' ' + (currentY + 8) + 
-              ' L ' + (currentX + 45) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + 55) + ' ' + (currentY + 8) + 
-              ' L ' + (currentX + 65) + ' ' + (currentY - 8) + 
-              ' L ' + (currentX + resistorWidth) + ' ' + currentY;
-        draw.path(zigzagPath).fill('none').stroke({ color: componentColor, width: 2 });
+        // Closed switch - connected
+        switchGroup.line(currentX - switchWidth/2, centerY, currentX + switchWidth/2, centerY)
+            .stroke({ color: wireColor, width: 2 });
     }
-    draw.text('Resistor (8Ω)').move(currentX + 5, currentY + 10).font({ fill: textColor, family: 'Arial', size: 12 });
     
-    // Move to after resistor
-    currentX += resistorWidth + wireLength;
+    // Label
+    switchGroup.text('Switch').move(currentX - 15, centerY + 15)
+        .font({ fill: textColor, family: 'Arial', size: 11, weight: 'bold' });
     
-    // Draw wire segment and up to top row
-    draw.line(currentX - wireLength, currentY, currentX, currentY).stroke({ color: wireColor, width: 2 });
-    cornerX = currentX;
-    currentY = startY; // Move back to top row
-    draw.line(cornerX, currentY + verticalSpacing, cornerX, currentY).stroke({ color: wireColor, width: 2 });
+    // Move to next component
+    currentX += componentSpacing;
     
-    // Draw motor
-    const motorSize = 30;
-    // Draw wire to motor
-    currentX += horizontalSpacing - wireLength;
-    draw.line(cornerX, currentY, currentX, currentY).stroke({ color: wireColor, width: 2 });
+    // 4. MOTOR
+    const motorSize = 36;
+    const motorGroup = circuitGroup.group();
     
+    // Different motor display based on state
     if (circuitState.components.motor.state === 'open') {
         // Open motor (with break)
-        draw.line(currentX, currentY, currentX + motorSize/2 - 10, currentY).stroke({ color: motorColor, width: 2 });
-        draw.line(currentX + motorSize/2 + 10, currentY, currentX + motorSize, currentY).stroke({ color: motorColor, width: 2 });
-        draw.circle(4).fill('#cc0000').move(currentX + motorSize/2, currentY - 2);
-        draw.circle(motorSize).fill('none').stroke({ color: motorColor, width: 2 }).move(currentX, currentY - motorSize/2);
-        draw.text('M').move(currentX + motorSize/2 - 5, currentY - 7).font({ fill: motorColor, family: 'Arial', size: 16 });
+        motorGroup.line(currentX - motorSize/2, centerY, currentX - 5, centerY)
+            .stroke({ color: componentColor, width: 2 });
+        motorGroup.line(currentX + 5, centerY, currentX + motorSize/2, centerY)
+            .stroke({ color: componentColor, width: 2 });
+        
+        // Add red dot indicating open circuit
+        motorGroup.circle(6).fill('#cc0000').center(currentX, centerY);
     } else if (circuitState.components.motor.state === 'shorted') {
-        // Shorted motor - ensure continuous wire through motor
-        draw.line(currentX, currentY, currentX + motorSize, currentY).stroke({ color: wireColor, width: 2 });
-        draw.circle(motorSize).fill('none').stroke({ color: motorColor, width: 2 }).move(currentX, currentY - motorSize/2);
-        draw.text('M').move(currentX + motorSize/2 - 5, currentY - 7).font({ fill: motorColor, family: 'Arial', size: 16 });
-        
+        // Shorted motor - straight line
+        motorGroup.line(currentX - motorSize/2, centerY, currentX + motorSize/2, centerY)
+            .stroke({ color: wireColor, width: 2 });
+            
         // Add visual indication of short circuit
-        draw.line(currentX - 5, currentY - 10, currentX + motorSize + 5, currentY + 10)
-           .stroke({ color: '#cc0000', width: 1, dasharray: '3,2' });
+        motorGroup.line(currentX - 15, centerY - 15, currentX + 15, centerY + 15)
+           .stroke({ color: '#cc0000', width: 1.5, dasharray: '2,2' });
+        motorGroup.line(currentX - 15, centerY + 15, currentX + 15, centerY - 15)
+           .stroke({ color: '#cc0000', width: 1.5, dasharray: '2,2' });
     } else {
-        // Normal motor - ensure continuous wire through motor
-        draw.line(currentX, currentY, currentX + motorSize, currentY).stroke({ color: wireColor, width: 2 });
-        draw.circle(motorSize).fill('none').stroke({ color: motorColor, width: 2 }).move(currentX, currentY - motorSize/2);
-        
-        // Add pulsing effect for running motor
-        if (isMotorRunning) {
-            // Add a pulsing circle inside the motor to indicate it's running
-            const pulseCircle = draw.circle(motorSize/2)
-                .fill(motorRunningColor)
-                .opacity(0.3)
-                .move(currentX + motorSize/4, currentY - motorSize/4);
-        }
-        
-        draw.text('M').move(currentX + motorSize/2 - 5, currentY - 7).font({ fill: motorColor, family: 'Arial', size: 16 });
+        // Normal motor connection
+        motorGroup.line(currentX - motorSize/2, centerY, currentX + motorSize/2, centerY)
+            .stroke({ color: wireColor, width: 2 });
     }
-    draw.text('Motor (16Ω)').move(currentX, currentY + 15).font({ fill: textColor, family: 'Arial', size: 12 });
     
-    // Move to after motor
-    currentX += motorSize + wireLength;
+    // Motor circle
+    let motorColor = componentColor;
+    if (isMotorRunning) {
+        motorColor = motorRunningColor;
+    }
     
-    // Draw wire from motor to ground
-    draw.line(currentX - wireLength, currentY, currentX, currentY).stroke({ color: wireColor, width: 2 });
+    // Draw the motor as a circle with M inside
+    motorGroup.circle(motorSize).fill('none').stroke({ color: motorColor, width: 2 }).center(currentX, centerY);
     
+    // Add "M" label
+    motorGroup.text('M').move(currentX - 8, centerY - 10)
+        .font({ fill: isMotorRunning ? motorRunningColor : componentColor, family: 'Arial', size: 18, weight: 'bold' });
+    
+    // Add running motor effect
+    if (isMotorRunning) {
+        // Green fill with low opacity
+        motorGroup.circle(motorSize - 4)
+            .fill(motorRunningColor)
+            .opacity(0.2)
+            .center(currentX, centerY);
+    }
+    
+    // Label
+    motorGroup.text('Motor (16Ω)').move(currentX - 28, centerY + 25)
+        .font({ fill: textColor, family: 'Arial', size: 11, weight: 'bold' });
+    
+    // Move to next component
+    currentX += componentSpacing;
+    
+    // 5. RESISTOR
+    const resistorWidth = 50;
+    const resistorGroup = circuitGroup.group();
+    
+    if (circuitState.components.resistor.state === 'open') {
+        // Open resistor (with break)
+        resistorGroup.line(currentX - resistorWidth/2, centerY, currentX - 10, centerY)
+            .stroke({ color: componentColor, width: 2 });
+        resistorGroup.line(currentX + 10, centerY, currentX + resistorWidth/2, centerY)
+            .stroke({ color: componentColor, width: 2 });
+        
+        // Add red dot indicating open circuit
+        resistorGroup.circle(6).fill('#cc0000').center(currentX, centerY);
+    } else if (circuitState.components.resistor.state === 'shorted') {
+        // Shorted resistor - straight line
+        resistorGroup.line(currentX - resistorWidth/2, centerY, currentX + resistorWidth/2, centerY)
+            .stroke({ color: wireColor, width: 2 });
+            
+        // Add visual indication of short circuit
+        resistorGroup.line(currentX - 15, centerY - 15, currentX + 15, centerY + 15)
+           .stroke({ color: '#cc0000', width: 1.5, dasharray: '2,2' });
+        resistorGroup.line(currentX - 15, centerY + 15, currentX + 15, centerY - 15)
+           .stroke({ color: '#cc0000', width: 1.5, dasharray: '2,2' });
+    } else {
+        // Normal resistor with zigzag
+        const zigzagPath = 'M ' + (currentX - resistorWidth/2) + ' ' + centerY + 
+              ' L ' + (currentX - resistorWidth/3) + ' ' + (centerY - 10) + 
+              ' L ' + (currentX - resistorWidth/6) + ' ' + (centerY + 10) + 
+              ' L ' + (currentX) + ' ' + (centerY - 10) + 
+              ' L ' + (currentX + resistorWidth/6) + ' ' + (centerY + 10) + 
+              ' L ' + (currentX + resistorWidth/3) + ' ' + (centerY - 10) + 
+              ' L ' + (currentX + resistorWidth/2) + ' ' + centerY;
+        
+        resistorGroup.path(zigzagPath).fill('none')
+            .stroke({ color: wireColor, width: 2 });
+    }
+    
+    // Label
+    resistorGroup.text('Resistor (8Ω)').move(currentX - 30, centerY + 25)
+        .font({ fill: textColor, family: 'Arial', size: 11, weight: 'bold' });
+    
+    // RIGHT GROUND
+    const rightGroundGroup = circuitGroup.group();
     // Draw ground symbol
-    draw.line(currentX, currentY, currentX, currentY + 20).stroke({ color: wireColor, width: 2 });
-    draw.line(currentX - 15, currentY + 20, currentX + 15, currentY + 20).stroke({ color: wireColor, width: 2 });
-    draw.line(currentX - 10, currentY + 25, currentX + 10, currentY + 25).stroke({ color: wireColor, width: 2 });
-    draw.line(currentX - 5, currentY + 30, currentX + 5, currentY + 30).stroke({ color: wireColor, width: 2 });
+    rightGroundGroup.line(endX, centerY, endX, centerY + 20)
+        .stroke({ color: componentColor, width: 2 });
+    rightGroundGroup.line(endX - 15, centerY + 20, endX + 15, centerY + 20)
+        .stroke({ color: componentColor, width: 2 });
+    rightGroundGroup.line(endX - 10, centerY + 25, endX + 10, centerY + 25)
+        .stroke({ color: componentColor, width: 2 });
+    rightGroundGroup.line(endX - 5, centerY + 30, endX + 5, centerY + 30)
+        .stroke({ color: componentColor, width: 2 });
     
-    // Complete the circuit back to power source 
-    // (first draw vertical segment down from ground)
-    draw.line(startX, currentY + 40, currentX, currentY + 40).stroke({ color: wireColor, width: 2 });
-    draw.line(currentX, currentY + 30, currentX, currentY + 40).stroke({ color: wireColor, width: 2 });
-    draw.line(startX, currentY + 15, startX, currentY + 40).stroke({ color: wireColor, width: 2 });
+    // Add instruction text
+    circuitGroup.text('Tip: Click on the switch to open/close it')
+        .move(300, centerY + 60)
+        .font({ fill: '#666', family: 'Arial', size: 12, style: 'italic' });
+    
+    // Add Power Switch UI
+    const powerSwitchX = 100;
+    const powerSwitchY = centerY + 80;
+    
+    // Power switch toggle
+    const switchBox = circuitGroup.rect(20, 20)
+        .radius(3)
+        .fill(circuitState.powerOn ? '#3498db' : '#ccc')
+        .stroke({ color: '#999', width: 1 })
+        .move(powerSwitchX, powerSwitchY);
+    
+    // Add checkmark when on
+    if (circuitState.powerOn) {
+        circuitGroup.path('M ' + (powerSwitchX + 5) + ' ' + (powerSwitchY + 10) + 
+                         ' L ' + (powerSwitchX + 8) + ' ' + (powerSwitchY + 15) + 
+                         ' L ' + (powerSwitchX + 15) + ' ' + (powerSwitchY + 5))
+            .stroke({ color: '#fff', width: 2, linecap: 'round', linejoin: 'round' });
+    }
+    
+    // Make the switch clickable
+    switchBox.click(function() {
+        circuitState.powerOn = !circuitState.powerOn;
+        drawCircuit();
+    });
+    
+    // Add hover effect
+    switchBox.mouseover(function() {
+        this.css('cursor', 'pointer');
+    });
+    
+    // Add label
+    circuitGroup.text('Power (24V)')
+        .move(powerSwitchX + 30, powerSwitchY + 5)
+        .font({ fill: textColor, family: 'Arial', size: 14 });
+    
+    // Add buttons
+    const buttonY = powerSwitchY;
+    const resetBtnX = 400;
+    const faultBtnX = 550;
+    
+    // Reset button
+    const resetBtn = circuitGroup.group();
+    resetBtn.rect(100, 30)
+        .radius(5)
+        .fill('#f8f9fa')
+        .stroke({ color: '#ccc', width: 1 })
+        .move(resetBtnX, buttonY);
+    
+    resetBtn.text('Reset Circuit')
+        .move(resetBtnX + 10, buttonY + 7)
+        .font({ fill: '#555', family: 'Arial', size: 14 });
+    
+    resetBtn.click(function() {
+        resetCircuit();
+    });
+    
+    resetBtn.mouseover(function() {
+        this.css('cursor', 'pointer');
+    });
+    
+    // Fault button
+    const faultBtn = circuitGroup.group();
+    faultBtn.rect(120, 30)
+        .radius(5)
+        .fill('#f8f9fa')
+        .stroke({ color: '#ccc', width: 1 })
+        .move(faultBtnX, buttonY);
+    
+    faultBtn.text('Introduce Fault')
+        .move(faultBtnX + 10, buttonY + 7)
+        .font({ fill: '#555', family: 'Arial', size: 14 });
+        
+    faultBtn.click(function() {
+        introduceFault();
+    });
+    
+    faultBtn.mouseover(function() {
+        this.css('cursor', 'pointer');
+    });
+    
+    // Center the circuit in the SVG canvas
+    const svgWidth = draw.width();
+    const actualCircuitWidth = endX - startX;
+    const offsetX = (svgWidth / 2) - (actualCircuitWidth / 2) - 50;
+    if (offsetX > 0) {
+        circuitGroup.dx(offsetX);
+    }
 }
 
 // Calculate circuit values
