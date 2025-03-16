@@ -9,10 +9,11 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+    SESSION_TYPE = 'filesystem'
     
     @staticmethod
     def init_app(app):
-        app.config['SESSION_TYPE'] = 'filesystem'
+        pass
 
 class DevelopmentConfig(Config):
     DEBUG = True

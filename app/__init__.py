@@ -29,6 +29,7 @@ def create_app(config_name='default'):
         os.makedirs('flask_session', exist_ok=True)
         Session(app)
     else:
+        app.logger.warning("Flask-Session not available, falling back to default sessions")
         app.config['SESSION_TYPE'] = None  # Fall back to Flask's default session
     
     # Add template context processors

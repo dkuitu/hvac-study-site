@@ -405,6 +405,17 @@ kbd {
     box-shadow: inset 0 -0.1rem 0 rgba(0,0,0,0.25);
 }
 
+/* Responsive keyboard shortcuts */
+@media (max-width: 767.98px) {
+    .shortcut-list li {
+        margin-bottom: 0.75rem;
+    }
+    
+    .shortcut-list {
+        padding-left: 0;
+    }
+}
+
 /* Quiz styles */
 .quiz-timer {
     transition: all 0.3s ease;
@@ -524,5 +535,90 @@ footer a:hover {
         padding: 1rem;
         border-radius: 8px;
         margin-top: 1rem;
+    }
+}
+
+/* Mobile Flashcard List Tweaks */
+@media (max-width: 768px) {
+    /* Improve table display for flashcards on mobile */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -15px; /* Negative margin to extend scrollable area */
+        padding: 0 15px;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+    
+    /* Adjust text wrapping in mobile tables */
+    .table td, .table th {
+        white-space: normal;
+        padding: 8px 10px;
+        font-size: 0.875rem;
+        vertical-align: middle;
+    }
+    
+    /* Text truncation with tooltip */
+    .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100px;
+    }
+    
+    /* Make sure action buttons don't overflow */
+    .table .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Adjust badges to fit on smaller screens */
+    .table .badge {
+        font-size: 0.7rem;
+        padding: 0.25em 0.5em;
+        white-space: nowrap;
+    }
+    
+    /* Apply horizontal scrolling indicator */
+    .table-responsive::after {
+        content: '→';
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.5rem;
+        color: rgba(0,0,0,0.2);
+        pointer-events: none;
+        animation: fadeInOut 2s infinite;
+    }
+    
+    /* Responsive table improvements */
+    .mobile-friendly-table th,
+    .mobile-friendly-table td {
+        display: table-cell !important;
+    }
+    
+    .mobile-friendly-table .mobile-priority-low {
+        display: none !important;
+    }
+    
+    .mobile-friendly-table .mobile-priority-medium {
+        display: none !important;
+    }
+    
+    @media (min-width: 576px) {
+        .mobile-friendly-table .mobile-priority-medium {
+            display: table-cell !important;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .mobile-friendly-table .mobile-priority-low {
+            display: table-cell !important;
+        }
+    }
+    
+    @keyframes fadeInOut {
+        0%, 100% { opacity: 0.2; }
+        50% { opacity: 0.8; }
     }
 }
