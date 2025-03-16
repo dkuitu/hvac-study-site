@@ -1,4 +1,5 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, send_from_directory
+from flask import current_app
 
 main = Blueprint('main', __name__)
 
@@ -25,3 +26,8 @@ def faq():
 @main.route('/test')
 def test():
     return render_template('main/test.html')
+
+@main.route('/ads.txt')
+def ads_txt():
+    """Serve ads.txt file directly from the static directory"""
+    return send_from_directory(current_app.static_folder, 'ads.txt')
