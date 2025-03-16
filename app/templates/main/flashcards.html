@@ -342,6 +342,40 @@ document.addEventListener('DOMContentLoaded', function() {
             filteredCategories = filteredCategories.filter(category => category.id === currentCategory);
         }
         
+        // Helper function to make tables mobile-friendly
+        function makeMobileFriendlyTable(table) {
+            table.classList.add('mobile-friendly-table');
+            
+            // Apply responsive classes to table cells
+            const headerCells = table.querySelectorAll('thead th');
+            const bodyRows = table.querySelectorAll('tbody tr');
+            
+            // Mark columns with priorities
+            headerCells.forEach((cell, index) => {
+                if (index === 0) { // Category column (least important on mobile)
+                    cell.classList.add('mobile-priority-low');
+                }
+                else if (index === 1) { // Topic column (medium priority)
+                    cell.classList.add('mobile-priority-medium');
+                }
+            });
+            
+            // Apply the same classes to body cells
+            bodyRows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, index) => {
+                    if (index === 0) {
+                        cell.classList.add('mobile-priority-low');
+                    }
+                    else if (index === 1) {
+                        cell.classList.add('mobile-priority-medium');
+                    }
+                });
+            });
+            
+            return table;
+        }
+        
         // Apply search filtering if a search term exists
         if (searchTerm) {
             // Create a deep clone of the filtered categories to avoid modifying the original data
@@ -398,11 +432,11 @@ document.addEventListener('DOMContentLoaded', function() {
             thead.className = 'table-light';
             thead.innerHTML = `
                 <tr>
-                    <th scope="col" style="width: 25%">Category</th>
-                    <th scope="col" style="width: 25%">Topic</th>
-                    <th scope="col" style="width: 25%">Deck Name</th>
-                    <th scope="col" style="width: 15%">Difficulty</th>
-                    <th scope="col" style="width: 10%">Cards</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Deck Name</th>
+                    <th scope="col">Difficulty</th>
+                    <th scope="col">Cards</th>
                     <th scope="col" class="text-end">Action</th>
                 </tr>
             `;
@@ -434,10 +468,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${category.name}</td>
-                            <td>${chapter.name}</td>
-                            <td>${deck.name}</td>
-                            <td><span class="badge ${difficultyClass} rounded-pill">${deck.difficulty}</span></td>
+                            <td class="text-truncate" style="max-width: 100px;" title="${category.name}">${category.name}</td>
+                            <td class="text-truncate" style="max-width: 100px;" title="${chapter.name}">${chapter.name}</td>
+                            <td class="text-truncate" style="max-width: 120px;" title="${deck.name}">${deck.name}</td>
+                            <td class="text-center"><span class="badge ${difficultyClass} rounded-pill">${deck.difficulty}</span></td>
                             <td class="text-center">${deck.cards.length}</td>
                             <td class="text-end">
                                 <button class="btn btn-sm btn-primary study-deck-btn" 
@@ -454,6 +488,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             table.appendChild(tbody);
+            
+            // Make the table mobile-friendly
+            makeMobileFriendlyTable(table);
+            
             tableContainer.appendChild(table);
             decksContainer.appendChild(tableContainer);
         } else {
@@ -712,15 +750,15 @@ function activateStudyMode(deck, categoryName) {
                         <div class="card-body">
                             <h5 class="card-title mb-3">Keyboard Shortcuts</h5>
                             <div class="row">
-                                <div class="col-md-6 mb-2 mb-md-0">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="mb-2"><kbd>←</kbd> Previous card</li>
+                                <div class="col-6">
+                                    <ul class="list-unstyled mb-0 shortcut-list">
+                                        <li><kbd>←</kbd> Previous card</li>
                                         <li><kbd>→</kbd> Next card</li>
                                     </ul>
                                 </div>
-                                <div class="col-md-6">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="mb-2"><kbd>Space</kbd> Flip card</li>
+                                <div class="col-6">
+                                    <ul class="list-unstyled mb-0 shortcut-list">
+                                        <li><kbd>Space</kbd> Flip card</li>
                                         <li><kbd>M</kbd> Mark as memorized</li>
                                     </ul>
                                 </div>
