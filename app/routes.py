@@ -27,6 +27,10 @@ def faq():
 def test():
     return render_template('main/test.html')
 
+@main.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(current_app.static_folder, 'sitemap.xml')
+
 @main.route('/ads.txt')
 def ads_txt():
     """Serve ads.txt file directly from the static directory"""
