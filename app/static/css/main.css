@@ -153,35 +153,15 @@ h2::after {
     border-radius: 4px;
 }
 
-/* Navbar Customization - Glassmorphic Design */
+/* Navbar Customization */
 .navbar {
-    background-color: transparent !important;
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1030;
-    transition: all 0.4s ease;
+    padding: 0.75rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
-.navbar.scrolled .navbar-container {
-    background: rgba(0, 86, 179, 0.85);
-    padding: 0.35rem 1.5rem;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-}
-
-.navbar-container {
-    background: rgba(0, 86, 179, 0.75);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: var(--glass-backdrop-filter);
-    -webkit-backdrop-filter: var(--glass-backdrop-filter);
-    box-shadow: var(--glass-shadow);
-    border-radius: 16px;
-    padding: 0.5rem 1.5rem;
-    margin: 0 1rem;
-    width: calc(100% - 2rem);
-    max-width: 1400px;
+.navbar-dark.bg-primary {
+    background-color: var(--primary-color) !important;
 }
 
 .navbar-brand {
@@ -237,10 +217,7 @@ h2::after {
     outline: none;
 }
 
-/* Create space for fixed navbar */
-body {
-    padding-top: 5rem;
-}
+/* No extra padding needed for standard navbar */
 
 /* Hero Section */
 .hero-section {
@@ -720,69 +697,18 @@ kbd {
     border-color: var(--primary-color);
 }
 
-/* Footer Customization - Glassmorphic Style */
+/* Footer Customization */
 footer {
-    background: linear-gradient(180deg, var(--gray-dark) 0%, #1a1d20 100%) !important;
-    position: relative;
-    margin-top: 3rem;
-    overflow: hidden;
-}
-
-footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: 
-        radial-gradient(at 20% 30%, rgba(32, 201, 151, 0.1) 0px, transparent 50%),
-        radial-gradient(at 80% 40%, rgba(111, 66, 193, 0.1) 0px, transparent 50%);
-    pointer-events: none;
-}
-
-.footer-container {
-    position: relative;
-    z-index: 1;
-    padding: 1rem;
-}
-
-.footer-content {
-    background: rgba(52, 58, 64, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 16px;
-    padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background-color: var(--gray-dark) !important;
 }
 
 footer a {
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 0.25rem 0;
+    transition: color 0.3s ease;
 }
 
 footer a:hover {
     color: white !important;
     text-decoration: none;
-    transform: translateX(5px);
-}
-
-footer .social-icon {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-footer .social-icon:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-5px);
 }
 
 /* Utilities */
@@ -820,20 +746,11 @@ footer .social-icon:hover {
 
 /* Responsive Tweaks */
 @media (max-width: 992px) {
-    .navbar-container {
-        margin: 0 0.5rem;
-        width: calc(100% - 1rem);
-        padding: 0.5rem 1rem;
-    }
-    
     .navbar-collapse {
-        background: rgba(0, 86, 179, 0.9);
+        background-color: var(--primary-color);
         padding: 1rem;
-        border-radius: 12px;
+        border-radius: 8px;
         margin-top: 1rem;
-        backdrop-filter: var(--glass-backdrop-filter);
-        -webkit-backdrop-filter: var(--glass-backdrop-filter);
-        border: 1px solid var(--glass-border);
     }
     
     .nav-link {
@@ -843,10 +760,6 @@ footer .social-icon:hover {
     
     .navbar-brand {
         font-size: 1.2rem;
-    }
-    
-    body {
-        padding-top: 4.5rem;
     }
 }
 
