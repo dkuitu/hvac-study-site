@@ -387,15 +387,7 @@
                 </div>
             </div>
             
-            <!-- Airflow Simulation Demo -->
-            <div class="tab-pane fade" id="airflow-demo">
-                <!-- This content will be dynamically populated by the airflow demo module -->
-            </div>
-            
-            <!-- Duct Friction Calculator Demo -->
-            <div class="tab-pane fade" id="duct-friction-demo">
-                <!-- This content will be dynamically populated by the duct friction calculator module -->
-            </div>
+            <!-- Removed unused demo tabs -->
         </div>
     </div>
 </section>
@@ -477,6 +469,18 @@
 
 <!-- Load demo loader last after all individual scripts are loaded -->
 <script src="{{ url_for('static', filename='js/demos/demo-loader.js') }}"></script>
+
+<!-- Initialize gauges for refrigeration demo -->
+<script>
+    // This ensures gauges are properly initialized
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            if (window.initRefrigerationDemo) {
+                window.initRefrigerationDemo();
+            }
+        }, 500);
+    });
+</script>
 
 <!-- Custom Script for back-to-top button -->
 <script>
