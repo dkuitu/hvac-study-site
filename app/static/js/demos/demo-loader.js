@@ -23,11 +23,10 @@ const demoRegistry = [
     },
     {
         id: 'airflow',
-        name: 'Airflow Simulation',
-        description: 'Understand proper airflow patterns and duct system principles.',
+        name: 'Duct Sizing Calculator',
+        description: 'Calculate proper duct sizes based on airflow requirements and velocity constraints.',
         icon: 'fas fa-wind',
-        initFunction: window.initAirflowDemo,
-        comingSoon: true
+        initFunction: window.initAirflowDemo
     },
     {
         id: 'heat-load',
