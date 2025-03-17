@@ -26,7 +26,14 @@ const demoRegistry = [
         name: 'Duct Sizing Calculator',
         description: 'Calculate proper duct sizes based on airflow requirements and velocity constraints.',
         icon: 'fas fa-wind',
-        initFunction: window.initAirflowDemo
+        comingSoon: true
+    },
+    {
+        id: 'duct-friction',
+        name: 'Duct Friction Calculator',
+        description: 'Calculate duct friction loss and pressure drop using the Equal Friction Method.',
+        icon: 'fas fa-ruler',
+        comingSoon: true
     },
     {
         id: 'heat-load',
@@ -86,47 +93,39 @@ function renderDemoList(containerId) {
     });
 }
 
-// Initialize demo navigation
+// Initialize demo navigation - modified to remove tabs
 function initDemoNavigation() {
-    // Create tabs dynamically
-    const demoNav = document.getElementById('demo-nav');
-    if (!demoNav) return;
-    
-    let navHtml = '';
-    demoRegistry.forEach((demo, index) => {
-        if (!demo.comingSoon) {
-            navHtml += `
-            <li class="nav-item">
-                <a class="nav-link ${index === 0 ? 'active' : ''}" 
-                   id="${demo.id}-tab" 
-                   data-bs-toggle="pill" 
-                   href="#${demo.id}-demo" 
-                   role="tab">
-                    <i class="${demo.icon} me-2"></i>${demo.name}
-                </a>
-            </li>`;
-        }
-    });
-    demoNav.innerHTML = navHtml;
-    
-    // Set up tab change event handler using Bootstrap's tab API
-    document.querySelectorAll('#demo-nav a').forEach(function (tabEl) {
-        tabEl.addEventListener('shown.bs.tab', function (event) {
-            const demoId = this.getAttribute('href').replace('#', '').replace('-demo', '');
-            const demo = demoRegistry.find(d => d.id === demoId);
-            if (demo && demo.initFunction) {
-                demo.initFunction();
-            }
-        });
-    });
-    
-    // Initialize the first demo
+    // Initialize the first demo directly
     const firstDemo = demoRegistry.find(d => !d.comingSoon);
     if (firstDemo && firstDemo.initFunction) {
         setTimeout(() => {
             firstDemo.initFunction();
         }, 100); // Small delay to ensure DOM is ready
     }
+    
+    // Each 'Launch Demo' button will now scroll to the demo section
+    document.querySelectorAll('.demo-launch-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const demoId = this.getAttribute('data-demo-id');
+            const demoElement = document.getElementById(demoId + '-demo');
+            if (demoElement) {
+                // Scroll to the demo container
+                document.getElementById('demo-container').scrollIntoView({ behavior: 'smooth' });
+                
+                // Initialize the demo if it has an init function
+                const demo = demoRegistry.find(d => d.id === demoId);
+                if (demo && demo.initFunction) {
+                    demo.initFunction();
+                    
+                    // Show this demo and hide others
+                    document.querySelectorAll('.tab-pane').forEach(pane => {
+                        pane.classList.remove('show', 'active');
+                    });
+                    demoElement.classList.add('show', 'active');
+                }
+            }
+        });
+    });
 }
 
 // Initialize on DOM content loaded

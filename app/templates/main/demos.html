@@ -38,14 +38,7 @@
     </div>
 </section>
 
-<!-- Demo Navigation -->
-<section class="py-4 border-bottom border-top mt-4">
-    <div class="container">
-        <ul class="nav nav-pills nav-fill mb-0" id="demo-nav">
-            <!-- Demo tabs will be loaded by JavaScript -->
-        </ul>
-    </div>
-</section>
+<!-- Demo Navigation section removed - demos will appear below after clicking Launch Demo button -->
 
 <!-- Demo Content -->
 <section class="py-5">
@@ -398,6 +391,11 @@
             <div class="tab-pane fade" id="airflow-demo">
                 <!-- This content will be dynamically populated by the airflow demo module -->
             </div>
+            
+            <!-- Duct Friction Calculator Demo -->
+            <div class="tab-pane fade" id="duct-friction-demo">
+                <!-- This content will be dynamically populated by the duct friction calculator module -->
+            </div>
         </div>
     </div>
 </section>
@@ -471,14 +469,39 @@
 <!-- External Libraries -->
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Load individual demo scripts -->
+<!-- Load individual demo scripts first -->
 <script src="{{ url_for('static', filename='js/demos/refrigeration-diagnostics.js') }}"></script>
 <script src="{{ url_for('static', filename='js/demos/electrical-troubleshooting.js') }}"></script>
-<script src="{{ url_for('static', filename='js/demos/airflow-simulation.js') }}"></script>
 
-<!-- Demo Module Loader -->
+<!-- Load demo loader last after all individual scripts are loaded -->
 <script src="{{ url_for('static', filename='js/demos/demo-loader.js') }}"></script>
+
+<!-- Custom Script for back-to-top button -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add back-to-top button to demo container
+        const demoContainer = document.getElementById('demo-container');
+        if (demoContainer) {
+            const backToTopBtn = document.createElement('button');
+            backToTopBtn.className = 'btn btn-primary position-fixed rounded-circle';
+            backToTopBtn.style.bottom = '2rem';
+            backToTopBtn.style.right = '2rem';
+            backToTopBtn.style.width = '50px';
+            backToTopBtn.style.height = '50px';
+            backToTopBtn.style.opacity = '0.8';
+            backToTopBtn.style.zIndex = '1000';
+            backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            
+            backToTopBtn.addEventListener('click', function() {
+                document.getElementById('demo-list').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.body.appendChild(backToTopBtn);
+        }
+    });
+</script>
 
 <!-- Custom Styles -->
 <style>
