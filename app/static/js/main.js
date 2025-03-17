@@ -14,19 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Navbar scroll effect
-    const navbar = document.querySelector('.navbar');
-    const navbarHeight = navbar.offsetHeight;
-    
-    function handleScroll() {
-        if (window.scrollY > navbarHeight) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-    
-    window.addEventListener('scroll', handleScroll);
+    // No special navbar scroll effect
     
     // Mobile nav menu - close on click
     const navbarToggler = document.querySelector('.navbar-toggler');
