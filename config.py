@@ -5,7 +5,7 @@ load_dotenv()
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-key-for-development'
-    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'hvac-admin'
+    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'hvac-admin-fart'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS

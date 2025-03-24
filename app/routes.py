@@ -35,3 +35,7 @@ def sitemap():
 def ads_txt():
     """Serve ads.txt file directly from the static directory"""
     return send_from_directory(current_app.static_folder, 'ads.txt')
+
+@main.route('/robots.txt')
+def robots():
+    return send_from_directory(current_app.static_folder, 'robots.txt')
