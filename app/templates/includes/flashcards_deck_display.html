@@ -1,0 +1,35 @@
+<!-- Flashcards Content -->
+<section class="py-5">
+    <div class="container">
+        <div id="flashcards-container">
+            
+            <!-- Deck Display by Category -->
+            <div id="decks-container">
+                <!-- Decks will be loaded here -->
+            </div>
+            
+            <!-- No Results Message (initially hidden) -->
+            <div id="no-results" class="row mt-5" style="display: none;">
+                <div class="col-12 text-center">
+                    <div class="alert alert-warning p-4">
+                        <h3 class="h4 mb-3"><i class="fas fa-exclamation-circle me-2"></i>No Flashcard Decks Found</h3>
+                        <p class="mb-0">No decks match your current filter criteria. Try changing your category or difficulty filter.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Instructions when no filter is applied (initially shown) -->
+            <div id="instructions" class="row mt-5">
+                <div class="col-12 text-center">
+                    <div class="alert alert-info p-4">
+                        <h3 class="h4 mb-3"><i class="fas fa-info-circle me-2"></i>Ready to Study?</h3>
+                        <p class="mb-3">Select a deck above or click "Study Mode" to begin studying cards one at a time with flip functionality.</p>
+                        <p class="mb-0"><strong>Tip:</strong> Use the filters to find decks for specific categories or difficulty levels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- The Study Mode container will be created dynamically by JavaScript -->
+    </div>
+</section>
