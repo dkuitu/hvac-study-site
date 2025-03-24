@@ -18,7 +18,7 @@ After=network.target
 [Service]
 User=www-data
 WorkingDirectory=/var/www/hvacprostudy
-ExecStart=/var/www/hvacprostudy/venv/bin/gunicorn -b 127.0.0.1:8000 app:app
+ExecStart=/var/www/hvacprostudy/venv/bin/gunicorn -b 127.0.0.1:8000 "wsgi:application"
 Restart=always
 
 [Install]
