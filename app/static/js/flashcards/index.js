@@ -1,10 +1,7 @@
-// Flashcards functionality - Main file
-// This file now imports and uses the modular components
-
-// Import the modular components
-import { fetchFlashcardsData } from './flashcards/api.js';
-import { loadDecks } from './flashcards/deck-loader.js';
-import { startDeckStudyMode, startFirstAvailableDeckStudyMode, activateStudyMode } from './flashcards/study-mode.js';
+// Main flashcards module that imports and coordinates all components
+import { fetchFlashcardsData } from './api.js';
+import { loadDecks } from './deck-loader.js';
+import { startDeckStudyMode, startFirstAvailableDeckStudyMode, activateStudyMode } from './study-mode.js';
 
 // Initialize flashcards functionality
 document.addEventListener('DOMContentLoaded', function() {
