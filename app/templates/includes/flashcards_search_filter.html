@@ -1,0 +1,54 @@
+<!-- Search & Filter -->
+<section class="py-4 border-bottom">
+    <div class="container">
+        <!-- Search Bar -->
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text bg-primary text-white">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control" id="search-input" placeholder="Search decks and cards...">
+                <button class="btn btn-primary" id="search-btn">Search</button>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div class="d-flex gap-2">
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-filter me-2"></i><span id="current-category">All Categories</span>
+                    </button>
+                    <ul class="dropdown-menu" id="category-filter" aria-labelledby="categoryDropdown">
+                        <li><a class="dropdown-item active" data-category="all" href="#">All Categories</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-category="refrigeration" href="#">Refrigeration Systems</a></li>
+                        <li><a class="dropdown-item" data-category="heating" href="#">Heating Systems</a></li>
+                        <li><a class="dropdown-item" data-category="ventilation" href="#">Ventilation</a></li>
+                        <li><a class="dropdown-item" data-category="electrical" href="#">HVAC Electrical Systems</a></li>
+                        <li><a class="dropdown-item" data-category="codes" href="#">Codes & Regulations</a></li>
+                        <li><a class="dropdown-item" data-category="tools" href="#">Tools & Equipment</a></li>
+                    </ul>
+                </div>
+                
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="difficultyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-signal me-2"></i><span id="current-difficulty">All Difficulties</span>
+                    </button>
+                    <ul class="dropdown-menu" id="difficulty-filter" aria-labelledby="difficultyDropdown">
+                        <li><a class="dropdown-item active" data-difficulty="all" href="#">All Difficulties</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-difficulty="beginner" href="#">Beginner</a></li>
+                        <li><a class="dropdown-item" data-difficulty="intermediate" href="#">Intermediate</a></li>
+                        <li><a class="dropdown-item" data-difficulty="advanced" href="#">Advanced</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" id="study-mode-btn" onclick="activateStudyMode()">
+                    <i class="fas fa-play me-2"></i>Study Mode
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
