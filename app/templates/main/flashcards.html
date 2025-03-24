@@ -116,6 +116,12 @@
             <!-- Deck Display by Category -->
             <div id="decks-container">
                 <!-- Decks will be loaded here -->
+                <div class="text-center p-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Loading flashcards...</p>
+                </div>
             </div>
             
             <!-- No Results Message (initially hidden) -->
@@ -128,8 +134,8 @@
                 </div>
             </div>
             
-            <!-- Instructions when no filter is applied (initially shown) -->
-            <div id="instructions" class="row mt-5">
+            <!-- Instructions when no filter is applied (initially hidden) -->
+            <div id="instructions" class="row mt-5" style="display: none;">
                 <div class="col-12 text-center">
                     <div class="alert alert-info p-4">
                         <h3 class="h4 mb-3"><i class="fas fa-info-circle me-2"></i>Ready to Study?</h3>
@@ -241,7 +247,7 @@
 
 {% block extra_js %}
 <script>
-// Flashcards functionality
+// Simple direct app for flashcards to fix issues
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Flashcards page initialized');
     
@@ -323,13 +329,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Initialize
+    // Initialize by fetching data
     fetchFlashcardsData();
     
     // Function to fetch flashcards data
     async function fetchFlashcardsData() {
         try {
-            console.log('%c🔄 ATTEMPTING TO FETCH FROM DATABASE API', 'background: #0066cc; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+            console.log('Attempting to fetch from database API');
             const response = await fetch('/api/flashcards');
             
             if (!response.ok) {
@@ -348,18 +354,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
             
-            console.log('%c✅ SUCCESS: LOADED FROM DATABASE API', 'background: #00cc66; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
-            console.log(`📊 Data summary: ${flashcardsData.categories.length} categories, ${totalCards} total cards`);
+            console.log(`SUCCESS: Loaded ${flashcardsData.categories.length} categories with ${totalCards} total cards from DATABASE API`);
             
             // Load decks once data is available
             loadDecks();
             
         } catch (error) {
-            console.error('%c❌ ERROR FETCHING FROM API:', 'background: #cc0000; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;', error);
+            console.error('ERROR FETCHING FROM API:', error);
             
             // Fallback to local JSON file if API fails
             try {
-                console.log('%c🔄 FALLBACK: ATTEMPTING TO FETCH FROM JSON FILE', 'background: #ff9900; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
+                console.log('FALLBACK: Attempting to fetch from JSON file');
                 const fallbackResponse = await fetch('/static/data/flashcards.json');
                 
                 if (!fallbackResponse.ok) {
@@ -378,14 +383,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 });
                 
-                console.log('%c⚠️ NOTICE: USING JSON FALLBACK', 'background: #ff9900; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;');
-                console.log(`📊 Fallback data summary: ${flashcardsData.categories.length} categories, ${totalCards} total cards`);
+                console.log(`NOTICE: Using JSON fallback with ${flashcardsData.categories.length} categories and ${totalCards} total cards`);
                 
                 // Load decks once data is available
                 loadDecks();
                 
             } catch (fallbackError) {
-                console.error('%c❌ CRITICAL: BOTH API AND FALLBACK FAILED', 'background: #cc0000; color: white; padding: 2px 6px; border-radius: 2px; font-weight: bold;', fallbackError);
+                console.error('CRITICAL: Both API and fallback failed', fallbackError);
                 alert('Failed to load flashcards. Please try refreshing the page.');
             }
         }
@@ -676,78 +680,57 @@ document.addEventListener('DOMContentLoaded', function() {
         activateStudyMode(deck, category.name);
     }
     
-// Function to start study mode for a specific deck
-   function startDeckStudyMode(categoryId, chapterId, deckId) {
-       // Find the selected deck
-       const category = flashcardsData.categories.find(c => c.id === categoryId);
-       if (!category) return;
-       
-       const chapter = category.chapters.find(c => c.id === chapterId);
-       if (!chapter) return;
-       
-       const deck = chapter.decks.find(d => d.id === deckId);
-       if (!deck) return;
-       
-       // Set current study state
-       currentDeck = deck;
-       currentCards = deck.cards;
-       currentCardIndex = 0;
-       
-       // Start study mode with this deck
-       activateStudyMode(deck, category.name);
-   }
-   
-   // Function to start study mode based on first available filtered deck
-   function startFirstAvailableDeckStudyMode() {
-       // Get all decks that match current filters
-       const matchingDecks = [];
-       
-       flashcardsData.categories.forEach(category => {
-           // Skip if category doesn't match filter
-           if (currentCategory !== 'all' && category.id !== currentCategory) {
-               return;
-           }
-           
-           category.chapters.forEach(chapter => {
-               chapter.decks.forEach(deck => {
-                   // Skip if difficulty doesn't match filter
-                   if (currentDifficulty !== 'all' && deck.difficulty !== currentDifficulty) {
-                       return;
-                   }
-                   
-                   matchingDecks.push({
-                       categoryName: category.name,
-                       deck: deck
-                   });
-               });
-           });
-       });
-       
-       // If no matching decks, show message
-       if (matchingDecks.length === 0) {
-           alert('No decks match your current filters. Please change your filters and try again.');
-           return;
-       }
-       
-       // Use the first deck in the filtered list
-       const selectedDeck = matchingDecks[0];
-       
-       // Set current study state
-       currentDeck = selectedDeck.deck;
-       currentCards = selectedDeck.deck.cards;
-       currentCardIndex = 0;
-       
-       // Start study mode with this deck
-       activateStudyMode(selectedDeck.deck, selectedDeck.categoryName);
-   }
-   
-   // Make study mode button start first available deck
-   if (studyModeBtn) {
-       studyModeBtn.onclick = function(e) {
-           e.preventDefault();
-           startFirstAvailableDeckStudyMode();
-       };
-   }
+    // Function to start study mode based on first available filtered deck
+    function startFirstAvailableDeckStudyMode() {
+        // Get all decks that match current filters
+        const matchingDecks = [];
+        
+        flashcardsData.categories.forEach(category => {
+            // Skip if category doesn't match filter
+            if (currentCategory !== 'all' && category.id !== currentCategory) {
+                return;
+            }
+            
+            category.chapters.forEach(chapter => {
+                chapter.decks.forEach(deck => {
+                    // Skip if difficulty doesn't match filter
+                    if (currentDifficulty !== 'all' && deck.difficulty !== currentDifficulty) {
+                        return;
+                    }
+                    
+                    matchingDecks.push({
+                        categoryName: category.name,
+                        deck: deck
+                    });
+                });
+            });
+        });
+        
+        // If no matching decks, show message
+        if (matchingDecks.length === 0) {
+            alert('No decks match your current filters. Please change your filters and try again.');
+            return;
+        }
+        
+        // Use the first deck in the filtered list
+        const selectedDeck = matchingDecks[0];
+        
+        // Set current study state
+        currentDeck = selectedDeck.deck;
+        currentCards = selectedDeck.deck.cards;
+        currentCardIndex = 0;
+        
+        // Start study mode with this deck
+        activateStudyMode(selectedDeck.deck, selectedDeck.categoryName);
+    }
+    
+    // Make study mode button start first available deck
+    if (studyModeBtn) {
+        studyModeBtn.onclick = function(e) {
+            e.preventDefault();
+            startFirstAvailableDeckStudyMode();
+        };
+    }
 });
 
 // Global function for study mode
@@ -1012,4 +995,3 @@ function activateStudyMode(deck, categoryName) {
 }
 </script>
 {% endblock %}
-

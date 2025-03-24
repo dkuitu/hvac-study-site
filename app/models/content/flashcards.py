@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+import json
 
 from app.models.database import db, Category, Chapter, Deck, Flashcard
 from app.models.content.helpers import load_json, save_json, DATA_DIR
